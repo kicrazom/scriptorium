@@ -168,7 +168,7 @@ defaults. All inherit the shared principles (§6).
 ### A1 — peer-reviewer (REVIEW)
 
 **Purpose.** Confidential, **offline** manuscript referee. Generalized from the author's
-private agent (ADVMS/TARR specifics removed; journal scope-fit now config-driven).
+private agent (journal-specific scope-fit removed; now config-driven).
 
 **Boundaries (hard):**
 - No network tools by design (Read/Grep/Glob only) — a manuscript under review is
@@ -197,8 +197,8 @@ checklist table, major issues, minor issues, research-integrity red flags, confi
 note. Returns in conversation; parent saves as `<basename>.review.txt` next to the
 manuscript. Never added to any knowledge base.
 
-**Generalized from private:** journal profiles, "Łukasz", UMB → `profile`. Rubric, ethics,
-offline stance retained verbatim.
+**Generalized from private:** journal profiles, author identity, institution → `profile`.
+Rubric, ethics, offline stance retained verbatim.
 
 **Boundary vs S2:** S2 is the reusable guideline-checklist engine (usable on your own
 draft); A1 *invokes that logic conceptually* but adds confidentiality, stats, scope-fit,
@@ -235,8 +235,7 @@ only" when blocked.
 
 **Optional write.** If `profile.librarian.catalog_path` is set, may emit a library
 evaluation note (dedupe-check first); otherwise returns the evaluation only. Cataloging
-into a specific vault (`60_Biblioteka/`) stays the author's private skill — out of scope
-here.
+into a specific personal vault stays the author's private skill — out of scope here.
 
 ### A3 — research-scout (DISCOVER)
 
@@ -508,10 +507,10 @@ in `configuration.md`); the author's personal settings never enter this public r
 
 | Was personal (private agents) | Becomes |
 |---|---|
-| "Łukasz Minarowski", UMB, ADVMS, TARR | `profile.reviewer.journals`, neutral examples |
-| Vault paths (`10_Projekty/*`, `90_Meta/...`) | `profile.knowledge_base.path` + generic markdown |
-| `60_Biblioteka/` catalog | `profile.librarian.catalog_path` (optional) |
-| UMB library resolver, shadow opt-in (on) | `profile.research.*` (shadow default **off**) |
+| Author name, institution, target journals | `profile.reviewer.journals`, neutral examples |
+| Personal vault paths (note tree, meta dir) | `profile.knowledge_base.path` + generic markdown |
+| Personal library catalog | `profile.librarian.catalog_path` (optional) |
+| Institutional library resolver, shadow opt-in (on) | `profile.research.*` (shadow default **off**) |
 | Polish report style, jargon-explain rule | `profile.style.*`; default English |
 | Clinical asymmetric-risk always on | `profile.epistemic.asymmetric_risk` (default off) |
 
@@ -545,8 +544,8 @@ guideline rubric, no-piracy.
 
 ## 11. Open questions
 
-1. Repo home confirmed `~/code/scriptorium` + later a vault hub `10_Projekty/00XX-scriptorium`
-   with `code_path` link? (default: yes)
+1. Repo home confirmed `~/code/scriptorium` + later a hub note in the author's private
+   vault with a `code_path` link? (default: yes)
 2. `scriptorium-init` command in v1, or document manual profile copy and defer? (default:
    include — thin, good DX)
 3. One worked `examples/` transcript per agent in v1, or defer to keep premiere lean?

@@ -140,23 +140,24 @@ Each agent doc: YAML frontmatter (`name`, `description`, `tools`, `model`, optio
 + body per spec §4. All inherit shared principles (spec §6). Generalize per spec §8 — **no
 personal names, institutions, or vault paths**; route them to `profile.*`. Default language
 English. Acceptance (all agents): (i) frontmatter valid; (ii) zero strings matching
-`Łukasz|Minarowski|UMB|ADVMS|TARR|10_Projekty|90_Meta|navimed|Vaults` (grep gate); (iii)
+the author's personal identifiers, institutions, journals, vault paths, and other private
+project names (grep gate); (iii)
 profile-resolution paragraph present; (iv) anti-hallucination + boundaries section present.
 
 ### Task 2.1: peer-reviewer
-**Files:** Create `agents/peer-reviewer.md` · **Source:** `~/.claude/agents/peer-reviewer.md`
-- [ ] **Step 1:** Generalize the source: keep the full rubric (guideline detection, stats, IMRaD, ethics, integrity red-flags, injection-as-data), the offline/read-only/COPE stance, the report structure. Replace ADVMS/TARR/Łukasz scope-fit with `profile.reviewer.journals` (fallback: generic venue-fit). Report language from `profile.reviewer.language` (default en). `tools: Read, Grep, Glob`, `model: opus`.
+**Files:** Create `agents/peer-reviewer.md` · **Source:** the author's private peer-reviewer agent
+- [ ] **Step 1:** Generalize the source: keep the full rubric (guideline detection, stats, IMRaD, ethics, integrity red-flags, injection-as-data), the offline/read-only/COPE stance, the report structure. Replace the author's journal/institution scope-fit with `profile.reviewer.journals` (fallback: generic venue-fit). Report language from `profile.reviewer.language` (default en). `tools: Read, Grep, Glob`, `model: opus`.
 - [ ] **Step 2: Validate** — frontmatter + grep gate (expected: no personal strings).
 - [ ] **Step 3: Commit** — `git commit -am "feat(agent): peer-reviewer (generalized, offline confidential)"`
 
 ### Task 2.2: librarian
-**Files:** Create `agents/librarian.md` · **Source:** `~/Pobrane/bibliotekarz_agent.md` (concept) + `~/.claude/skills/library-catalog-book/SKILL.md` (dedupe logic) + spec §4 A2
+**Files:** Create `agents/librarian.md` · **Source:** a local librarian-agent concept note + the author's private library-cataloging skill (dedupe logic) + spec §4 A2
 - [ ] **Step 1:** Write fresh in English. Five-layer separation (facts / publisher-claims / public-opinions / agent-critique / verdict), 0–100 weighted scoring, verdict labels, time+money cost, sources-checked disclosure. Hard boundaries: no paywall bypass / piracy / ToS-scraping / fabricated review counts; "access limited" honesty. Strategic-fit from `profile.librarian.domains`. Optional write only if `profile.librarian.catalog_path` set (dedupe-first). `tools: Read, Grep, Glob, WebSearch, WebFetch, Write`, `model: sonnet`.
 - [ ] **Step 2: Validate** — frontmatter + grep gate + assert the 5-layer separation and the "no fabricated reviews" rule are present.
 - [ ] **Step 3: Commit** — `git commit -am "feat(agent): librarian (acquisition advisor)"`
 
 ### Task 2.3: research-scout
-**Files:** Create `agents/research-scout.md` · **Source:** `~/.claude/agents/research-scout.md`
+**Files:** Create `agents/research-scout.md` · **Source:** the author's private research-scout agent
 - [ ] **Step 1:** Generalize: keep tiered sources (T1–T4), prudence/epistemic grading, dedup-by-DOI, OA-resolution (Unpaywall/OpenAlex), data-not-instructions, no-fabrication, propose-don't-write. Replace vault-project matching with `profile.knowledge_base.path` (skip compare if unset). Institutional resolver from `profile.research.full_text_resolver`. Shadow-library links **only if** `profile.research.shadow_library_optin: true` (default false), clearly labelled. PubMed/HF MCP tools listed but optional (degrade if absent). `model: sonnet`.
 - [ ] **Step 2: Validate** — frontmatter + grep gate + assert shadow-optin defaults false.
 - [ ] **Step 3: Commit** — `git commit -am "feat(agent): research-scout (retrieval + epistemic grading)"`
@@ -176,16 +177,16 @@ array). Body per spec §4. Same grep gate + universality as agents. Acceptance: 
 valid; no personal strings; anti-hallucination rule present where claims/citations are produced.
 
 ### Task 3.1: literature-search
-**Source:** `~/.claude/skills/pubmed-to-literature-note/SKILL.md` → generalize (vault path → `profile.knowledge_base.path`; PMIDs/DOIs only from tool responses; PEO/PICO suites, snowball, recall). `allowed-tools: [Read, Write, WebSearch, WebFetch]`. Commit `feat(skill): literature-search`.
+**Source:** the author's private pubmed-to-literature-note skill → generalize (vault path → `profile.knowledge_base.path`; PMIDs/DOIs only from tool responses; PEO/PICO suites, snowball, recall). `allowed-tools: [Read, Write, WebSearch, WebFetch]`. Commit `feat(skill): literature-search`.
 
 ### Task 3.2: reporting-guideline-check
 **Source:** extract the guideline rubric from peer-reviewer (STROBE/CONSORT(+AI)/PRISMA(2020/-DTA)/TRIPOD(+AI)/STARD/CLAIM/SPIRIT/CHEERS/CARE/ARRIVE/GRADE/SPIN). Item-by-item compliance table + gaps + fix suggestions. Standalone-usable on own draft. `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): reporting-guideline-check`.
 
 ### Task 3.3: epistemic-status
-**Source:** `~/Vaults-main/90_Meta/wiki/_shared/evidence_status.md` (read if present) + spec §4 S3. Graduated labels + confidence + source_independence + promotion thresholds; `profile.epistemic.asymmetric_risk` strict mode; contradiction check. `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): epistemic-status`.
+**Source:** the author's private vault evidence-status note (read if present) + spec §4 S3. Graduated labels + confidence + source_independence + promotion thresholds; `profile.epistemic.asymmetric_risk` strict mode; contradiction check. `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): epistemic-status`.
 
 ### Task 3.4: field-note-from-url
-**Source:** `~/.claude/skills/field-note-from-url/SKILL.md` → generalize (generic frontmatter via `profile.knowledge_base.frontmatter_schema`; defuddle-style extraction; **stub pattern** for blocked sources, do not halt). `allowed-tools: [Read, Write, WebFetch]`. Commit `feat(skill): field-note-from-url`.
+**Source:** the author's private field-note-from-url skill → generalize (generic frontmatter via `profile.knowledge_base.frontmatter_schema`; defuddle-style extraction; **stub pattern** for blocked sources, do not halt). `allowed-tools: [Read, Write, WebFetch]`. Commit `feat(skill): field-note-from-url`.
 
 ### Task 3.5: manuscript-imrad
 **Source:** new, spec §4 S5. IMRaD scaffold + structure-lint (section presence/order, hypothesis→methods→results→conclusion coherence, claims-vs-data, explicit Limitations, spin-flag). `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): manuscript-imrad`.
@@ -204,7 +205,7 @@ valid; no personal strings; anti-hallucination rule present where claims/citatio
 **Source:** new, spec §4 S7. Inputs (design family, effect size/means+SD/rates, α, power, allocation, dropout) → N | power | MDE; sensitivity table; ready Methods sentence; flags post-hoc/observed power invalid; statistical vs clinical significance. Runtime python (statsmodels.stats.power/pingouin) or R; degrade to formulas. `allowed-tools: [Read, Bash, Write]`. Commit `feat(skill): power-sample-size`.
 
 ### Task 3.8: interim-analysis-reviewer
-**Source:** `~/Pobrane/interim-analysis-reviewer-SKILL.md` — **drop-in**. Copy body verbatim; **normalize frontmatter** to `allowed-tools: [Read, Grep, Glob]` (from space-form), retain `name`, `description`, `when_to_use`, `argument-hint`. Add a one-line cross-ref to A6/S2 boundary (clinical-only; non-clinical sequential testing → statistician). `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): interim-analysis-reviewer (contributed)`.
+**Source:** a contributed interim-analysis-reviewer skill file — **drop-in**. Copy body verbatim; **normalize frontmatter** to `allowed-tools: [Read, Grep, Glob]` (from space-form), retain `name`, `description`, `when_to_use`, `argument-hint`. Add a one-line cross-ref to A6/S2 boundary (clinical-only; non-clinical sequential testing → statistician). `allowed-tools: [Read, Grep, Glob]`. Commit `feat(skill): interim-analysis-reviewer (contributed)`.
 
 ---
 
@@ -227,7 +228,7 @@ valid; no personal strings; anti-hallucination rule present where claims/citatio
 - [ ] **Step 1:** `bash scripts/validate_json.sh` → both OK.
 - [ ] **Step 2:** `python3 scripts/validate_frontmatter.py` → all 12 components pass.
 - [ ] **Step 3:** `bash scripts/validate_structure.sh` → no missing components.
-- [ ] **Step 4:** Grep gate across `agents/ skills/` for personal strings → **zero hits** (privacy/universality). Command: `! grep -rIEn "Łukasz|Minarowski|UMB|ADVMS|TARR|navimed|Vaults-main|10_Projekty|90_Meta" agents/ skills/`.
+- [ ] **Step 4:** Grep gate across `agents/ skills/` for personal strings → **zero hits** (privacy/universality). Command: run a private wordlist (the author's name, institutions, journals, vault paths, other private project names) as a regex over `agents/ skills/` — kept out of this public plan by design.
 - [ ] **Step 5:** Quality-oversight pass (per author preference): dispatch halucynacja-watch + code-watch over the generated docs → fix flagged items.
 
 ### Task 5.2: README final + install smoke instructions
@@ -237,7 +238,7 @@ valid; no personal strings; anti-hallucination rule present where claims/citatio
 ### Task 5.3: Release tag + GitHub (gated)
 - [ ] **Step 1:** `git tag v0.1.0`.
 - [ ] **Step 2 (gated on user):** create public GH repo `mozarcik/scriptorium` and push — **ask before pushing** (outward-facing, hard to reverse). Provide: `gh repo create mozarcik/scriptorium --public --source=. --description "…" --push`.
-- [ ] **Step 3 (gated on user):** add vault hub `10_Projekty/00XX-scriptorium/_index.md` with `code_path: ~/code/scriptorium`, `github:`, link to spec — separate vault commit, proposed not auto-run.
+- [ ] **Step 3 (gated on user):** add a hub note in the author's private vault with `code_path: ~/code/scriptorium`, `github:`, link to spec — separate vault commit, proposed not auto-run.
 
 ---
 
