@@ -81,7 +81,8 @@ scriptorium/
 │   ├── field-note-from-url/SKILL.md
 │   ├── manuscript-imrad/SKILL.md
 │   ├── peer-paraphrase/SKILL.md
-│   └── power-sample-size/SKILL.md
+│   ├── power-sample-size/SKILL.md
+│   └── interim-analysis-reviewer/SKILL.md
 ├── .claude/
 │   └── commands/
 │       └── scriptorium-init.md        # copies profile.example → ./.scriptorium/profile.md
@@ -152,6 +153,7 @@ No `agents`/`skills`/`commands` arrays → auto-discovery.
 | S5 | manuscript-imrad | skill | WRITE | Read, Grep, Glob |
 | S6 | peer-paraphrase | skill | WRITE | Read |
 | S7 | power-sample-size | skill | ANALYZE | Read, Bash, Write |
+| S8 | interim-analysis-reviewer | skill | REVIEW / ANALYZE | Read, Grep, Glob |
 
 Deferred (v2): `citation-auditor` (A4), `knowledge-gardener` (A5).
 Candidates (backlog): `stats-reviewer`, `prisma-flow`, `grant-reviewer`, `reproducibility-check`.
@@ -365,6 +367,11 @@ paragraph contains >1 point (suggest a split). Cross-ref note: PEER is micro-lev
 
 A-priori statistical power & sample-size determination.
 
+(Scope note: "optional-stopping / multiplicity control for repeated *non-clinical*
+evaluations" — e.g. early-stopping a model-benchmark sweep without inflating type-I error
+— belongs to A6 statistician as an ML-evaluation concern, explicitly distinct from clinical
+interim analysis in S8.)
+
 **Inputs.** Design (parallel two-group / paired / one-sample / proportions / correlation /
 linear or logistic regression / survival / one- or two-way ANOVA / repeated measures),
 effect size (or means + SD, or rates), α (two- vs one-sided), target power, allocation
@@ -376,6 +383,39 @@ sentence (the protocol pattern: "Assuming Δ X, SD Y, two-sided α 0.05, 80% pow
 evaluable required; allowing Z% dropout, N planned"). Runtime: python (statsmodels.stats.
 power / pingouin) or R; degrades to explicit formulas. **Flags post-hoc / observed power as
 statistically invalid.** Distinguishes statistical vs clinical significance.
+
+### S8 — interim-analysis-reviewer (REVIEW / ANALYZE) ⭐ contributed
+
+**Purpose.** Clinical-trial methodology + biostatistics reviewer focused on **interim
+analyses**: DSMB/DMC reports, SAP sections, futility rules, efficacy stopping boundaries,
+safety reviews, alpha-spending, adaptive designs, sample-size re-estimation, regulatory-
+quality gap assessment. **Already universal** — drop-in; only frontmatter normalized to the
+scriptorium convention (`allowed-tools: [Read, Grep, Glob]`; retain `when_to_use`,
+`argument-hint`).
+
+**Method.** Classify first (safety-only / futility / efficacy / adaptive / mixed), then
+check: prespecification, blinding & who sees unblinded data, type-I error control (group-
+sequential; O'Brien-Fleming / Pocock / Lan-DeMets; or justified Bayesian operating
+characteristics), information fraction, estimand alignment (ICH E9(R1)), DMC/DSMB
+governance, documented decision rules. Risk labels **Major / Moderate / Minor**. Regulatory
+anchors: ICH E9, E9(R1), FDA adaptive-design, EMA DMC — each with a "verify current version"
+caveat (no hallucinated guideline versions).
+
+**Boundaries (hard).** Read-only (Read/Grep/Glob). **No fabricated statistics** (p-values,
+HR, conditional power, event counts, toxicity rates) → "Not assessable from the provided
+material" instead. Must not be used to justify unplanned peeking, post-hoc decision rules,
+or sponsor-side access to unblinded comparative results. Quote only minimal necessary text
+from a provided protocol/SAP.
+
+**Output modes.** Review Memo · Protocol/SAP Gap-Analysis table · Draft Protocol/SAP section
+· DMC/DSMB report outline.
+
+**Boundary vs others.** A1 = whole-manuscript referee (may surface interim issues at a high
+level). **S8 = deep interim-analysis specialist** (governance/SAP/boundaries, ICH-E9-grade).
+A6 = *computes* sequential boundaries / conditional power; S8 *reviews* whether they are
+prespecified and valid. S2 = generic reporting-guideline checklist; S8 = interim-specific.
+**Clinical scope only** — sequential-testing rigor for non-clinical experiments (sweeps,
+benchmarks) is A6, not S8.
 
 ---
 
@@ -448,6 +488,11 @@ in `configuration.md`); the author's personal settings never enter this public r
   (design → N). A6 = broad analyst (data → result), can invoke S7's logic for planning.
   A1/S2 = critique of *others'* statistics/reporting. No runtime import between A1 and S2
   (A1 is offline); shared content lives in `docs`.
+- **S8 interim-analysis-reviewer ⟷ A6 ⟷ A1.** S8 = clinical interim-analysis specialist
+  (ICH-E9 governance/SAP/boundaries). A6 *computes* sequential boundaries/conditional power;
+  S8 *reviews* whether they are prespecified and valid. A1 may surface interim issues at the
+  manuscript surface; S8 goes deep. S8 is clinical-only — non-clinical sequential testing
+  (benchmark early-stopping) is A6.
 - **A2 librarian ⟷ library cataloging.** A2 evaluates (universal). Cataloging into a
   specific personal vault stays the user's private skill; A2 optionally writes only if
   `librarian.catalog_path` is set.
@@ -478,7 +523,9 @@ guideline rubric, no-piracy.
 ## 9. Licensing, versioning, release
 
 - **License:** MIT (max public reuse).
-- **v0.1.0 (this spec):** 4 agents + 7 skills + config + docs + 1 example per agent.
+- **v0.1.0 (this spec):** 4 agents + 8 skills + config + docs + 1 example per agent.
+  (S8 `interim-analysis-reviewer` contributed ready-made; integrated with frontmatter
+  normalization.)
 - **v0.2.0:** `citation-auditor`, `knowledge-gardener`.
 - **Backlog:** `stats-reviewer`, `prisma-flow`, `grant-reviewer`, `reproducibility-check`.
 - **CHANGELOG.md** kept from v0.1.0.
