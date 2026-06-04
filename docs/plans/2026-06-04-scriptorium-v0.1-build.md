@@ -237,7 +237,7 @@ valid; no personal strings; anti-hallucination rule present where claims/citatio
 
 ### Task 5.3: Release tag + GitHub (gated)
 - [ ] **Step 1:** `git tag v0.1.0`.
-- [ ] **Step 2 (gated on user):** create public GH repo `mozarcik/scriptorium` and push — **ask before pushing** (outward-facing, hard to reverse). Provide: `gh repo create mozarcik/scriptorium --public --source=. --description "…" --push`.
+- [ ] **Step 2 (gated on user):** create public GH repo `kicrazom/scriptorium` and push — **ask before pushing** (outward-facing, hard to reverse). Provide: `gh repo create kicrazom/scriptorium --public --source=. --description "…" --push`.
 - [ ] **Step 3 (gated on user):** add a hub note in the author's private vault with `code_path: ~/code/scriptorium`, `github:`, link to spec — separate vault commit, proposed not auto-run.
 
 ---

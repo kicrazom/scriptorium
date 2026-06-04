@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Agents and skills for the scientific knowledge lifecycle — discover, evaluate, analyze, write, and review research with anti-hallucination discipline.",
   "author": { "name": "Łukasz Minarowski", "url": "https://orcid.org/0000-0002-2536-3508" },
-  "repository": "https://github.com/mozarcik/scriptorium",
-  "homepage": "https://github.com/mozarcik/scriptorium",
+  "repository": "https://github.com/kicrazom/scriptorium",
+  "homepage": "https://github.com/kicrazom/scriptorium",
   "license": "MIT",
   "keywords": ["research", "science", "peer-review", "literature", "statistics", "bayesian", "academic-writing", "epistemic", "claude-code-plugin"]
 }

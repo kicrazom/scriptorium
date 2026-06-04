@@ -3,7 +3,7 @@
 **Date:** 2026-06-04
 **Status:** approved roster (v1 locked), design under review
 **Author:** Łukasz Minarowski (ORCID 0000-0002-2536-3508)
-**Repo:** `github.com/mozarcik/scriptorium` (public, MIT)
+**Repo:** `github.com/kicrazom/scriptorium` (public, MIT)
 
 ---
 
@@ -49,7 +49,7 @@ so it is installable. Verified against live plugins (obsidian-skills, nyldn, off
 
 **End-user install:**
 ```
-/plugin marketplace add mozarcik/scriptorium
+/plugin marketplace add kicrazom/scriptorium
 /plugin install scriptorium@scriptorium
 ```
 
@@ -108,8 +108,8 @@ scriptorium/
   "version": "0.1.0",
   "description": "Agents and skills for the scientific knowledge lifecycle — discover, evaluate, analyze, write, and review research with anti-hallucination discipline.",
   "author": { "name": "Łukasz Minarowski", "url": "https://orcid.org/0000-0002-2536-3508" },
-  "repository": "https://github.com/mozarcik/scriptorium",
-  "homepage": "https://github.com/mozarcik/scriptorium",
+  "repository": "https://github.com/kicrazom/scriptorium",
+  "homepage": "https://github.com/kicrazom/scriptorium",
   "license": "MIT",
   "keywords": ["research","science","peer-review","literature","statistics","bayesian","academic-writing","epistemic","claude-code-plugin"]
 }
@@ -122,7 +122,7 @@ No `agents`/`skills`/`commands` arrays → auto-discovery.
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "scriptorium",
-  "owner": { "name": "Łukasz Minarowski", "url": "https://github.com/mozarcik" },
+  "owner": { "name": "Łukasz Minarowski", "url": "https://github.com/kicrazom" },
   "plugins": [
     {
       "name": "scriptorium",

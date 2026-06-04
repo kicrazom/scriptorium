@@ -7,7 +7,7 @@ Scriptorium is a single Claude Code plugin that bundles four agents and eight sk
 ## Install
 
 ```
-/plugin marketplace add mozarcik/scriptorium
+/plugin marketplace add kicrazom/scriptorium
 /plugin install scriptorium@scriptorium
 ```
 
