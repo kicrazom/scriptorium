@@ -1,0 +1,11 @@
+# user's real profile must never be committed (privacy)
+.scriptorium/
+**/.scriptorium/profile.md
+
+# OS / editor
+.DS_Store
+*.swp
+*~
+.obsidian/
+.idea/
+.vscode/

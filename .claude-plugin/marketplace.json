@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "scriptorium",
+  "owner": { "name": "Łukasz Minarowski", "url": "https://github.com/mozarcik" },
+  "plugins": [
+    {
+      "name": "scriptorium",
+      "source": "./",
+      "description": "Scientific knowledge-lifecycle toolkit: peer-review, literature scouting, resource evaluation, statistics (classical + Bayesian), academic paraphrasing, reporting-guideline checks.",
+      "version": "0.1.0",
+      "category": "research",
+      "keywords": ["research", "science", "academia"]
+    }
+  ]
+}
