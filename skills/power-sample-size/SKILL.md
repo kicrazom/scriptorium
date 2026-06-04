@@ -123,7 +123,7 @@ PY
 - **Survival (events):** `d_events = (z_{1−α/2}+z_{1−β})² / (p1·p2·(ln HR)²)`, p1/p2 = allocation fractions.
 - **Unequal allocation (k = n2/n1):** multiply the equal-n total by `(1+k)²/(4k)` (efficiency loss vs balanced).
 
-Standard normal quantiles to use verbatim: `z_{0.975}=1.95996`, `z_{0.95}=1.64485`, `z_{0.80}=0.84162` (power 0.80), `z_{0.90}=1.28155` (power 0.90). The normal-approximation forms ignore the t-distribution df penalty and modestly **underestimate** small samples; flag this and add +1–2 per group for n<30, or recompute with a t-based routine when one is available.
+Standard normal quantiles to use verbatim: `z_{0.975}=1.95996`, `z_{0.95}=1.64485`, `z_{0.80}=0.84162` (power 0.80), `z_{0.90}=1.28155` (power 0.90). The normal-approximation forms ignore the t-distribution df penalty and modestly **underestimate** small samples; flag this and add +1–2 per group for n<30 `[rule of thumb]`, or — preferred — recompute with a t-based routine when one is available.
 
 ---
 

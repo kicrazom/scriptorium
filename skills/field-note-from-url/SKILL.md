@@ -179,7 +179,7 @@ A stub note:
 3. Adds a `tags:` marker `status/awaiting-content` (and, for transcript-pending
    media, `status/awaiting-transcript`) so a later pass can find and complete it.
 4. Puts a placeholder in the body: a `## Content` heading with a single line —
-   `TODO: paste transcript / full text here, then re-run extraction.`
+   `PENDING: paste transcript / full text here, then re-run extraction.`
 5. **Returns normally.** Report that a stub was written and what is needed to
    complete it. Never raise the blocked fetch as a failure that stops the task.
 

@@ -143,6 +143,12 @@ Default transition guide (general / non-clinical context):
 | `operational → canonical` | `guideline_support: true` (authoritative guideline / textbook / settled consensus). |
 | any → `contradicted` | Contradicting evidence outweighs current support. |
 
+> **Counting independence — meta-analyses.** A systematic review / meta-analysis that pools
+> *k* independent primary studies may count as elevated `source_independence` for its pooled
+> estimate (not as a single source), **provided** you state this explicitly and carry the
+> heterogeneity caveat (e.g. high I²). Set `source_independence` to a defensible value and note
+> "(meta of *k*)"; do not silently treat one paper as one source when it aggregates many.
+
 **Grading procedure (per claim):**
 
 1. **Isolate the claim** — one assertion, stated plainly. If a sentence packs two

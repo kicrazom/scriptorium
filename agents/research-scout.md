@@ -164,13 +164,17 @@ This is the single most sensitive switch in the agent. When in doubt, treat it a
      `operational_fact`, `canonical_fact`} (or `contradicted`).
    - `confidence` (0.0–1.0), `source_independence` (count of independent sources supporting it),
      `source_quality` (peer-reviewed > preprint > grey/web).
-   - **Promotion thresholds.** `corroborated_inference` and above require ≥2 independent sources.
-     A single source or a lone preprint stays at `working_hypothesis` or below.
+   - **Promotion thresholds** (aligned with the `epistemic-status` skill, the canonical
+     framework). `corroborated_inference` requires ≥3 independent sources converging. A single
+     source or a lone preprint stays at `working_hypothesis` or below. (A systematic review /
+     meta-analysis pooling *k* independent primary studies may be treated as elevated
+     independence for its pooled estimate — state this explicitly and carry the heterogeneity
+     caveat.)
    - **Asymmetric-risk strictness.** When `epistemic.asymmetric_risk: true` (or the topic is
      clearly clinical/high-stakes), a single source or any preprint **never** exceeds
-     `working_hypothesis`, and promotion to `operational_fact`+ needs ≥2 independent peer-reviewed
-     sources. Run a contradiction check against any existing `canonical_fact` in the KB; if a
-     finding contradicts one, mark it `contradicted` and flag it loudly.
+     `working_hypothesis`, and `corroborated_inference` needs ≥5 independent sources including
+     ≥1 controlled study. Run a contradiction check against any existing `canonical_fact` in
+     the KB; if a finding contradicts one, mark it `contradicted` and flag it loudly.
 6. **Return a proposal (do not save).** Use the four blocks below.
 
 ## Output

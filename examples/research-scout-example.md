@@ -42,15 +42,18 @@ then grey/web. Deduplicated by DOI. *(Values below are synthetic placeholders.)*
 | # | Finding (1 line) | Source (venue, year) | PMID/DOI | Full text | epistemic / conf / indep | KB target | confirms / extends / contradicts |
 |---|---|---|---|---|---|---|---|
 | 1 | Biochar raised soil bacterial alpha-diversity (Shannon) at 1 yr in a temperate maize field | *Synth. J. Soil Biol.* 2024 | DOI 10.0000/synthetic.0001 | OA (link) | corroborated_inference / 0.7 / 3 | n/a (no KB configured) | n/a |
-| 2 | Meta-analysis (k=38 fields): mean +0.21 Shannon, but high heterogeneity (I²≈74%) | *Synth. Rev. Agroecol.* 2025 | DOI 10.0000/synthetic.0002 | OA (link) | corroborated_inference / 0.65 / 1 (meta of many) | n/a | n/a |
+| 2 | Meta-analysis (k=38 fields): mean +0.21 Shannon, but high heterogeneity (I²≈74%) | *Synth. Rev. Agroecol.* 2025 | DOI 10.0000/synthetic.0002 | OA (link) | corroborated_inference / 0.65 / k=38 (meta) | n/a | n/a |
 | 3 | Effect direction depends on feedstock + pyrolysis temp; low-temp biochar showed no change | *Synth. Soil Microbiome Lett.* 2025 | DOI 10.0000/synthetic.0003 | resolver (DOI) | working_hypothesis / 0.5 / 2 | n/a | n/a |
 | 4 | Fungal (ITS) diversity *decreased* in 2 of 4 sandy soils — contradicts the blanket claim | *Synth. Front. Edaphology* 2026 | DOI 10.0000/synthetic.0004 | OA (link) | working_hypothesis / 0.45 / 1 | n/a | n/a |
 | 5 | Preprint: single-site, n=4 plots, large diversity gain reported | bioRxiv-style preprint 2026 | DOI 10.0000/synthetic.0005 | OA (preprint) | speculative_hypothesis / 0.25 / 1 `preprint` | n/a | n/a |
 | 6 | Citation count for #1 | OpenAlex field | — | — | not-in-source | n/a | n/a |
 
 Notes on grading:
-- #1 reaches `corroborated_inference` (≥2 independent peer-reviewed sources concur: #1 + #2 + one
-  Tier-2 index hit). #3 stays `working_hypothesis` — it qualifies, not confirms, the main claim.
+- #1 reaches `corroborated_inference` (≥3 independent peer-reviewed lines concur: the #1 primary
+  study + the #2 meta-analysis pooling k=38 fields + one Tier-2 index hit). #2 itself is
+  `corroborated_inference` on the elevated-independence rule (a meta of k=38 independent studies),
+  carrying the high-I² heterogeneity caveat. #3 stays `working_hypothesis` — it qualifies, not
+  confirms, the main claim.
 - #5 is a lone preprint → capped at `speculative_hypothesis`, flagged `preprint`; it does **not**
   promote the claim on its own.
 - #6: OpenAlex returned no citation count for #1 in the retrieved payload → `not-in-source`
@@ -62,7 +65,7 @@ Flat list (no KB configured → place anywhere), `wikilink` style:
 
 ```
 - [[https://doi.org/10.0000/synthetic.0001|SynthAuthor 2024]] — biochar raised bacterial Shannon diversity at 1 yr in a temperate maize field. `epistemic: corroborated_inference, conf 0.7, indep 3` <!-- research-scout proposal -->
-- [[https://doi.org/10.0000/synthetic.0002|SynthReview 2025]] — meta-analysis k=38: mean +0.21 Shannon but I²≈74% (high heterogeneity). `epistemic: corroborated_inference, conf 0.65, indep 1` <!-- research-scout proposal -->
+- [[https://doi.org/10.0000/synthetic.0002|SynthReview 2025]] — meta-analysis k=38: mean +0.21 Shannon but I²≈74% (high heterogeneity). `epistemic: corroborated_inference, conf 0.65, indep k=38 (meta)` <!-- research-scout proposal -->
 - [[https://doi.org/10.0000/synthetic.0003|SynthAuthor 2025]] — effect contingent on feedstock + pyrolysis temperature; low-temp biochar showed no change. `epistemic: working_hypothesis, conf 0.5, indep 2` <!-- research-scout proposal -->
 - [[https://doi.org/10.0000/synthetic.0004|SynthAuthor 2026]] — fungal (ITS) diversity decreased in 2/4 sandy soils; qualifies the blanket claim. `epistemic: working_hypothesis, conf 0.45, indep 1` <!-- research-scout proposal -->
 ```
