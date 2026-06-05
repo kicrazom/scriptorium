@@ -3,6 +3,13 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [Unreleased] — v0.2.0 (in progress)
+
+### Added
+- L0 deterministic core foundation: `scripts/lib/` (json_io, provenance, epistemic spine)
+  and first engines `core/epistemic_grade.py`, `core/power_sample_size.py`, with golden tests.
+- `scripts/run_tests.sh` pre-push quality gate.
+
 ## [0.1.0] — 2026-06-04
 
 ### Added
