@@ -1,4 +1,7 @@
 .venv/
+*.egg-info/
+__pycache__/
+*.pyc
 
 # user's real profile must never be committed (privacy)
 .scriptorium/
