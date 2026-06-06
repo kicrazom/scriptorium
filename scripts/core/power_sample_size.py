@@ -43,6 +43,14 @@ def two_proportions(p1, p2, alpha, power):
     return int(math.ceil(n1))
 
 
+def one_way_anova(effect_size, k_groups, alpha, power):
+    from statsmodels.stats.power import FTestAnovaPower
+    n_total = FTestAnovaPower().solve_power(
+        effect_size=effect_size, alpha=alpha, power=power, k_groups=k_groups,
+    )
+    return int(math.ceil(n_total / k_groups))  # per-group
+
+
 def compute(req):
     test = req.get("test")
     alpha = float(req.get("alpha", 0.05))
@@ -64,6 +72,12 @@ def compute(req):
         n_per_group = two_proportions(p1, p2, alpha, power)
         n_total = 2 * n_per_group
         claim = f"n={n_per_group}/group for p1={p1}, p2={p2}, alpha={alpha}, power={power}"
+    elif test == "one_way_anova":
+        effect_size = float(req["effect_size"]); k_groups = int(req["k_groups"])
+        n_per_group = one_way_anova(effect_size, k_groups, alpha, power)
+        n_total = k_groups * n_per_group
+        claim = (f"n={n_per_group}/group ({k_groups} groups) for f={effect_size}, "
+                 f"alpha={alpha}, power={power}")
     else:
         raise ValueError(f"unsupported test: {test!r}")
 

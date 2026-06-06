@@ -56,3 +56,13 @@ def test_two_proportions_family():
     # canonical n/group for p1=.5,p2=.3 ~ 93
     assert 85 <= out["data"]["n_per_group"] <= 100
     assert out["data"]["n_total"] == 2 * out["data"]["n_per_group"]
+
+
+def test_one_way_anova_family():
+    payload = {"test": "one_way_anova", "effect_size": 0.25, "k_groups": 4,
+               "alpha": 0.05, "power": 0.80}
+    out = run_engine(payload)
+    assert out["status"] == "ok"
+    # canonical per-group n for f=.25 (medium), k=4 ~ 45
+    assert 40 <= out["data"]["n_per_group"] <= 50
+    assert out["data"]["n_total"] == 4 * out["data"]["n_per_group"]
