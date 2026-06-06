@@ -1,12 +1,14 @@
 """L0 engine: closed-form power / sample-size determination.
 
-Supported designs (``test`` field): ``two_sample_t``, ``paired_t``, ``two_proportions``,
-``one_way_anova``. Each returns the required N plus the analytic ``method`` used and the
-``assumptions`` it rests on, so the number is self-documenting and reproducible.
+Supported designs (``test`` field): ``two_sample_t``, ``paired_t``, ``one_sample_t``,
+``two_proportions``, ``one_way_anova``, ``correlation``, ``survival_logrank_events``. Each
+returns the required N (or, for survival, ``events_required``) plus the analytic ``method``
+used and the ``assumptions`` it rests on, so the number is self-documenting and reproducible.
 
 Input (stdin JSON), e.g.: {"test": "two_sample_t", "effect_size": 0.5, "alpha": 0.05,
                            "power": 0.80, "ratio": 1.0}
-Output (stdout JSON): ok envelope with {n_per_group, n_total, method, assumptions, finding}.
+Output (stdout JSON): ok envelope with {n_per_group, n_total, method, assumptions, finding}
+(survival returns {events_required, method, assumptions, finding}).
 
 n_per_group is ceil of the analytic solution. The finding carries operational_fact /
 confidence 1.0 because the computation is deterministic closed-form, with a provenance

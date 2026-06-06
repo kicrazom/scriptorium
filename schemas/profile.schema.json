@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/profile.schema.json",
+  "title": "ScriptoriumProfile",
+  "description": "The YAML block inside profile.md (config/profile.example.md). Every field is optional; unknown top-level sections are warned about, not rejected. Parsed by scripts/lib/profile.py.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "reviewer": {
+      "type": "object",
+      "properties": {
+        "journals": {"type": "array", "items": {"type": "object"}},
+        "default_guidelines": {"type": "array", "items": {"type": "string"}},
+        "language": {"type": "string"}
+      }
+    },
+    "knowledge_base": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "link_style": {"type": "string", "enum": ["wikilink", "markdown"]},
+        "frontmatter_schema": {"type": "string"}
+      }
+    },
+    "research": {
+      "type": "object",
+      "properties": {
+        "sources": {"type": "array", "items": {"type": "string"}},
+        "full_text_resolver": {"type": "string"},
+        "shadow_library_optin": {"type": "boolean"}
+      }
+    },
+    "librarian": {
+      "type": "object",
+      "properties": {
+        "domains": {"type": "array", "items": {"type": "string"}},
+        "catalog_path": {"type": "string"}
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "properties": {
+        "prefer_runtime": {"type": "string", "enum": ["python", "r", "none"]},
+        "bayesian_backend": {"type": "string", "enum": ["pymc", "bambi", "brms"]}
+      }
+    },
+    "epistemic": {
+      "type": "object",
+      "properties": {"asymmetric_risk": {"type": "boolean"}}
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "units_inline": {"type": "boolean"},
+        "explain_jargon": {"type": "boolean"}
+      }
+    }
+  }
+}

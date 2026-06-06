@@ -1,0 +1,21 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 85,
+        "n_total": 85,
+        "method": "Fisher z-transform (closed form)",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "r": 0.3
+        },
+        "finding": {
+            "claim": "n=85 for r=0.3, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=52e646805156:result",
+            "source_independence": 1
+        }
+    }
+}

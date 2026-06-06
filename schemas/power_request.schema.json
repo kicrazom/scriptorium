@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/power_request.schema.json",
+  "title": "PowerSampleSizeRequest",
+  "description": "Request to scripts/core/power_sample_size.py. The required fields depend on `test`.",
+  "type": "object",
+  "required": ["test"],
+  "properties": {
+    "test": {
+      "type": "string",
+      "enum": [
+        "two_sample_t",
+        "paired_t",
+        "one_sample_t",
+        "two_proportions",
+        "one_way_anova",
+        "correlation",
+        "survival_logrank_events"
+      ]
+    },
+    "alpha": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1, "default": 0.05},
+    "power": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1, "default": 0.80},
+    "effect_size": {"type": "number", "description": "d (t-tests) or f (ANOVA)."},
+    "ratio": {"type": "number", "exclusiveMinimum": 0, "default": 1.0},
+    "k_groups": {"type": "integer", "minimum": 2},
+    "p1": {"type": "number", "minimum": 0, "maximum": 1},
+    "p2": {"type": "number", "minimum": 0, "maximum": 1},
+    "r": {"type": "number", "exclusiveMinimum": -1, "exclusiveMaximum": 1},
+    "hazard_ratio": {"type": "number", "exclusiveMinimum": 0}
+  },
+  "allOf": [
+    {"if": {"properties": {"test": {"const": "two_sample_t"}}},
+     "then": {"required": ["effect_size"]}},
+    {"if": {"properties": {"test": {"const": "paired_t"}}},
+     "then": {"required": ["effect_size"]}},
+    {"if": {"properties": {"test": {"const": "one_sample_t"}}},
+     "then": {"required": ["effect_size"]}},
+    {"if": {"properties": {"test": {"const": "two_proportions"}}},
+     "then": {"required": ["p1", "p2"]}},
+    {"if": {"properties": {"test": {"const": "one_way_anova"}}},
+     "then": {"required": ["effect_size", "k_groups"]}},
+    {"if": {"properties": {"test": {"const": "correlation"}}},
+     "then": {"required": ["r"]}},
+    {"if": {"properties": {"test": {"const": "survival_logrank_events"}}},
+     "then": {"required": ["hazard_ratio"]}}
+  ]
+}

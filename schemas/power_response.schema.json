@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/power_response.schema.json",
+  "title": "PowerSampleSizeResponse",
+  "description": "Envelope returned by scripts/core/power_sample_size.py.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["method", "assumptions", "finding"],
+      "properties": {
+        "n_per_group": {"type": "integer", "minimum": 1},
+        "n_total": {"type": "integer", "minimum": 1},
+        "events_required": {"type": "integer", "minimum": 1},
+        "method": {"type": "string", "description": "Exact analytic routine used."},
+        "assumptions": {"type": "object", "description": "alpha, power, alternative, and the effect input echoed back."},
+        "finding": {"$ref": "finding.schema.json"}
+      },
+      "description": "Sample-size designs carry {n_per_group, n_total}; survival carries {events_required}."
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}

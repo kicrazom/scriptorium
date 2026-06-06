@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/finding.schema.json",
+  "title": "Finding",
+  "description": "A single graded finding emitted by any Scriptorium engine.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["claim", "status", "confidence", "source", "source_independence"],
+  "properties": {
+    "claim": {"type": "string", "description": "Plain-language statement of the result."},
+    "status": {
+      "type": "string",
+      "description": "Graduated epistemic status (weakest to strongest).",
+      "enum": [
+        "contradicted",
+        "speculative_hypothesis",
+        "working_hypothesis",
+        "corroborated_inference",
+        "operational_fact",
+        "canonical_fact"
+      ]
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "source": {
+      "type": "string",
+      "description": "Provenance trace, e.g. scripts/core/<engine>.py#run=<id>:<anchor> or kb://<backend>/<doc>#<anchor>."
+    },
+    "source_independence": {"type": "integer", "minimum": 0}
+  }
+}
