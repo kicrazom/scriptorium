@@ -3,6 +3,18 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.5.1] — 2026-06-06 — Doc consistency + test discoverability
+
+### Fixed
+- STATUS.md prompt-layer row said `power-sample-size` is "engine-backed for the four families
+  above" — stale since the engine grew to eight designs. Now points to the full design table.
+
+### Added
+- A **Testing** section in the README documenting the test layout. The engine known-value,
+  input-validation, and deterministic-provenance tests already existed in
+  `tests/core/test_power_sample_size.py` (and the other engines in `tests/core/` / `tests/lib/`);
+  this makes them discoverable to readers who expect a flat `tests/` directory.
+
 ## [0.5.0] — 2026-06-06 — Agent validation (deterministic core)
 
 ### Added

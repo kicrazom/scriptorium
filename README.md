@@ -65,6 +65,28 @@ Output (abridged) — note the `finding.source` provenance trace:
 
 More input → output fixtures live in [`examples/`](examples/).
 
+## Testing
+
+The deterministic core is unit- and golden-tested; CI runs the suite on Python 3.10–3.12 with
+a blocking `ruff` lint (see the badge above).
+
+```bash
+pip install -e ".[dev]"
+pytest -q          # the full suite
+```
+
+Tests live next to what they cover, **not** in a flat `tests/` directory:
+
+| Path | Covers |
+|---|---|
+| `tests/core/test_power_sample_size.py` | every power design: known-value/recompute assertions, input-validation rejections, deterministic-provenance check |
+| `tests/core/test_stat_run.py`, `test_guideline_check.py`, `test_citation_parse.py`, `test_epistemic_grade.py`, `test_grimmer.py`, `test_injection_scan.py`, `test_interim_boundaries.py` | the other engines |
+| `tests/lib/test_{json_io,provenance,epistemic,profile}.py` | shared libraries |
+| `tests/test_schemas.py` | every example fixture validated against the JSON schemas, plus malformed-input rejection |
+
+The `grimmer` and `interim_boundaries` tests need R (`scrutiny` / `gsDesign`) and skip
+automatically when it is absent, so CI stays green on a stock runner.
+
 ## Components
 
 The name evokes the medieval *scriptorium* — the room where manuscripts were written, corrected, and stored. That triad (writer, reviewer, librarian) maps onto the core agents. Status labels (implemented / partial / agent-guided) are in [STATUS.md](STATUS.md).

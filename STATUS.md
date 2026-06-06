@@ -50,7 +50,7 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 | `research-scout` | agent | web/tool | usable; read-only, returns proposals, never writes |
 | `librarian` | agent | web/tool | usable; acquisition advisor, anti-hype verdict |
 | `statistician` | agent | partial | usable; calls the tested engines above for the operations they cover, degrades to advisory + runnable script otherwise |
-| `power-sample-size` | skill | partial | engine-backed for the four families above; other designs agent-guided |
+| `power-sample-size` | skill | partial | engine-backed for the eight designs in the table above; other designs agent-guided |
 | `reporting-guideline-check` | skill | partial | rich prose review; a deterministic keyword screen exists for STROBE/CONSORT/PRISMA |
 | `epistemic-status` | skill | yes | backed by `lib/epistemic` |
 | `interim-analysis-reviewer` | skill | no | reviews prespecification; *computing* boundaries is the statistician's engine |
