@@ -33,13 +33,19 @@ def test_all_schemas_are_valid_json():
         json.loads(s.read_text())  # raises on malformed JSON
 
 
-@pytest.mark.parametrize("stem", ["two_sample_t", "two_proportions"])
+@pytest.mark.parametrize("stem", [
+    "two_sample_t", "paired_t", "one_sample_t", "two_proportions",
+    "one_way_anova", "correlation", "survival_logrank_events",
+])
 def test_example_inputs_match_request_schema(stem):
     inp = json.loads((EXAMPLES / f"{stem}_input.json").read_text())
     _validator("power_request.schema.json").validate(inp)
 
 
-@pytest.mark.parametrize("stem", ["two_sample_t", "two_proportions"])
+@pytest.mark.parametrize("stem", [
+    "two_sample_t", "paired_t", "one_sample_t", "two_proportions",
+    "one_way_anova", "correlation", "survival_logrank_events",
+])
 def test_example_outputs_match_response_schema(stem):
     out = json.loads((EXAMPLES / f"{stem}_output.json").read_text())
     _validator("power_response.schema.json").validate(out)

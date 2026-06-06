@@ -73,7 +73,44 @@ def one_way_anova(effect_size, k_groups, alpha, power):
     return int(math.ceil(n_total / k_groups))  # per-group
 
 
+def _validate(req):
+    """Range-check inputs before computing — a rigor tool must not assume good inputs.
+    Raises ValueError with a clear message (surfaced as an error envelope)."""
+    test = req.get("test")
+    alpha = float(req.get("alpha", 0.05))
+    power = float(req.get("power", 0.80))
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must be in (0, 1)")
+    if not 0 < power < 1:
+        raise ValueError("power must be in (0, 1)")
+    if test in ("two_sample_t", "paired_t", "one_sample_t"):
+        if float(req["effect_size"]) <= 0:
+            raise ValueError("effect_size (d) must be > 0")
+        if test == "two_sample_t" and float(req.get("ratio", 1.0)) <= 0:
+            raise ValueError("ratio must be > 0")
+    elif test == "one_way_anova":
+        if float(req["effect_size"]) <= 0:
+            raise ValueError("effect_size (f) must be > 0")
+        if int(req["k_groups"]) < 2:
+            raise ValueError("k_groups must be >= 2")
+    elif test == "two_proportions":
+        p1, p2 = float(req["p1"]), float(req["p2"])
+        if not (0 < p1 < 1 and 0 < p2 < 1):
+            raise ValueError("p1 and p2 must each be in (0, 1)")
+        if p1 == p2:
+            raise ValueError("p1 and p2 must differ (no effect to detect when equal)")
+    elif test == "correlation":
+        r = float(req["r"])
+        if not -1 < r < 1 or r == 0:
+            raise ValueError("correlation r must be non-zero and in (-1, 1)")
+    elif test == "survival_logrank_events":
+        hr = float(req["hazard_ratio"])
+        if hr <= 0 or hr == 1:
+            raise ValueError("hazard_ratio must be > 0 and != 1 (ln HR drives the formula)")
+
+
 def compute(req):
+    _validate(req)
     test = req.get("test")
     alpha = float(req.get("alpha", 0.05))
     power = float(req.get("power", 0.80))
@@ -95,14 +132,16 @@ def compute(req):
         assumptions = {**base, "effect_size_d": effect_size}
         claim = f"n={n_per_group} pairs for d={effect_size}, alpha={alpha}, power={power}"
     elif test == "two_proportions":
-        p1 = float(req["p1"]); p2 = float(req["p2"])
+        p1 = float(req["p1"])
+        p2 = float(req["p2"])
         n_per_group = two_proportions(p1, p2, alpha, power)
         n_total = 2 * n_per_group
         method = "statsmodels.stats.power.NormalIndPower (Cohen's h)"
         assumptions = {**base, "p1": p1, "p2": p2}
         claim = f"n={n_per_group}/group for p1={p1}, p2={p2}, alpha={alpha}, power={power}"
     elif test == "one_way_anova":
-        effect_size = float(req["effect_size"]); k_groups = int(req["k_groups"])
+        effect_size = float(req["effect_size"])
+        k_groups = int(req["k_groups"])
         n_per_group = one_way_anova(effect_size, k_groups, alpha, power)
         n_total = k_groups * n_per_group
         method = "statsmodels.stats.power.FTestAnovaPower"
@@ -125,7 +164,8 @@ def compute(req):
         claim = f"n={n_per_group} for r={r}, alpha={alpha}, power={power}"
     elif test == "survival_logrank_events":
         hr = float(req["hazard_ratio"])
-        p1 = float(req.get("p1", 0.5)); p2 = float(req.get("p2", 0.5))
+        p1 = float(req.get("p1", 0.5))
+        p2 = float(req.get("p2", 0.5))
         events = survival_logrank_events(hr, alpha, power, p1, p2)
         method = "Schoenfeld log-rank events (closed form)"
         assumptions = {**base, "hazard_ratio": hr, "p1": p1, "p2": p2,

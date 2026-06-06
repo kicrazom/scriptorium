@@ -1,0 +1,21 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 34,
+        "n_total": 34,
+        "method": "statsmodels.stats.power.TTestPower",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "effect_size_d": 0.5
+        },
+        "finding": {
+            "claim": "n=34 pairs for d=0.5, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=7b722a1f0915:result",
+            "source_independence": 1
+        }
+    }
+}

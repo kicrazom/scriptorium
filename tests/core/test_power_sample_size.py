@@ -118,3 +118,31 @@ def test_survival_logrank_events():
     expected = math.ceil((z_a + z_b) ** 2 / (0.5 * 0.5 * (math.log(hr)) ** 2))
     assert out["data"]["events_required"] == expected
     assert "events" in out["data"]["finding"]["claim"].lower()
+
+
+# --- input validation (a rigor tool must reject bad inputs, not divide by zero) ---
+
+def test_correlation_rejects_zero_r():
+    out = run_engine({"test": "correlation", "r": 0.0, "alpha": 0.05, "power": 0.80})
+    assert out["status"] == "error"
+    assert "r must be" in out["message"]
+
+
+def test_survival_rejects_hazard_ratio_one():
+    out = run_engine({"test": "survival_logrank_events", "hazard_ratio": 1.0,
+                      "alpha": 0.05, "power": 0.80})
+    assert out["status"] == "error"
+    assert "hazard_ratio" in out["message"]
+
+
+def test_two_proportions_rejects_equal_p():
+    out = run_engine({"test": "two_proportions", "p1": 0.4, "p2": 0.4,
+                      "alpha": 0.05, "power": 0.80})
+    assert out["status"] == "error"
+    assert "differ" in out["message"]
+
+
+def test_rejects_out_of_range_alpha():
+    out = run_engine({"test": "two_sample_t", "effect_size": 0.5, "alpha": 1.5, "power": 0.80})
+    assert out["status"] == "error"
+    assert "alpha" in out["message"]

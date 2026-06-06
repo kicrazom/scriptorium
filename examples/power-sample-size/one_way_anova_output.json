@@ -1,0 +1,22 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 45,
+        "n_total": 180,
+        "method": "statsmodels.stats.power.FTestAnovaPower",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "effect_size_f": 0.25,
+            "k_groups": 4
+        },
+        "finding": {
+            "claim": "n=45/group (4 groups) for f=0.25, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=b7da65418258:result",
+            "source_independence": 1
+        }
+    }
+}

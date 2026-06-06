@@ -1,0 +1,23 @@
+{
+    "status": "ok",
+    "data": {
+        "events_required": 66,
+        "method": "Schoenfeld log-rank events (closed form)",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "hazard_ratio": 0.5,
+            "p1": 0.5,
+            "p2": 0.5,
+            "note": "returns required EVENTS; mapping to enrolled N needs accrual/follow-up"
+        },
+        "finding": {
+            "claim": "66 events required for HR=0.5, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=7afbb5562d96:result",
+            "source_independence": 1
+        }
+    }
+}
