@@ -3,15 +3,30 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
-## [Unreleased] — v0.3.0 (in progress)
+## [0.3.0] — 2026-06-06 — Credibility release
+
+Theme: *less manifesto, more evidence.* Claims are now drawn precisely against the
+implementation, with CI proving the test suite and examples showing real input → output.
 
 ### Added
-- Power/sample-size families: `paired_t`, `two_proportions` (Cohen's h), `one_way_anova`.
-- Statistical tests: `mann_whitney` (nonparametric), `chi_square` + `fisher` (categorical).
-- Reporting guidelines as data: CONSORT (2010), PRISMA (2020) — alongside STROBE.
+- **Engine expansion.** Power/sample-size families `paired_t`, `two_proportions` (Cohen's h),
+  `one_way_anova`; statistical tests `mann_whitney`, `chi_square`, `fisher`; reporting
+  guidelines CONSORT (2010) and PRISMA (2020) alongside STROBE.
+- **Self-documenting power output.** Each result now carries `method` (the exact routine) and
+  `assumptions` (alpha, power, alternative, effect input) next to the provenance trace.
+- **CI.** GitHub Actions, Python 3.10–3.12, pytest (54 tests) + advisory ruff.
+- **Examples.** `examples/power-sample-size/` — verified, reproducible input/output fixtures.
+- **Honest docs.** `STATUS.md` (deterministic-core vs prompt-layer matrix), `LIMITATIONS.md`,
+  `PRIVACY.md`, `SECURITY.md`, `ROADMAP.md`; README rewritten with explicit *what it can do
+  today* / *what it cannot do yet* and implemented / agent-guided / planned labels.
+
+### Changed
+- README no longer over-claims: "every number from a tested engine" is now scoped to the
+  designs the engine actually backs, with the rest labelled agent-guided.
 
 ### Deferred
-- GRIMMER (SD granularity consistency) — needs a careful, separately-tested algorithm.
+- GRIMMER (SD granularity consistency) — needs a careful, separately-tested algorithm (v0.4.0).
+- Shared config parser `scripts/lib/profile.py` and engine JSON schemas (v0.4.0).
 
 ## [0.2.0] — 2026-06-06
 
