@@ -91,6 +91,13 @@ def compute(req):
         assumptions = {**base, "effect_size_f": effect_size, "k_groups": k_groups}
         claim = (f"n={n_per_group}/group ({k_groups} groups) for f={effect_size}, "
                  f"alpha={alpha}, power={power}")
+    elif test == "one_sample_t":
+        effect_size = float(req["effect_size"])
+        n_per_group = paired_t(effect_size, alpha, power)  # one-sample t == TTestPower
+        n_total = n_per_group
+        method = "statsmodels.stats.power.TTestPower"
+        assumptions = {**base, "effect_size_d": effect_size}
+        claim = f"n={n_per_group} for d={effect_size}, alpha={alpha}, power={power}"
     else:
         raise ValueError(f"unsupported test: {test!r}")
 

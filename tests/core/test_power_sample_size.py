@@ -84,3 +84,11 @@ def test_engine_deterministic_for_same_input():
     b = run_engine(payload)
     # identical input → identical output, including the seed-derived provenance run id
     assert a == b
+
+
+def test_one_sample_t_family():
+    out = run_engine({"test": "one_sample_t", "effect_size": 0.5, "alpha": 0.05, "power": 0.80})
+    assert out["status"] == "ok"
+    assert 33 <= out["data"]["n_per_group"] <= 35   # d=0.5 one-sample ~ 34
+    assert out["data"]["n_total"] == out["data"]["n_per_group"]
+    assert out["data"]["method"].startswith("statsmodels")
