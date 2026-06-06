@@ -7,6 +7,10 @@ __pycache__/
 .scriptorium/
 **/.scriptorium/profile.md
 
+# but test fixtures need their .scriptorium dirs tracked
+!tests/fixtures/**/.scriptorium/
+!tests/fixtures/**/.scriptorium/profile.md
+
 # OS / editor
 .DS_Store
 *.swp
