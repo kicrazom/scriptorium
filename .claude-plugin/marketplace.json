@@ -6,8 +6,8 @@
     {
       "name": "scriptorium",
       "source": "./",
-      "description": "Scientific knowledge-lifecycle toolkit: peer-review, literature scouting, resource evaluation, statistics (classical + Bayesian), academic paraphrasing, reporting-guideline checks.",
-      "version": "0.1.0",
+      "description": "Sovereign rigor layer for scientific work: confidential offline peer-review, deterministic statistics (power, assumptions, recompute, GRIM, group-sequential), reporting-guideline and citation audit, graduated epistemic status. Audits and verifies — complements generative writing tools.",
+      "version": "0.2.0",
       "category": "research",
       "keywords": ["research", "science", "academia"]
     }
