@@ -105,3 +105,16 @@ def test_correlation_family():
     expected = math.ceil(((z_a + z_b) / math.atanh(r)) ** 2 + 3)
     assert out["data"]["n_per_group"] == expected   # exact closed form
     assert 80 <= out["data"]["n_per_group"] <= 90    # textbook sanity (~85)
+
+
+def test_survival_logrank_events():
+    import math
+    from scipy.stats import norm
+    hr, alpha, power = 0.5, 0.05, 0.80
+    out = run_engine({"test": "survival_logrank_events", "hazard_ratio": hr,
+                      "alpha": alpha, "power": power})
+    assert out["status"] == "ok"
+    z_a = norm.ppf(1 - alpha / 2); z_b = norm.ppf(power)
+    expected = math.ceil((z_a + z_b) ** 2 / (0.5 * 0.5 * (math.log(hr)) ** 2))
+    assert out["data"]["events_required"] == expected
+    assert "events" in out["data"]["finding"]["claim"].lower()

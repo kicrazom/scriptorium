@@ -55,6 +55,14 @@ def correlation(r, alpha, power):
     return int(math.ceil(n))
 
 
+def survival_logrank_events(hazard_ratio, alpha, power, p1=0.5, p2=0.5):
+    from scipy.stats import norm
+    z_a = norm.ppf(1 - alpha / 2)
+    z_b = norm.ppf(power)
+    d = (z_a + z_b) ** 2 / (p1 * p2 * (math.log(hazard_ratio)) ** 2)
+    return int(math.ceil(d))
+
+
 def one_way_anova(effect_size, k_groups, alpha, power):
     from statsmodels.stats.power import FTestAnovaPower
     n_total = FTestAnovaPower().solve_power(
@@ -113,6 +121,22 @@ def compute(req):
         method = "Fisher z-transform (closed form)"
         assumptions = {**base, "r": r}
         claim = f"n={n_per_group} for r={r}, alpha={alpha}, power={power}"
+    elif test == "survival_logrank_events":
+        hr = float(req["hazard_ratio"])
+        p1 = float(req.get("p1", 0.5)); p2 = float(req.get("p2", 0.5))
+        events = survival_logrank_events(hr, alpha, power, p1, p2)
+        method = "Schoenfeld log-rank events (closed form)"
+        assumptions = {**base, "hazard_ratio": hr, "p1": p1, "p2": p2,
+                       "note": "returns required EVENTS; mapping to enrolled N needs accrual/follow-up"}
+        rid = provenance.run_id(seed=json.dumps(req, sort_keys=True))
+        finding = epistemic.make_finding(
+            claim=f"{events} events required for HR={hr}, alpha={alpha}, power={power}",
+            status="operational_fact", confidence=1.0,
+            source=provenance.engine_trace("power_sample_size", run_id=rid, anchor="result"),
+            source_independence=1,
+        )
+        return {"events_required": events, "method": method,
+                "assumptions": assumptions, "finding": finding}
     else:
         raise ValueError(f"unsupported test: {test!r}")
 
