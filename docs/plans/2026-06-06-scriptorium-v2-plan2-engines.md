@@ -49,11 +49,16 @@ guarantee.
 - [ ] **Step 1: Confirm gsDesign installed**
 
 Run: `Rscript -e 'cat(requireNamespace("gsDesign", quietly=TRUE))'`
-Expected: prints `TRUE`. If it prints `FALSE`, install it:
+Expected: prints `TRUE`. If it prints `FALSE`, install it **to the user library** (the
+system lib `/usr/local/lib/R/site-library` is not writable without sudo):
 ```bash
-Rscript -e 'install.packages("gsDesign", repos="https://cloud.r-project.org")'
+USERLIB=$(Rscript -e 'cat(Sys.getenv("R_LIBS_USER"))')
+mkdir -p "$USERLIB"
+Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER")); install.packages("gsDesign", repos="https://cloud.r-project.org", lib=Sys.getenv("R_LIBS_USER"))'
 ```
-then re-run the check until it prints `TRUE`.
+This compiles the ggplot2 dependency chain (5–15 min). Re-run the check until it prints
+`TRUE`. Rscript auto-adds the default `R_LIBS_USER` path to `.libPaths()` when it exists, so
+`gsdesign.R`'s `library(gsDesign)` will find it with no env var needed.
 
 - [ ] **Step 2: Create rbridge package dir**
 
