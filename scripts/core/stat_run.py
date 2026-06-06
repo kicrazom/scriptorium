@@ -138,8 +138,29 @@ def mann_whitney(req):
     return {"u": float(res.statistic), "p": float(res.pvalue), "finding": finding}
 
 
+def chi_square(req):
+    table = req["table"]
+    chi2, p, dof, _expected = stats.chi2_contingency(table)
+    finding = epistemic.make_finding(
+        claim="chi-square test of independence computed",
+        status="operational_fact", confidence=1.0,
+        source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="chi_square"),
+    )
+    return {"chi2": float(chi2), "p": float(p), "dof": int(dof), "finding": finding}
+
+
+def fisher(req):
+    table = req["table"]  # 2x2
+    odds, p = stats.fisher_exact(table)
+    finding = epistemic.make_finding(
+        claim="Fisher exact test computed", status="operational_fact", confidence=1.0,
+        source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="fisher"),
+    )
+    return {"odds_ratio": float(odds), "p": float(p), "finding": finding}
+
+
 OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest, "grim": grim,
-       "mann_whitney": mann_whitney}
+       "mann_whitney": mann_whitney, "chi_square": chi_square, "fisher": fisher}
 
 
 def main():

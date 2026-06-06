@@ -80,3 +80,19 @@ def test_mann_whitney_matches_scipy():
     assert abs(out["data"]["u"] - float(ref.statistic)) < 1e-9
     assert abs(out["data"]["p"] - float(ref.pvalue)) < 1e-9
     assert out["data"]["finding"]["confidence"] == 1.0
+
+
+def test_chi_square_matches_scipy():
+    table = [[10, 20], [30, 40]]
+    out = run_engine({"op": "chi_square", "table": table})
+    assert out["status"] == "ok"
+    chi2, p, dof, _ = _sps.chi2_contingency(table)
+    assert abs(out["data"]["chi2"] - float(chi2)) < 1e-9
+    assert out["data"]["dof"] == int(dof)
+
+
+def test_fisher_matches_scipy():
+    table = [[8, 2], [1, 9]]
+    out = run_engine({"op": "fisher", "table": table})
+    odds, p = _sps.fisher_exact(table)
+    assert abs(out["data"]["p"] - float(p)) < 1e-9
