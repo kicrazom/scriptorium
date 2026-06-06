@@ -146,3 +146,28 @@ def test_rejects_out_of_range_alpha():
     out = run_engine({"test": "two_sample_t", "effect_size": 0.5, "alpha": 1.5, "power": 0.80})
     assert out["status"] == "error"
     assert "alpha" in out["message"]
+
+
+def test_linear_regression_family():
+    from scipy.stats import f as f_dist, ncf
+    f2, u, alpha, power = 0.15, 5, 0.05, 0.80
+    out = run_engine({"test": "linear_regression", "f2": f2, "num_predictors": u,
+                      "alpha": alpha, "power": power})
+    assert out["status"] == "ok"
+    assert out["data"]["n_per_group"] == 92   # matches Cohen / G*Power (medium f2, 5 predictors)
+    # recompute the noncentral-F solution inline and assert the engine matches
+    def expected_n():
+        for n in range(u + 2, 100000):
+            v = n - u - 1
+            if v < 1:
+                continue
+            if 1 - ncf.cdf(f_dist.ppf(1 - alpha, u, v), u, v, f2 * n) >= power:
+                return n
+        return None
+    assert out["data"]["n_per_group"] == expected_n()
+
+
+def test_linear_regression_rejects_zero_f2():
+    out = run_engine({"test": "linear_regression", "f2": 0.0, "num_predictors": 3})
+    assert out["status"] == "error"
+    assert "f2" in out["message"]

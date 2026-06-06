@@ -1,0 +1,22 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 92,
+        "n_total": 92,
+        "method": "Cohen f\u00b2 noncentral-F (fixed-model multiple regression)",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "f2": 0.15,
+            "num_predictors": 5
+        },
+        "finding": {
+            "claim": "n=92 for f2=0.15, 5 predictor(s), alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=91d63f231752:result",
+            "source_independence": 1
+        }
+    }
+}

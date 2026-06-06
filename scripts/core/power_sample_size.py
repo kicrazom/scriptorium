@@ -1,9 +1,10 @@
 """L0 engine: closed-form power / sample-size determination.
 
 Supported designs (``test`` field): ``two_sample_t``, ``paired_t``, ``one_sample_t``,
-``two_proportions``, ``one_way_anova``, ``correlation``, ``survival_logrank_events``. Each
-returns the required N (or, for survival, ``events_required``) plus the analytic ``method``
-used and the ``assumptions`` it rests on, so the number is self-documenting and reproducible.
+``two_proportions``, ``one_way_anova``, ``correlation``, ``survival_logrank_events``,
+``linear_regression``. Each returns the required N (or, for survival, ``events_required``)
+plus the analytic ``method`` used and the ``assumptions`` it rests on, so the number is
+self-documenting and reproducible.
 
 Input (stdin JSON), e.g.: {"test": "two_sample_t", "effect_size": 0.5, "alpha": 0.05,
                            "power": 0.80, "ratio": 1.0}
@@ -73,6 +74,24 @@ def one_way_anova(effect_size, k_groups, alpha, power):
     return int(math.ceil(n_total / k_groups))  # per-group
 
 
+def linear_regression(f2, num_predictors, alpha, power):
+    """Total N for a fixed-model multiple regression (Cohen f², noncentral F).
+
+    Tests a set of `num_predictors` (numerator df u). Noncentrality lambda = f2 * n, with the
+    test F(u, v), v = n - u - 1. Matches Cohen's tables and G*Power's "R-squared increase".
+    """
+    from scipy.stats import f as f_dist, ncf
+    u = int(num_predictors)
+    for n in range(u + 2, 1_000_000):
+        v = n - u - 1
+        if v < 1:
+            continue
+        crit = f_dist.ppf(1 - alpha, u, v)
+        if 1 - ncf.cdf(crit, u, v, f2 * n) >= power:
+            return n
+    raise ValueError("regression power did not converge within n < 1e6")
+
+
 def _validate(req):
     """Range-check inputs before computing — a rigor tool must not assume good inputs.
     Raises ValueError with a clear message (surfaced as an error envelope)."""
@@ -107,6 +126,11 @@ def _validate(req):
         hr = float(req["hazard_ratio"])
         if hr <= 0 or hr == 1:
             raise ValueError("hazard_ratio must be > 0 and != 1 (ln HR drives the formula)")
+    elif test == "linear_regression":
+        if float(req["f2"]) <= 0:
+            raise ValueError("f2 must be > 0")
+        if int(req["num_predictors"]) < 1:
+            raise ValueError("num_predictors must be >= 1")
 
 
 def compute(req):
@@ -179,6 +203,14 @@ def compute(req):
         )
         return {"events_required": events, "method": method,
                 "assumptions": assumptions, "finding": finding}
+    elif test == "linear_regression":
+        f2 = float(req["f2"])
+        u = int(req["num_predictors"])
+        n_per_group = linear_regression(f2, u, alpha, power)
+        n_total = n_per_group
+        method = "Cohen f² noncentral-F (fixed-model multiple regression)"
+        assumptions = {**base, "f2": f2, "num_predictors": u}
+        claim = f"n={n_per_group} for f2={f2}, {u} predictor(s), alpha={alpha}, power={power}"
     else:
         raise ValueError(f"unsupported test: {test!r}")
 

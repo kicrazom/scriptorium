@@ -15,7 +15,8 @@
         "two_proportions",
         "one_way_anova",
         "correlation",
-        "survival_logrank_events"
+        "survival_logrank_events",
+        "linear_regression"
       ]
     },
     "alpha": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1, "default": 0.05},
@@ -26,7 +27,9 @@
     "p1": {"type": "number", "minimum": 0, "maximum": 1},
     "p2": {"type": "number", "minimum": 0, "maximum": 1},
     "r": {"type": "number", "exclusiveMinimum": -1, "exclusiveMaximum": 1},
-    "hazard_ratio": {"type": "number", "exclusiveMinimum": 0}
+    "hazard_ratio": {"type": "number", "exclusiveMinimum": 0},
+    "f2": {"type": "number", "exclusiveMinimum": 0},
+    "num_predictors": {"type": "integer", "minimum": 1}
   },
   "allOf": [
     {"if": {"properties": {"test": {"const": "two_sample_t"}}},
@@ -42,6 +45,8 @@
     {"if": {"properties": {"test": {"const": "correlation"}}},
      "then": {"required": ["r"]}},
     {"if": {"properties": {"test": {"const": "survival_logrank_events"}}},
-     "then": {"required": ["hazard_ratio"]}}
+     "then": {"required": ["hazard_ratio"]}},
+    {"if": {"properties": {"test": {"const": "linear_regression"}}},
+     "then": {"required": ["f2", "num_predictors"]}}
   ]
 }

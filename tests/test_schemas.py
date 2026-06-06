@@ -35,7 +35,7 @@ def test_all_schemas_are_valid_json():
 
 @pytest.mark.parametrize("stem", [
     "two_sample_t", "paired_t", "one_sample_t", "two_proportions",
-    "one_way_anova", "correlation", "survival_logrank_events",
+    "one_way_anova", "correlation", "survival_logrank_events", "linear_regression",
 ])
 def test_example_inputs_match_request_schema(stem):
     inp = json.loads((EXAMPLES / f"{stem}_input.json").read_text())
@@ -44,7 +44,7 @@ def test_example_inputs_match_request_schema(stem):
 
 @pytest.mark.parametrize("stem", [
     "two_sample_t", "paired_t", "one_sample_t", "two_proportions",
-    "one_way_anova", "correlation", "survival_logrank_events",
+    "one_way_anova", "correlation", "survival_logrank_events", "linear_regression",
 ])
 def test_example_outputs_match_response_schema(stem):
     out = json.loads((EXAMPLES / f"{stem}_output.json").read_text())

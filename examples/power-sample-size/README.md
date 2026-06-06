@@ -29,5 +29,6 @@ cat examples/power-sample-size/two_proportions_input.json \
 | `two_sample_t` (d=0.40, α=0.05, power=0.80) | 100 / group, 200 total |
 | `two_proportions` (p1=0.30, p2=0.50, α=0.05, power=0.80) | 93 / group, 186 total |
 | `correlation` (r=0.30, α=0.05, power=0.80) | 85 total (Fisher z) |
+| `linear_regression` (f²=0.15, 5 predictors, α=0.05, power=0.80) | 92 total (Cohen f², noncentral F) |
 
 Supported designs and their status are listed in [../../STATUS.md](../../STATUS.md).
