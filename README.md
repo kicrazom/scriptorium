@@ -67,10 +67,12 @@ More input → output fixtures live in [`examples/`](examples/).
 
 ## Testing
 
-The deterministic core is unit- and golden-tested; CI runs the suite on Python 3.10–3.12 with
-a blocking `ruff` lint (see the badge above). Coverage is **~86%** and CI-enforced at **≥80%**
-(`fail_under` in `pyproject.toml`); because the engines are tested as subprocesses, coverage
-uses `patch = subprocess` so the number reflects their real execution, not just imported modules.
+The deterministic core is unit- and golden-tested. CI has two jobs: the main matrix runs the
+suite on Python 3.10–3.12 with a blocking `ruff` lint (R-dispatch tests skip there); a dedicated
+R job installs R + `gsDesign` + `scrutiny`, runs the **full** suite, and enforces coverage.
+Coverage is **~86%**, gated at **≥80%** (`fail_under` in `pyproject.toml`) in the R job where
+nothing skips; because the engines are tested as subprocesses, coverage uses `patch = subprocess`
+so the number reflects their real execution, not just imported modules.
 
 ```bash
 pip install -e ".[dev]"

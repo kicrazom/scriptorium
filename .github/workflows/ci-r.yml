@@ -32,5 +32,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Run R-dependent engine tests (must actually run, not skip)
-        run: pytest tests/core/test_grimmer.py tests/core/test_interim_boundaries.py -v
+      - name: Run the FULL suite with coverage (R present → nothing skips → real number + gate)
+        run: pytest --cov -q   # coverage fail_under=80 enforced via pyproject; ~86% with R
