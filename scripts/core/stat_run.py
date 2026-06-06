@@ -65,7 +65,48 @@ def check_assumptions(req):
     }
 
 
-OPS = {"check_assumptions": check_assumptions}
+def recompute_ttest(req):
+    import math
+    a = list(map(float, req["groups"][0]))
+    b = list(map(float, req["groups"][1]))
+    equal_var = bool(req.get("equal_var", True))
+    res = stats.ttest_ind(a, b, equal_var=equal_var)
+    t = float(res.statistic)
+    p = float(res.pvalue)
+
+    mean_diff = (sum(a) / len(a)) - (sum(b) / len(b))
+    if equal_var:
+        df = len(a) + len(b) - 2
+    else:  # Welch–Satterthwaite
+        va, vb = _var(a), _var(b)
+        na, nb = len(a), len(b)
+        df = (va / na + vb / nb) ** 2 / (
+            (va / na) ** 2 / (na - 1) + (vb / nb) ** 2 / (nb - 1)
+        )
+    se = mean_diff / t if t != 0 else float("nan")
+    tcrit = stats.t.ppf(0.975, df)
+    ci = [mean_diff - tcrit * abs(se), mean_diff + tcrit * abs(se)]
+
+    claimed_p = req.get("claimed_p")
+    p_matches = None if claimed_p is None else (abs(p - float(claimed_p)) <= 0.01)
+    claim = "reported p inconsistent with recomputed p" if p_matches is False else "p recomputed"
+    finding = epistemic.make_finding(
+        claim=claim, status="operational_fact", confidence=1.0,
+        source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="recompute_ttest"),
+    )
+    return {
+        "t": round(t, 6), "df": round(float(df), 4), "p": p,
+        "ci95": [round(ci[0], 6), round(ci[1], 6)],
+        "claimed_p": claimed_p, "p_matches_claim": p_matches, "finding": finding,
+    }
+
+
+def _var(x):
+    m = sum(x) / len(x)
+    return sum((xi - m) ** 2 for xi in x) / (len(x) - 1)
+
+
+OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest}
 
 
 def main():

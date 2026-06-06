@@ -38,3 +38,23 @@ def test_unknown_op_is_error():
         input=json.dumps({"op": "divine"}), capture_output=True, text=True,
     )
     assert json.loads(proc.stdout)["status"] == "error"
+
+
+import scipy.stats as _sps  # for inline reference
+
+
+def test_recompute_ttest_matches_scipy_and_flags_mismatch():
+    a = [5.1, 4.9, 5.0, 5.2, 4.8]
+    b = [6.0, 5.9, 6.1, 5.8, 6.2]
+    payload = {"op": "recompute_ttest", "groups": [a, b], "equal_var": True, "claimed_p": 0.9}
+    out = run_engine(payload)
+    assert out["status"] == "ok"
+    ref = _sps.ttest_ind(a, b, equal_var=True)
+    assert abs(out["data"]["p"] - float(ref.pvalue)) < 1e-9
+    assert out["data"]["p_matches_claim"] is False  # true p ~1e-4, claim 0.9
+    assert out["data"]["finding"]["confidence"] == 1.0
+
+
+def test_recompute_ttest_without_claim_returns_null_match():
+    out = run_engine({"op": "recompute_ttest", "groups": [[1, 2, 3], [4, 5, 6]], "equal_var": True})
+    assert out["data"]["p_matches_claim"] is None
