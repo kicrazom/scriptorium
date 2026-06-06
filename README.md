@@ -1,4 +1,4 @@
-![Scriptorium](docs/assets/scriptorium-hero.png)
+![Scriptorium](docs/assets/scriptorium-manuscript.png)
 
 # Scriptorium
 
