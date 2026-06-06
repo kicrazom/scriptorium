@@ -9,6 +9,8 @@ All notable changes to scriptorium are documented here. Format loosely follows
 - L0 deterministic core foundation: `scripts/lib/` (json_io, provenance, epistemic spine)
   and first engines `core/epistemic_grade.py`, `core/power_sample_size.py`, with golden tests.
 - `scripts/run_tests.sh` pre-push quality gate.
+- L0 engines: `stat_run` (assumptions, recompute, GRIM), `guideline_check` (STROBE),
+  `citation_parse` (structural hygiene), `interim_boundaries` (gsDesign R-dispatch).
 
 ## [0.1.0] — 2026-06-04
 

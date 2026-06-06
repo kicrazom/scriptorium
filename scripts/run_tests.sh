@@ -15,4 +15,12 @@ echo "== pytest =="
 echo "== structure validators =="
 bash scripts/validate_structure.sh
 
+echo "== R / gsDesign =="
+if command -v Rscript >/dev/null 2>&1 && \
+   Rscript -e 'quit(status = !requireNamespace("gsDesign", quietly=TRUE))' >/dev/null 2>&1; then
+    echo "OK   gsDesign available (interim_boundaries tests active)"
+else
+    echo "WARN gsDesign not available — interim_boundaries tests skipped"
+fi
+
 echo "ALL GREEN"
