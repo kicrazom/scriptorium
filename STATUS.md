@@ -39,7 +39,7 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 | `one_way_anova` | implemented ✅ |
 | `correlation` | implemented ✅ (Fisher z, closed form) |
 | `survival_logrank_events` | implemented ✅ (Schoenfeld; returns required **events**) |
-| regression power | planned (v0.4.x) — currently **agent-guided** in the `power-sample-size` skill via statsmodels/formula fallback |
+| `linear_regression` | implemented ✅ (Cohen f², noncentral F; validated vs Cohen/G*Power) |
 
 ## Prompt layer (agents & skills)
 
@@ -61,8 +61,9 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 
 | Item | Status |
 |---|---|
-| `scripts/lib/profile.py` (tested parser: resolve → load yaml-block → merge defaults → warn unknown) | implemented ✅ |
-| agents/skills routed through the parser | in progress — they still read `profile.md` via prompt; wiring them to the parser is the remaining step |
+| `scripts/lib/profile.py` (tested parser + CLI: resolve → load yaml-block → merge defaults → warn unknown) | implemented ✅ |
+| Bash-capable components routed through the parser (`statistician`, `power-sample-size`) | done ✅ — they call the parser CLI |
+| offline read-only agents routed through the parser | not applicable — no `Bash`; they read `profile.md` directly by design |
 | `schemas/` (JSON Schema I/O contracts: power request/response, finding, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
 
 See [ROADMAP.md](ROADMAP.md) for what each tier unlocks and [LIMITATIONS.md](LIMITATIONS.md)

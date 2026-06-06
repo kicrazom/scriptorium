@@ -25,13 +25,15 @@ feature count.
 - Shared, tested config parser `scripts/lib/profile.py` (resolve → load → merge → warn).
 - JSON Schema I/O contracts (`schemas/`), enforced against the example fixtures in CI.
 
-## v0.4.1 — Core hardening (released, partial)
-- ✅ **GRIMMER** (SD granularity consistency) — via R-dispatch to the reference `scrutiny`;
+## v0.4.1 — Core hardening ✅ (released)
+- **GRIMMER** (SD granularity consistency) — via R-dispatch to the reference `scrutiny`;
   the known-buggy test 3 (scrutiny #80) is demoted to indeterminate, never a false flag.
-- ✅ Input validation for the power engine; golden fixtures for all seven designs; blocking CI lint.
-- ⏳ Regression-power approximation — still planned.
-- ⏳ Route agents/skills through `scripts/lib/profile.py` (enforce the config contract, not just
-  follow the convention) — still planned.
+- Input validation for the power engine; golden fixtures for all designs; blocking CI lint.
+
+## v0.4.2 — Regression power + config wiring ✅ (released)
+- `linear_regression` power (Cohen f², noncentral F; validated vs Cohen/G*Power) — eight design families.
+- `scripts/lib/profile.py` CLI; Bash-capable components (`statistician`, `power-sample-size`)
+  now resolve config through the tested parser.
 
 ## v0.5.0 — Agent validation
 - Prompt-injection fixtures; hallucinated-citation detection examples.

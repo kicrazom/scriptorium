@@ -18,7 +18,7 @@ The AI-for-science market is crowded with tools that *generate*. Far fewer help 
 ## What it can do today
 
 **Deterministic core (tested engines — numbers carry a provenance trace):**
-- Sample-size / power for **two-sample t, paired t, one-sample t, two-proportion, one-way ANOVA, correlation**, and **survival (log-rank events)** designs — each result self-documents its `method` and `assumptions`.
+- Sample-size / power for **two-sample t, paired t, one-sample t, two-proportion, one-way ANOVA, correlation, survival (log-rank events)**, and **linear regression** (Cohen f², noncentral F) designs — each result self-documents its `method` and `assumptions`, and rejects degenerate inputs.
 - Statistical sanity checks: assumption tests (Shapiro / Levene), p/CI recomputation with claimed-value mismatch flagging, GRIM mean-consistency, GRIMMER SD-consistency (via `scrutiny`; the known-buggy test 3 is demoted to *indeterminate*, never a false flag), Mann-Whitney, chi-square, Fisher exact.
 - Reporting-guideline keyword screen for **STROBE, CONSORT, PRISMA**.
 - Structural citation hygiene (orphan references, dangling markers).
@@ -34,8 +34,7 @@ See [STATUS.md](STATUS.md) for the precise component-by-component matrix.
 
 ## What it cannot do yet
 
-- **Regression power** — documented in the `power-sample-size` skill but **agent-guided** (statsmodels/formula fallback), not yet a tested engine. Planned for v0.4.x.
-- **Config parser is built but not yet wired in.** A tested parser (`scripts/lib/profile.py`) now exists, but the agents still read `profile.md` via their prompts — they are not yet routed through the parser, so cross-agent consistency is not mechanically enforced everywhere.
+- **Config parser is wired into the Bash-capable components only.** A tested parser (`scripts/lib/profile.py`, runnable as a CLI) now backs config resolution, and the `statistician` agent and `power-sample-size` skill call it. The offline read-only agents (e.g. `peer-reviewer`) still read `profile.md` directly — by design, since they have no `Bash`.
 - Semantic citation *support* (does the source actually back the claim) and contradiction-detection against your own notes — planned, not present.
 - It is **not** a medical decision system and **not** a replacement for expert review. See [LIMITATIONS.md](LIMITATIONS.md).
 

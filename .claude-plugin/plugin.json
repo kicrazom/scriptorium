@@ -1,6 +1,6 @@
 {
   "name": "scriptorium",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Sovereign rigor layer for scientific work — audit, verify, recompute, and grade research with deterministic engines, graduated epistemic status, and an offline-capable reviewer path. Complements generative writing tools; never fabricates a number.",
   "author": { "name": "Łukasz Minarowski", "url": "https://orcid.org/0000-0002-2536-3508" },
   "repository": "https://github.com/kicrazom/scriptorium",

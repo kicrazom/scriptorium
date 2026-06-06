@@ -3,6 +3,21 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.2] — 2026-06-06 — Regression power + config wiring
+
+### Added
+- **`linear_regression` power** — total N for a fixed-model multiple regression via Cohen's f²
+  and the noncentral F (iterated), matching Cohen's tables and G*Power. Brings the engine to
+  eight design families, all with golden fixtures validated against the schemas.
+- **Config parser CLI** — `python scripts/lib/profile.py` prints the merged profile as JSON.
+  The Bash-capable components (`statistician` agent, `power-sample-size` skill) now resolve
+  config by calling the tested parser instead of hand-parsing `profile.md`.
+
+### Changed
+- README / STATUS reconciled: regression is now implemented (not agent-guided); the config
+  parser is wired into the Bash-capable components (offline read-only agents still read the
+  file directly, by design).
+
 ## [0.4.1] — 2026-06-06 — Core hardening
 
 Theme: tighten what already exists — validation, complete evidence, stricter CI.
