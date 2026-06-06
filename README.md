@@ -19,8 +19,6 @@ A single Claude Code plugin: four agents, eight skills, a deterministic core. It
 
 The name evokes the medieval *scriptorium* — the room where manuscripts were written, corrected, and stored. That triad (writer, reviewer, librarian) maps onto the core agents.
 
-<p align="center"><img src="docs/assets/scriptorium-review.png" alt="A reviewer's checklist on the desk" width="70%"></p>
-
 ### Agents
 
 | Agent | Stage | What it does |
