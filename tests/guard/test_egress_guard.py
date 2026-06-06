@@ -20,3 +20,19 @@ def test_author_mode_allows_remote_backend():
 def test_unknown_backend_refused_in_reviewer():
     with pytest.raises(g.EgressViolation):
         g.assert_local_only("mystery", mode="reviewer")
+
+
+def test_audit_imports_flags_network_module(tmp_path):
+    f = tmp_path / "leaky.py"
+    f.write_text("import os\nimport requests\nfrom socket import gethostname\n")
+    violations = g.audit_imports([str(f)])
+    modules = {v["module"] for v in violations}
+    assert "requests" in modules
+    assert "socket" in modules
+    assert "os" not in modules
+
+
+def test_audit_imports_clean_file(tmp_path):
+    f = tmp_path / "clean.py"
+    f.write_text("import json\nimport math\nfrom scipy import stats\n")
+    assert g.audit_imports([str(f)]) == []

@@ -26,3 +26,27 @@ def assert_local_only(backend, mode):
         f"reviewer-mode forbids non-local KB backend {backend!r} "
         f"(allowed: {sorted(LOCAL_BACKENDS)})"
     )
+
+
+import re
+
+NETWORK_MODULES = {
+    "requests", "httpx", "urllib", "urllib2", "socket",
+    "aiohttp", "http", "ftplib", "telnetlib",
+}
+_IMPORT_RE = re.compile(r"^\s*(?:import\s+(\w+)|from\s+(\w+)\s+import)")
+
+
+def audit_imports(paths):
+    """Scan .py files for network-library imports. Returns one violation per hit."""
+    violations = []
+    for path in paths:
+        with open(path, "r", encoding="utf-8") as fh:
+            for lineno, line in enumerate(fh, start=1):
+                m = _IMPORT_RE.match(line)
+                if not m:
+                    continue
+                module = m.group(1) or m.group(2)
+                if module in NETWORK_MODULES:
+                    violations.append({"file": path, "module": module, "line": lineno})
+    return violations
