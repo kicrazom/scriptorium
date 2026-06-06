@@ -33,6 +33,16 @@ def paired_t(effect_size, alpha, power):
     return int(math.ceil(n))
 
 
+def two_proportions(p1, p2, alpha, power):
+    from statsmodels.stats.power import NormalIndPower
+    from statsmodels.stats.proportion import proportion_effectsize
+    h = proportion_effectsize(p1, p2)
+    n1 = NormalIndPower().solve_power(
+        effect_size=abs(h), alpha=alpha, power=power, ratio=1.0, alternative="two-sided",
+    )
+    return int(math.ceil(n1))
+
+
 def compute(req):
     test = req.get("test")
     alpha = float(req.get("alpha", 0.05))
@@ -49,6 +59,11 @@ def compute(req):
         n_per_group = paired_t(effect_size, alpha, power)
         n_total = n_per_group  # single group of pairs
         claim = f"n={n_per_group} pairs for d={effect_size}, alpha={alpha}, power={power}"
+    elif test == "two_proportions":
+        p1 = float(req["p1"]); p2 = float(req["p2"])
+        n_per_group = two_proportions(p1, p2, alpha, power)
+        n_total = 2 * n_per_group
+        claim = f"n={n_per_group}/group for p1={p1}, p2={p2}, alpha={alpha}, power={power}"
     else:
         raise ValueError(f"unsupported test: {test!r}")
 

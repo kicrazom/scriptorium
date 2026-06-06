@@ -47,3 +47,12 @@ def test_paired_t_family():
     assert 33 <= out["data"]["n_per_group"] <= 35
     assert out["data"]["n_total"] == out["data"]["n_per_group"]  # single group of pairs
     assert out["data"]["finding"]["status"] == "operational_fact"
+
+
+def test_two_proportions_family():
+    payload = {"test": "two_proportions", "p1": 0.5, "p2": 0.3, "alpha": 0.05, "power": 0.80}
+    out = run_engine(payload)
+    assert out["status"] == "ok"
+    # canonical n/group for p1=.5,p2=.3 ~ 93
+    assert 85 <= out["data"]["n_per_group"] <= 100
+    assert out["data"]["n_total"] == 2 * out["data"]["n_per_group"]
