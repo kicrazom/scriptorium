@@ -3,6 +3,16 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [Unreleased] — v0.3.0 (in progress)
+
+### Added
+- Power/sample-size families: `paired_t`, `two_proportions` (Cohen's h), `one_way_anova`.
+- Statistical tests: `mann_whitney` (nonparametric), `chi_square` + `fisher` (categorical).
+- Reporting guidelines as data: CONSORT (2010), PRISMA (2020) — alongside STROBE.
+
+### Deferred
+- GRIMMER (SD granularity consistency) — needs a careful, separately-tested algorithm.
+
 ## [0.2.0] — 2026-06-06
 
 **Repositioning:** Scriptorium becomes the **Sovereign + Rigor** layer above scientific
