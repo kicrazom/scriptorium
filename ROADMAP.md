@@ -43,10 +43,16 @@ feature count.
   answer; needs an LLM-judge harness. Tracked honestly, not claimed as tested.
 - ⏳ Each fixed bug becomes a regression fixture (ongoing convention).
 
-## v1.0.0 — Stable public release
-- Documented, stable engine I/O contracts (JSON schemas).
-- Coverage reporting; reproducibility notes.
-- Full component documentation; deprecation policy.
+## v1.0.0 — Stable public release ✅ (released)
+- Uniform engine envelope contract (all 9 engines) + JSON schemas + STABILITY.md (SemVer + deprecation policy).
+- Coverage measured honestly (subprocess) + gated; two CI jobs (matrix + R).
+- `epistemic_grade` conformed to the envelope contract.
+
+## Post-1.0 (1.x — additive, contract-preserving)
+- LLM-judged behavioural harness for the prompt layer (agent refusing injection; sample reviews).
+- More power families (regression variants), more `stat_run` ops, more guidelines.
+- Per-engine bespoke schemas (beyond the shared envelope), semantic citation-support,
+  contradiction-detection vs the vault.
 
 ## Principle
 Every README promise carries one of three labels — **implemented**, **agent-guided**, or

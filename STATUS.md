@@ -65,7 +65,8 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 | `scripts/lib/profile.py` (tested parser + CLI: resolve → load yaml-block → merge defaults → warn unknown) | implemented ✅ |
 | Bash-capable components routed through the parser (`statistician`, `power-sample-size`) | done ✅ — they call the parser CLI |
 | offline read-only agents routed through the parser | not applicable — no `Bash`; they read `profile.md` directly by design |
-| `schemas/` (JSON Schema I/O contracts: power request/response, finding, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
+| `schemas/` (JSON Schema I/O contracts: envelope, finding, power request/response, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
+| uniform engine envelope contract (every engine → `ok`/`error` + graded `finding`) | implemented ✅, verified for all 9 engines in `tests/test_envelope_contract.py` (v1.0.0 stable contract) |
 
 See [ROADMAP.md](ROADMAP.md) for what each tier unlocks and [LIMITATIONS.md](LIMITATIONS.md)
 for what this tool does not do.

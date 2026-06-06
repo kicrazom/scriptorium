@@ -7,7 +7,7 @@
       "name": "scriptorium",
       "source": "./",
       "description": "Sovereign rigor layer for scientific work: confidential offline peer-review, deterministic statistics (power, assumptions, recompute, GRIM, group-sequential), reporting-guideline and citation audit, graduated epistemic status. Audits and verifies — complements generative writing tools.",
-      "version": "0.5.2",
+      "version": "1.0.0",
       "category": "research",
       "keywords": ["research", "science", "academia"]
     }

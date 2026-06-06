@@ -9,7 +9,7 @@
 
 Where generative tools *write*, Scriptorium *scrutinizes*: it recomputes statistics, screens reporting guidelines, audits citation hygiene, grades evidence on a graduated epistemic scale, and runs a confidential, offline manuscript-review path. It pairs a **tested deterministic core** (Python engines whose every number carries a provenance trace) with a **prompt layer** of agents and skills that reason over the rest. It complements generative writing tools; it does not replace them.
 
-> **Honest scope.** This is a young project. Some capabilities are tested code; others are guided agent workflows. The line between them is drawn explicitly in [**STATUS.md**](STATUS.md), every limitation is listed in [**LIMITATIONS.md**](LIMITATIONS.md), and the layered design is in [**ARCHITECTURE.md**](ARCHITECTURE.md) (60-second overview). Read those before relying on it.
+> **Honest scope.** As of v1.0.0 the **deterministic-core contract is stable** ([STABILITY.md](STABILITY.md)); the model-driven prompt layer keeps evolving. Which capabilities are tested code vs guided agent workflows is drawn explicitly in [**STATUS.md**](STATUS.md), every limitation is in [**LIMITATIONS.md**](LIMITATIONS.md), and the layered design is in [**ARCHITECTURE.md**](ARCHITECTURE.md) (60-second overview). Read those before relying on it.
 
 ## Why this exists
 

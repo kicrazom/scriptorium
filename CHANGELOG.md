@@ -3,6 +3,30 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [1.0.0] — 2026-06-06 — Stable deterministic-core contract
+
+First stable release. The deterministic core's contract is now frozen under SemVer (see
+[STABILITY.md](STABILITY.md)); the model-driven prompt layer continues to evolve.
+
+### Added
+- **Uniform engine envelope contract** — every one of the nine L0 engines returns
+  `{status, data{finding}, …}` on success / `{status:error, message}` on failure. Specified by
+  `schemas/envelope.schema.json` and verified for all engines in `tests/test_envelope_contract.py`
+  (one committed output fixture per engine under `tests/fixtures/envelopes/`).
+- **STABILITY.md** — the SemVer contract: what is frozen (engine invocation, envelope, finding,
+  power/profile schemas, provenance) vs what may still evolve (additive coverage, prompt wording,
+  the experimental LLM-judge harness) + a deprecation policy.
+
+### Changed
+- `epistemic_grade` now also emits a `finding` (its aggregate re-expressed as a graded finding),
+  so it conforms to the uniform envelope contract like every other engine.
+
+### Stable surface
+9 deterministic engines (power: 8 designs; stat_run: 6 ops; guideline_check: STROBE/CONSORT/PRISMA;
+citation_parse; epistemic_grade; interim_boundaries/gsDesign; grimmer/scrutiny; injection_scan),
+pluggable KB-provider, mode-guard, tested config parser. 105 tests, two CI jobs (matrix 3.10–3.12
++ R-engines), coverage ~86% gated ≥80%, blocking ruff.
+
 ## [0.5.2] — 2026-06-06 — Coverage, R-CI, architecture doc
 
 ### Added
