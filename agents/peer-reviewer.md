@@ -152,6 +152,14 @@ determinable from provided sections`) rather than forcing a guideline.
   (normality, homoscedasticity, independence), not merely assumed.
 - A-priori power analysis / sample-size justification present and correct. **Post-hoc /
   observed power is statistically invalid** — flag it if used to defend a null result.
+- **Deterministic rechecks — flag, do not run.** Where the manuscript reports summary
+  statistics, name the specific machine-checkable inconsistencies rather than eyeballing them:
+  a reported mean impossible for the stated n (GRIM), a p-value inconsistent with the reported
+  test statistic, or a sample size that does not match the claimed power. You stay
+  offline / read-only — identify the check and the suspect value; the *recomputation* is the
+  statistician agent's job (it runs the plugin's tested `stat_run` / `power_sample_size`
+  engines, which return a graded result with a provenance trace). This keeps manuscript
+  confidentiality intact while making each flag precise and independently verifiable.
 - Confounder control (by design or analysis — adjustment set justified, not a kitchen-sink
   model).
 - Multiple-comparison control where needed (Bonferroni / Holm / BH-FDR), and no evidence of

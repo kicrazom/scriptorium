@@ -247,6 +247,26 @@ Choose execution from `statistics.prefer_runtime`:
      install instructions for the missing packages.
   4. Report any numbers **only** if the user supplied them; otherwise `not computed`.
 
+**Bundled engines (single source of truth).** For the operations they cover, prefer the
+plugin's tested, golden-anchored engines under `${CLAUDE_PLUGIN_ROOT}/scripts/core/` over
+ad-hoc computation — each takes a JSON request on stdin and returns a JSON envelope with a
+graded `finding` carrying a provenance trace, so the number reports its own source:
+
+| Need | Engine call (`E=${CLAUDE_PLUGIN_ROOT}/scripts/core`) |
+|---|---|
+| Assumption check (Shapiro normality, Levene variance) + nonparametric recommendation | `echo '{"op":"check_assumptions","groups":[[...],[...]],"claimed_test":"two_sample_t"}' \| python3 $E/stat_run.py` |
+| Recompute t/df/p/CI and flag a claimed-p mismatch | `echo '{"op":"recompute_ttest","groups":[[...],[...]],"equal_var":true,"claimed_p":0.04}' \| python3 $E/stat_run.py` |
+| GRIM granularity consistency of a reported mean | `echo '{"op":"grim","mean":3.45,"n":10,"decimals":2}' \| python3 $E/stat_run.py` |
+| A-priori N for two-group means | `echo '{"test":"two_sample_t","effect_size":0.5,"alpha":0.05,"power":0.8,"ratio":1.0}' \| python3 $E/power_sample_size.py` |
+| Group-sequential boundaries (O'Brien-Fleming, gsDesign R) | `echo '{"k":2,"alpha":0.025,"test_type":"one_sided","sfu":"OF"}' \| python3 $E/interim_boundaries.py` |
+
+If an engine returns `{"status":"error",...}` (missing dep, unsupported case) or the design is
+outside its coverage, fall back to the runtime routines below and say which path produced the
+number. These engines are the **same code the plugin tests**, so their output is reproducible
+by construction — quote the `finding.source` trace when you report the value. (Computing
+group-sequential boundaries is *this agent's* job; the interim-analysis-reviewer skill reviews
+whether they were prespecified, it does not compute them.)
+
 **Probe before assuming.** Before declaring a runtime available, verify it with a quick
 `Bash` check (interpreter present, package importable). If a package import fails, treat it as
 absent and degrade for that part — do not fabricate output to cover the gap.

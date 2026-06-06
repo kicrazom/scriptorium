@@ -87,7 +87,26 @@ Adapt the slots to the design (rates p1/p2 and a relative risk for proportions; 
 
 ## Runtime
 
-**Preferred — Python** (`statsmodels.stats.power`, `pingouin`, `scipy.stats`):
+**Preferred — the bundled engine (single source of truth).** For the **two-group means**
+design, do not re-implement the arithmetic: call the plugin's tested, golden-anchored engine
+`scripts/core/power_sample_size.py`, located via `${CLAUDE_PLUGIN_ROOT}`. It takes a JSON
+request on stdin and returns a JSON envelope whose `data.n_per_group` is the analytic
+solution (ceil) plus a graded `finding` with a provenance trace — so the reported N carries
+its own source. Prefer this over an ad-hoc computation whenever the design matches:
+
+```bash
+ENGINE="${CLAUDE_PLUGIN_ROOT}/scripts/core/power_sample_size.py"
+echo '{"test":"two_sample_t","effect_size":0.40,"alpha":0.05,"power":0.80,"ratio":1.0}' | python3 "$ENGINE"
+# -> {"status":"ok","data":{"n_per_group":64,"n_total":128,"finding":{...,"source":"scripts/core/power_sample_size.py#run=...:result"}}}
+```
+
+If the engine returns `{"status":"error",...}` (e.g. `statsmodels` not installed) or the
+design is one the engine does not yet cover, fall back to the Python routines or the
+explicit-formula path below — state which path produced the number. The engine currently
+covers `two_sample_t`; every other family uses the routines below until the engine grows.
+
+**Python routines** (`statsmodels.stats.power`, `pingouin`, `scipy.stats`) — for designs the
+bundled engine does not cover:
 
 | Design | Routine |
 |---|---|
@@ -131,25 +150,25 @@ Standard normal quantiles to use verbatim: `z_{0.975}=1.95996`, `z_{0.95}=1.6448
 
 Two-group parallel trial, continuous primary outcome. User states: expected difference Δ 4.0 units, common SD 10 units (→ d 0.40), two-sided α 0.05, power 0.80, 1:1 allocation, anticipated dropout 15%.
 
+Headline N comes from the bundled engine; the skill then applies dropout inflation and
+walks the sensitivity grid by re-calling the engine per effect size:
+
 ```bash
-python3 - <<'PY'
-from statsmodels.stats.power import TTestIndPower
-import math
-d, alpha, power = 0.40, 0.05, 0.80
-n1 = TTestIndPower().solve_power(effect_size=d, alpha=alpha, power=power,
-                                 ratio=1.0, alternative="two-sided")
-n1 = math.ceil(n1)
-total_eval = 2 * n1
-dropout = 0.15
-total_plan = math.ceil(total_eval / (1 - dropout))
-print(f"per_arm={n1} total_eval={total_eval} total_planned={total_plan}")
-# sensitivity over d
-for dd in (0.30, 0.35, 0.40, 0.45, 0.50):
-    n = math.ceil(TTestIndPower().solve_power(effect_size=dd, alpha=alpha,
-        power=power, ratio=1.0, alternative="two-sided"))
-    print(f"d={dd:.2f} per_arm={n} total={2*n}")
-PY
+ENGINE="${CLAUDE_PLUGIN_ROOT}/scripts/core/power_sample_size.py"
+# headline at d=0.40
+echo '{"test":"two_sample_t","effect_size":0.40,"alpha":0.05,"power":0.80,"ratio":1.0}' \
+  | python3 "$ENGINE"
+# sensitivity grid — one engine call per effect size, every number tool-sourced
+for dd in 0.30 0.35 0.40 0.45 0.50; do
+  printf '{"test":"two_sample_t","effect_size":%s,"alpha":0.05,"power":0.80,"ratio":1.0}' "$dd" \
+    | python3 "$ENGINE" \
+    | python3 -c "import sys,json;d=json.load(sys.stdin)['data'];print(f\"d=$dd per_arm={d['n_per_group']} total={d['n_total']}\")"
+done
 ```
+
+Dropout inflation is the skill's arithmetic on the engine's `n_total`:
+`N_planned = ceil(n_total / (1 − dropout))` — state it explicitly. If `${CLAUDE_PLUGIN_ROOT}`
+or the engine is unavailable, degrade to the `statsmodels`/formula path and say so.
 
 Report (numbers shown here are the kind of values the routine returns — present whatever the tool actually outputs, never a remembered figure):
 
