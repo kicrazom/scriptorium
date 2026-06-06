@@ -28,9 +28,9 @@ jobs:
       - name: Lint (ruff)
         run: ruff check scripts/ tests/
 
-      - name: Run tests
-        run: pytest -q
+      - name: Run tests (with coverage; engines run as subprocesses → patch=subprocess)
+        run: pytest --cov -q   # coverage gate fail_under=80 enforced via pyproject
 
-  # The interim_boundaries engine needs R + gsDesign, which the default runner lacks.
-  # Its tests skip automatically when Rscript is absent (pytest.mark.skipif), so the matrix
-  # above stays green; group-sequential coverage is exercised locally and noted in STATUS.md.
+  # The grimmer + interim_boundaries engines need R (scrutiny / gsDesign), which this runner
+  # lacks; their tests skip automatically (pytest.mark.skipif), so this matrix stays green.
+  # A dedicated R job (ci-r.yml) installs R and runs them for real.

@@ -1,0 +1,36 @@
+name: CI (R engines)
+
+# The R-dispatch engines (grimmer → scrutiny, interim_boundaries → gsDesign) skip in the main
+# CI because the runner has no R. This job installs R + the packages and runs them for real, so
+# the group-sequential and GRIMMER paths are actually exercised in CI, not only locally.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  r-engines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true   # Posit Package Manager → binary installs (fast)
+
+      - name: Install R packages (gsDesign, scrutiny)
+        run: Rscript -e 'install.packages(c("gsDesign", "scrutiny"))'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install (with dev deps)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run R-dependent engine tests (must actually run, not skip)
+        run: pytest tests/core/test_grimmer.py tests/core/test_interim_boundaries.py -v
