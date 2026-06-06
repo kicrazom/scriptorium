@@ -21,11 +21,12 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 | `core/guideline_check` | engine | yes | ✅ | keyword-gap screen: STROBE, CONSORT, PRISMA |
 | `core/citation_parse` | engine | yes | ✅ | structural hygiene: orphan refs, dangling markers |
 | `core/interim_boundaries` | engine | yes | ✅¹ | group-sequential O'Brien-Fleming via gsDesign (R) |
+| `core/grimmer` | engine | yes | ✅¹ | SD granularity consistency via `scrutiny` (R); demotes the known-buggy test 3 (scrutiny #80) to indeterminate |
 | `kb/` provider | engine | yes | ✅ | `folder`, `obsidian` implemented; `rag`, `cag` are stubs |
 | `guard/egress_guard` | engine | yes | ✅ | defense-in-depth offline enforcement + honest status |
 
-¹ `interim_boundaries` tests require R + gsDesign; they skip automatically where R is absent
-(e.g. on the default CI runner), and run locally.
+¹ `interim_boundaries` (R + gsDesign) and `grimmer` (R + scrutiny) tests skip automatically
+where R / the package is absent (e.g. on the default CI runner), and run locally.
 
 ### `power_sample_size` — design family coverage
 

@@ -3,6 +3,27 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.1] — 2026-06-06 — Core hardening
+
+Theme: tighten what already exists — validation, complete evidence, stricter CI.
+
+### Added
+- **GRIMMER engine** (`scripts/core/grimmer.py`) — SD granularity consistency via R-dispatch
+  to the reference `scrutiny` package. scrutiny has a known bug (issue #80) where GRIMMER
+  "test 3" can false-positive; a test-3-only failure is therefore **demoted to an indeterminate
+  finding** (working_hypothesis), never a confident inconsistency. GRIM and tests 1–2 are sound.
+- **Input validation** in `power_sample_size` — rejects out-of-range or degenerate inputs
+  (`r = 0`, `hazard_ratio = 1`, `p1 = p2`, alpha/power outside (0,1), etc.) with a clear error
+  instead of dividing by zero.
+- **Golden fixtures for all seven power designs** (input + output); `tests/test_schemas.py`
+  now validates every one against the JSON schemas.
+
+### Changed
+- **CI lint is now blocking** — removed the advisory `ruff … || true`; added a `[tool.ruff]`
+  config (line length, deliberate test-only ignores). The tree is ruff-clean.
+- README: replaced the stale "engine-backed for four designs" wording with a pointer to the
+  live design table in STATUS.md.
+
 ## [0.4.0] — 2026-06-06 — Statistics core expansion
 
 ### Added

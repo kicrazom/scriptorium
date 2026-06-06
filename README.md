@@ -19,7 +19,7 @@ The AI-for-science market is crowded with tools that *generate*. Far fewer help 
 
 **Deterministic core (tested engines — numbers carry a provenance trace):**
 - Sample-size / power for **two-sample t, paired t, one-sample t, two-proportion, one-way ANOVA, correlation**, and **survival (log-rank events)** designs — each result self-documents its `method` and `assumptions`.
-- Statistical sanity checks: assumption tests (Shapiro / Levene), p/CI recomputation with claimed-value mismatch flagging, GRIM mean-consistency, Mann-Whitney, chi-square, Fisher exact.
+- Statistical sanity checks: assumption tests (Shapiro / Levene), p/CI recomputation with claimed-value mismatch flagging, GRIM mean-consistency, GRIMMER SD-consistency (via `scrutiny`; the known-buggy test 3 is demoted to *indeterminate*, never a false flag), Mann-Whitney, chi-square, Fisher exact.
 - Reporting-guideline keyword screen for **STROBE, CONSORT, PRISMA**.
 - Structural citation hygiene (orphan references, dangling markers).
 - Group-sequential boundaries (O'Brien-Fleming via gsDesign).
@@ -35,7 +35,6 @@ See [STATUS.md](STATUS.md) for the precise component-by-component matrix.
 ## What it cannot do yet
 
 - **Regression power** — documented in the `power-sample-size` skill but **agent-guided** (statsmodels/formula fallback), not yet a tested engine. Planned for v0.4.x.
-- **GRIMMER** (SD granularity consistency) — deferred until it can be validated against a reference implementation; shipping an unverified statistic would defeat the point. Planned for v0.4.1.
 - **Config parser is built but not yet wired in.** A tested parser (`scripts/lib/profile.py`) now exists, but the agents still read `profile.md` via their prompts — they are not yet routed through the parser, so cross-agent consistency is not mechanically enforced everywhere.
 - Semantic citation *support* (does the source actually back the claim) and contradiction-detection against your own notes — planned, not present.
 - It is **not** a medical decision system and **not** a replacement for expert review. See [LIMITATIONS.md](LIMITATIONS.md).
@@ -89,7 +88,7 @@ The name evokes the medieval *scriptorium* — the room where manuscripts were w
 | [field-note-from-url](skills/field-note-from-url/SKILL.md) | INGEST | URL → structured note with provenance frontmatter; stub pattern for blocked sources. |
 | [manuscript-imrad](skills/manuscript-imrad/SKILL.md) | WRITE | Structure-audit a draft against IMRaD; claims-vs-data alignment, explicit Limitations, spin-flagging. |
 | [peer-paraphrase](skills/peer-paraphrase/SKILL.md) | WRITE | Academic paraphrasing by the PEER framework (Point → Evidence → Explanation → Repeat). |
-| [power-sample-size](skills/power-sample-size/SKILL.md) | ANALYZE | A-priori power & sample-size + sensitivity table + Methods sentence; engine-backed for four designs, agent-guided beyond. |
+| [power-sample-size](skills/power-sample-size/SKILL.md) | ANALYZE | A-priori power & sample-size + sensitivity table + Methods sentence; engine-backed for the designs listed in [STATUS.md](STATUS.md), agent-guided beyond. |
 | [interim-analysis-reviewer](skills/interim-analysis-reviewer/SKILL.md) | REVIEW | Clinical-trial interim-analysis reviewer — DSMB/SAP, alpha-spending, stopping-boundary governance gaps. |
 
 ## Privacy & security
