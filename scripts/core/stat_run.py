@@ -106,7 +106,28 @@ def _var(x):
     return sum((xi - m) ** 2 for xi in x) / (len(x) - 1)
 
 
-OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest}
+def grim(req):
+    mean = float(req["mean"])
+    n = int(req["n"])
+    decimals = int(req.get("decimals", 2))
+    scale = 10 ** decimals
+    # The integer sum that would round to the reported mean:
+    candidate_sum = round(mean * n)
+    reconstructed = round(candidate_sum / n, decimals)
+    consistent = abs(reconstructed - round(mean, decimals)) < (0.5 / scale) / n
+    lo = round((candidate_sum - 1) / n, decimals)
+    hi = round((candidate_sum + 1) / n, decimals)
+    finding = epistemic.make_finding(
+        claim="reported mean is granularity-inconsistent (GRIM)" if not consistent
+              else "reported mean is granularity-consistent",
+        status="operational_fact", confidence=1.0,
+        source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="grim"),
+    )
+    return {"consistent": bool(consistent), "mean": mean, "n": n,
+            "nearest_consistent": [lo, hi], "finding": finding}
+
+
+OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest, "grim": grim}
 
 
 def main():

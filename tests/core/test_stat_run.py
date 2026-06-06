@@ -58,3 +58,15 @@ def test_recompute_ttest_matches_scipy_and_flags_mismatch():
 def test_recompute_ttest_without_claim_returns_null_match():
     out = run_engine({"op": "recompute_ttest", "groups": [[1, 2, 3], [4, 5, 6]], "equal_var": True})
     assert out["data"]["p_matches_claim"] is None
+
+
+def test_grim_detects_impossible_mean():
+    out = run_engine({"op": "grim", "mean": 3.45, "n": 10, "decimals": 2})
+    assert out["status"] == "ok"
+    assert out["data"]["consistent"] is False
+
+
+def test_grim_accepts_possible_mean():
+    # 34/10 = 3.4 exactly reachable
+    out = run_engine({"op": "grim", "mean": 3.4, "n": 10, "decimals": 1})
+    assert out["data"]["consistent"] is True
