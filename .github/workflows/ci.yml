@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install (with dev deps)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: |
+          pip install ruff
+          ruff check scripts/ tests/ || true   # advisory until the lint baseline is clean
+
+      - name: Run tests
+        run: pytest -q
+
+  # The interim_boundaries engine needs R + gsDesign, which the default runner lacks.
+  # Its tests skip automatically when Rscript is absent (pytest.mark.skipif), so the matrix
+  # above stays green; group-sequential coverage is exercised locally and noted in STATUS.md.
