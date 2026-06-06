@@ -1,8 +1,12 @@
-"""L0 engine: closed-form power / sample-size for a two-sample t-test.
+"""L0 engine: closed-form power / sample-size determination.
 
-Input (stdin JSON): {"test": "two_sample_t", "effect_size": <d>, "alpha": <a>,
-                     "power": <1-beta>, "ratio": <n2/n1, default 1.0>}
-Output (stdout JSON): ok envelope with {n_per_group, n_total, finding}.
+Supported designs (``test`` field): ``two_sample_t``, ``paired_t``, ``two_proportions``,
+``one_way_anova``. Each returns the required N plus the analytic ``method`` used and the
+``assumptions`` it rests on, so the number is self-documenting and reproducible.
+
+Input (stdin JSON), e.g.: {"test": "two_sample_t", "effect_size": 0.5, "alpha": 0.05,
+                           "power": 0.80, "ratio": 1.0}
+Output (stdout JSON): ok envelope with {n_per_group, n_total, method, assumptions, finding}.
 
 n_per_group is ceil of the analytic solution. The finding carries operational_fact /
 confidence 1.0 because the computation is deterministic closed-form, with a provenance
@@ -55,27 +59,36 @@ def compute(req):
     test = req.get("test")
     alpha = float(req.get("alpha", 0.05))
     power = float(req.get("power", 0.80))
+    base = {"alpha": alpha, "power": power, "alternative": "two-sided"}
 
     if test == "two_sample_t":
         effect_size = float(req["effect_size"])
         ratio = float(req.get("ratio", 1.0))
         n_per_group = two_sample_t(effect_size, alpha, power, ratio)
         n_total = n_per_group + int(math.ceil(n_per_group * ratio))
+        method = "statsmodels.stats.power.TTestIndPower"
+        assumptions = {**base, "effect_size_d": effect_size, "ratio": ratio}
         claim = f"n={n_per_group}/group for d={effect_size}, alpha={alpha}, power={power}"
     elif test == "paired_t":
         effect_size = float(req["effect_size"])
         n_per_group = paired_t(effect_size, alpha, power)
         n_total = n_per_group  # single group of pairs
+        method = "statsmodels.stats.power.TTestPower"
+        assumptions = {**base, "effect_size_d": effect_size}
         claim = f"n={n_per_group} pairs for d={effect_size}, alpha={alpha}, power={power}"
     elif test == "two_proportions":
         p1 = float(req["p1"]); p2 = float(req["p2"])
         n_per_group = two_proportions(p1, p2, alpha, power)
         n_total = 2 * n_per_group
+        method = "statsmodels.stats.power.NormalIndPower (Cohen's h)"
+        assumptions = {**base, "p1": p1, "p2": p2}
         claim = f"n={n_per_group}/group for p1={p1}, p2={p2}, alpha={alpha}, power={power}"
     elif test == "one_way_anova":
         effect_size = float(req["effect_size"]); k_groups = int(req["k_groups"])
         n_per_group = one_way_anova(effect_size, k_groups, alpha, power)
         n_total = k_groups * n_per_group
+        method = "statsmodels.stats.power.FTestAnovaPower"
+        assumptions = {**base, "effect_size_f": effect_size, "k_groups": k_groups}
         claim = (f"n={n_per_group}/group ({k_groups} groups) for f={effect_size}, "
                  f"alpha={alpha}, power={power}")
     else:
@@ -87,7 +100,8 @@ def compute(req):
         source=provenance.engine_trace("power_sample_size", run_id=rid, anchor="result"),
         source_independence=1,
     )
-    return {"n_per_group": n_per_group, "n_total": n_total, "finding": finding}
+    return {"n_per_group": n_per_group, "n_total": n_total,
+            "method": method, "assumptions": assumptions, "finding": finding}
 
 
 def main():

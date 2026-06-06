@@ -66,3 +66,21 @@ def test_one_way_anova_family():
     # canonical per-group n for f=.25 (medium), k=4 ~ 45
     assert 40 <= out["data"]["n_per_group"] <= 50
     assert out["data"]["n_total"] == 4 * out["data"]["n_per_group"]
+
+
+def test_output_carries_method_and_assumptions():
+    out = run_engine({"test": "two_sample_t", "effect_size": 0.5, "alpha": 0.05,
+                      "power": 0.80, "ratio": 1.0})
+    assert out["data"]["method"].startswith("statsmodels")
+    assert out["data"]["assumptions"]["alpha"] == 0.05
+    assert out["data"]["assumptions"]["power"] == 0.80
+    assert out["data"]["assumptions"]["alternative"] == "two-sided"
+
+
+def test_engine_deterministic_for_same_input():
+    payload = {"test": "two_sample_t", "effect_size": 0.4, "alpha": 0.05,
+               "power": 0.80, "ratio": 1.0}
+    a = run_engine(payload)
+    b = run_engine(payload)
+    # identical input → identical output, including the seed-derived provenance run id
+    assert a == b
