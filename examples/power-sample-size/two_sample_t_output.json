@@ -1,0 +1,22 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 100,
+        "n_total": 200,
+        "method": "statsmodels.stats.power.TTestIndPower",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "effect_size_d": 0.4,
+            "ratio": 1.0
+        },
+        "finding": {
+            "claim": "n=100/group for d=0.4, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=5ef538fe9cdc:result",
+            "source_independence": 1
+        }
+    }
+}

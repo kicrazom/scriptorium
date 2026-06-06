@@ -1,0 +1,22 @@
+{
+    "status": "ok",
+    "data": {
+        "n_per_group": 93,
+        "n_total": 186,
+        "method": "statsmodels.stats.power.NormalIndPower (Cohen's h)",
+        "assumptions": {
+            "alpha": 0.05,
+            "power": 0.8,
+            "alternative": "two-sided",
+            "p1": 0.3,
+            "p2": 0.5
+        },
+        "finding": {
+            "claim": "n=93/group for p1=0.3, p2=0.5, alpha=0.05, power=0.8",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/power_sample_size.py#run=72c8382b7419:result",
+            "source_independence": 1
+        }
+    }
+}
