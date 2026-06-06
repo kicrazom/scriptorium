@@ -50,3 +50,42 @@ def audit_imports(paths):
                 if module in NETWORK_MODULES:
                     violations.append({"file": path, "module": module, "line": lineno})
     return violations
+
+
+import shutil
+import subprocess
+
+_UNSHARE = shutil.which("unshare")
+
+
+def sandbox_available():
+    """True iff unprivileged network-isolating sandbox (`unshare -rn`) works here."""
+    if _UNSHARE is None:
+        return False
+    try:
+        r = subprocess.run(
+            [_UNSHARE, "-rn", "true"], capture_output=True, timeout=10,
+        )
+        return r.returncode == 0
+    except Exception:
+        return False
+
+
+def run_sandboxed(cmd):
+    """Run cmd; isolate network via `unshare -rn` when available, else plain (honest)."""
+    isolated = sandbox_available()
+    full = [_UNSHARE, "-rn", *cmd] if isolated else list(cmd)
+    proc = subprocess.run(full, capture_output=True, text=True)
+    return {
+        "ran": True, "isolated": isolated,
+        "returncode": proc.returncode, "stdout": proc.stdout,
+    }
+
+
+def status(mode):
+    """Disclose which defense levels are active. Never overclaims level 3."""
+    if sandbox_available():
+        level_3 = "active (unshare -rn)"
+    else:
+        level_3 = "unavailable — best-effort (levels 1+2)"
+    return {"mode": mode, "level_1": "active", "level_2": "active", "level_3": level_3}

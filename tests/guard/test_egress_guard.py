@@ -36,3 +36,24 @@ def test_audit_imports_clean_file(tmp_path):
     f = tmp_path / "clean.py"
     f.write_text("import json\nimport math\nfrom scipy import stats\n")
     assert g.audit_imports([str(f)]) == []
+
+
+def test_sandbox_claim_matches_reality():
+    available = g.sandbox_available()
+    result = g.run_sandboxed([__import__("sys").executable, "-c", "print('hi')"])
+    assert result["ran"] is True
+    assert result["returncode"] == 0
+    assert "hi" in result["stdout"]
+    # honesty: the isolated flag must equal the real probe, never overclaim.
+    assert result["isolated"] == available
+
+
+def test_status_level3_honest():
+    st = g.status(mode="reviewer")
+    available = g.sandbox_available()
+    if available:
+        assert "active" in st["level_3"]
+    else:
+        assert "best-effort" in st["level_3"]
+    assert st["level_1"] == "active"
+    assert st["level_2"] == "active"
