@@ -92,3 +92,16 @@ def test_one_sample_t_family():
     assert 33 <= out["data"]["n_per_group"] <= 35   # d=0.5 one-sample ~ 34
     assert out["data"]["n_total"] == out["data"]["n_per_group"]
     assert out["data"]["method"].startswith("statsmodels")
+
+
+def test_correlation_family():
+    import math
+    from scipy.stats import norm
+    r, alpha, power = 0.30, 0.05, 0.80
+    out = run_engine({"test": "correlation", "r": r, "alpha": alpha, "power": power})
+    assert out["status"] == "ok"
+    z_a = norm.ppf(1 - alpha / 2)
+    z_b = norm.ppf(power)
+    expected = math.ceil(((z_a + z_b) / math.atanh(r)) ** 2 + 3)
+    assert out["data"]["n_per_group"] == expected   # exact closed form
+    assert 80 <= out["data"]["n_per_group"] <= 90    # textbook sanity (~85)

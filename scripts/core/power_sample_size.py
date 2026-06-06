@@ -47,6 +47,14 @@ def two_proportions(p1, p2, alpha, power):
     return int(math.ceil(n1))
 
 
+def correlation(r, alpha, power):
+    from scipy.stats import norm
+    z_a = norm.ppf(1 - alpha / 2)
+    z_b = norm.ppf(power)
+    n = ((z_a + z_b) / math.atanh(r)) ** 2 + 3
+    return int(math.ceil(n))
+
+
 def one_way_anova(effect_size, k_groups, alpha, power):
     from statsmodels.stats.power import FTestAnovaPower
     n_total = FTestAnovaPower().solve_power(
@@ -98,6 +106,13 @@ def compute(req):
         method = "statsmodels.stats.power.TTestPower"
         assumptions = {**base, "effect_size_d": effect_size}
         claim = f"n={n_per_group} for d={effect_size}, alpha={alpha}, power={power}"
+    elif test == "correlation":
+        r = float(req["r"])
+        n_per_group = correlation(r, alpha, power)
+        n_total = n_per_group
+        method = "Fisher z-transform (closed form)"
+        assumptions = {**base, "r": r}
+        claim = f"n={n_per_group} for r={r}, alpha={alpha}, power={power}"
     else:
         raise ValueError(f"unsupported test: {test!r}")
 
