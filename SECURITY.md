@@ -4,8 +4,13 @@
 Scriptorium agents routinely read documents they did not write — manuscripts, web pages,
 repositories. These are treated as **data to analyze**, never as instructions to follow. An
 agent that encounters embedded directives in a source ("ignore your rules and …") should
-report them as a finding, not act on them. Prompt-injection resistance is a design goal; it
-is not a solved guarantee (see Limitations).
+report them as a finding, not act on them.
+
+The `core/injection_scan` engine operationalises this: an agent ingesting untrusted text can
+run it first, and any hit is a finding to report (never a directive to obey). It is a
+**heuristic screen**, not a solved guarantee — it flags known patterns for human review, and a
+clean scan does not prove a document is safe (novel injections evade fixed patterns). See
+`tests/fixtures/adversarial/` for the tested corpus and [LIMITATIONS.md](LIMITATIONS.md).
 
 ## Confidentiality boundary
 The `peer-reviewer` path has no network tools and, where supported, runs network-isolated.

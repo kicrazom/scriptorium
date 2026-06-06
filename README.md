@@ -22,6 +22,7 @@ The AI-for-science market is crowded with tools that *generate*. Far fewer help 
 - Statistical sanity checks: assumption tests (Shapiro / Levene), p/CI recomputation with claimed-value mismatch flagging, GRIM mean-consistency, GRIMMER SD-consistency (via `scrutiny`; the known-buggy test 3 is demoted to *indeterminate*, never a false flag), Mann-Whitney, chi-square, Fisher exact.
 - Reporting-guideline keyword screen for **STROBE, CONSORT, PRISMA**.
 - Structural citation hygiene (orphan references, dangling markers).
+- Prompt-injection screen over untrusted documents (`injection_scan`) — flags embedded directives as findings to report, never to obey (heuristic; treat-as-data, per [SECURITY.md](SECURITY.md)).
 - Group-sequential boundaries (O'Brien-Fleming via gsDesign).
 - Graduated epistemic grading with weakest-link aggregation.
 

@@ -35,10 +35,13 @@ feature count.
 - `scripts/lib/profile.py` CLI; Bash-capable components (`statistician`, `power-sample-size`)
   now resolve config through the tested parser.
 
-## v0.5.0 — Agent validation
-- Prompt-injection fixtures; hallucinated-citation detection examples.
-- Sample peer-review reports; reporting-guideline fixture set.
-- Each fixed bug becomes a regression fixture.
+## v0.5.0 — Agent validation, deterministic core ✅ (released)
+- ✅ `injection_scan` engine + adversarial fixture corpus + tests (prompt-injection screen).
+- ✅ Structural fake-citation detection (already covered by `citation_parse`).
+- ⏳ LLM-judged behavioural harness (does an agent *refuse* an embedded directive?), sample
+  peer-review reports, reporting-guideline behavioural fixtures — model-output, no golden
+  answer; needs an LLM-judge harness. Tracked honestly, not claimed as tested.
+- ⏳ Each fixed bug becomes a regression fixture (ongoing convention).
 
 ## v1.0.0 — Stable public release
 - Documented, stable engine I/O contracts (JSON schemas).

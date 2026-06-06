@@ -3,6 +3,26 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.5.0] — 2026-06-06 — Agent validation (deterministic core)
+
+### Added
+- **`injection_scan` engine** — a deterministic prompt-injection screen over untrusted
+  documents, operationalising the SECURITY.md threat model (*untrusted documents are data, not
+  instructions*). Curated, imperative-injection-specific patterns; hits are findings to report,
+  never directives to obey. It is a **heuristic screen** — `working_hypothesis` findings, never
+  a confident safe/malicious verdict.
+- **Adversarial fixture corpus** (`tests/fixtures/adversarial/`): an injection manuscript and a
+  clean control, with `tests/core/test_injection_scan.py` asserting the injection is flagged and
+  the clean control passes (no false positives).
+- `tests/fixtures/adversarial/README.md` documenting, honestly, what is deterministically tested
+  (injection_scan, structural fake-citation via `citation_parse`) vs what remains a manual /
+  LLM-judged behavioural harness (whether an agent *refuses* an embedded directive) — tracked as
+  future work, not claimed as tested.
+
+### Notes
+- `peer-reviewer` already treats prompt-injection text as a research-integrity red flag at the
+  prompt level (it has no `Bash`); the engine serves the Bash-capable orchestration layer.
+
 ## [0.4.2] — 2026-06-06 — Regression power + config wiring
 
 ### Added

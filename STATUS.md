@@ -22,6 +22,7 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 | `core/citation_parse` | engine | yes | ✅ | structural hygiene: orphan refs, dangling markers |
 | `core/interim_boundaries` | engine | yes | ✅¹ | group-sequential O'Brien-Fleming via gsDesign (R) |
 | `core/grimmer` | engine | yes | ✅¹ | SD granularity consistency via `scrutiny` (R); demotes the known-buggy test 3 (scrutiny #80) to indeterminate |
+| `core/injection_scan` | engine | yes | ✅ | heuristic prompt-injection screen over untrusted docs; hits are findings to report, never directives to obey |
 | `kb/` provider | engine | yes | ✅ | `folder`, `obsidian` implemented; `rag`, `cag` are stubs |
 | `guard/egress_guard` | engine | yes | ✅ | defense-in-depth offline enforcement + honest status |
 
