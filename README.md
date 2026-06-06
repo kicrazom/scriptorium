@@ -18,7 +18,7 @@ The AI-for-science market is crowded with tools that *generate*. Far fewer help 
 ## What it can do today
 
 **Deterministic core (tested engines — numbers carry a provenance trace):**
-- Sample-size / power for **two-sample t, paired t, two-proportion, and one-way ANOVA** designs.
+- Sample-size / power for **two-sample t, paired t, one-sample t, two-proportion, one-way ANOVA, correlation**, and **survival (log-rank events)** designs — each result self-documents its `method` and `assumptions`.
 - Statistical sanity checks: assumption tests (Shapiro / Levene), p/CI recomputation with claimed-value mismatch flagging, GRIM mean-consistency, Mann-Whitney, chi-square, Fisher exact.
 - Reporting-guideline keyword screen for **STROBE, CONSORT, PRISMA**.
 - Structural citation hygiene (orphan references, dangling markers).
@@ -34,8 +34,9 @@ See [STATUS.md](STATUS.md) for the precise component-by-component matrix.
 
 ## What it cannot do yet
 
-- Power/sample-size for **one-sample t, correlation, survival (log-rank), and regression** — documented in the skill, but **agent-guided** (statsmodels/formula fallback), not yet a tested engine. Planned for v0.4.0.
-- A shared, tested config parser — `profile.md` is currently a documented convention each component follows, not a mechanically enforced contract. Planned for v0.4.0.
+- **Regression power** — documented in the `power-sample-size` skill but **agent-guided** (statsmodels/formula fallback), not yet a tested engine. Planned for v0.4.x.
+- **GRIMMER** (SD granularity consistency) — deferred until it can be validated against a reference implementation; shipping an unverified statistic would defeat the point. Planned for v0.4.1.
+- **Config parser is built but not yet wired in.** A tested parser (`scripts/lib/profile.py`) now exists, but the agents still read `profile.md` via their prompts — they are not yet routed through the parser, so cross-agent consistency is not mechanically enforced everywhere.
 - Semantic citation *support* (does the source actually back the claim) and contradiction-detection against your own notes — planned, not present.
 - It is **not** a medical decision system and **not** a replacement for expert review. See [LIMITATIONS.md](LIMITATIONS.md).
 
@@ -103,7 +104,7 @@ Runs with universal defaults and no setup. To personalize (journal scope, knowle
 /scriptorium-init
 ```
 
-Resolution order, first match wins: `./.scriptorium/profile.md` → `~/.scriptorium/profile.md` → built-in defaults. Field reference: [docs/configuration.md](docs/configuration.md). (A shared, tested parser is on the [roadmap](ROADMAP.md); today each component follows the convention via its prompt.)
+Resolution order, first match wins: `./.scriptorium/profile.md` → `~/.scriptorium/profile.md` → built-in defaults. Field reference: [docs/configuration.md](docs/configuration.md). A shared, tested parser (`scripts/lib/profile.py`) now backs this resolution; routing every agent through it (so the convention is enforced, not just followed) is in progress — see the [roadmap](ROADMAP.md).
 
 ## Ethos
 

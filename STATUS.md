@@ -33,9 +33,12 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 |---|---|
 | `two_sample_t` | implemented ✅ |
 | `paired_t` | implemented ✅ |
+| `one_sample_t` | implemented ✅ |
 | `two_proportions` | implemented ✅ |
 | `one_way_anova` | implemented ✅ |
-| `one_sample_t`, `correlation`, survival (log-rank events), regression power | planned (v0.4.0) — currently **agent-guided** in the `power-sample-size` skill via statsmodels/formula fallback |
+| `correlation` | implemented ✅ (Fisher z, closed form) |
+| `survival_logrank_events` | implemented ✅ (Schoenfeld; returns required **events**) |
+| regression power | planned (v0.4.x) — currently **agent-guided** in the `power-sample-size` skill via statsmodels/formula fallback |
 
 ## Prompt layer (agents & skills)
 
@@ -57,8 +60,9 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 
 | Item | Status |
 |---|---|
-| `profile.md` resolution (project → user → defaults) | documented convention; **no shared parser yet** |
-| `scripts/lib/profile.py` (tested parser) | planned (v0.4.0) |
+| `scripts/lib/profile.py` (tested parser: resolve → load yaml-block → merge defaults → warn unknown) | implemented ✅ |
+| agents/skills routed through the parser | in progress — they still read `profile.md` via prompt; wiring them to the parser is the remaining step |
+| `schemas/` (JSON Schema I/O contracts: power request/response, finding, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
 
 See [ROADMAP.md](ROADMAP.md) for what each tier unlocks and [LIMITATIONS.md](LIMITATIONS.md)
 for what this tool does not do.

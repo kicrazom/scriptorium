@@ -12,7 +12,7 @@ feature count.
 - Mode-guard: defense-in-depth offline reviewer path with honest status disclosure.
 - 44 tests (golden + contract + behavior).
 
-## v0.3.0 — Credibility release (in progress)
+## v0.3.0 — Credibility release ✅ (released)
 - **Docs:** honest README (implemented / agent-guided / planned labels), STATUS matrix,
   LIMITATIONS, PRIVACY, SECURITY, this roadmap.
 - **CI:** GitHub Actions, Python 3.10–3.12, pytest.
@@ -20,10 +20,18 @@ feature count.
 - **Engine expansion:** power families `paired_t`, `two_proportions`, `one_way_anova`;
   tests `mann_whitney`, `chi_square`, `fisher`; reporting guidelines CONSORT + PRISMA.
 
-## v0.4.0 — Statistics core expansion
-- Power: `one_sample_t`, `correlation`, `survival_logrank_events`, regression-power approx.
-- GRIMMER (SD granularity consistency) — separately, carefully tested.
-- Shared, tested config parser `scripts/lib/profile.py` + JSON schemas for engine I/O.
+## v0.4.0 — Statistics core expansion ✅ (released)
+- Power: `one_sample_t`, `correlation`, `survival_logrank_events` (Schoenfeld events).
+- Shared, tested config parser `scripts/lib/profile.py` (resolve → load → merge → warn).
+- JSON Schema I/O contracts (`schemas/`), enforced against the example fixtures in CI.
+
+## v0.4.1 — Loose ends
+- **GRIMMER** (SD granularity consistency) — deferred from v0.4.0 until it can be ported from
+  and validated against a reference implementation (`scrutiny` / `rsprite2`); shipping an
+  unverified statistic would defeat the tool's purpose.
+- Regression-power approximation.
+- Route agents/skills through `scripts/lib/profile.py` (enforce the config contract, not just
+  follow the convention).
 
 ## v0.5.0 — Agent validation
 - Prompt-injection fixtures; hallucinated-citation detection examples.

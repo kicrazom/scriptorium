@@ -39,7 +39,8 @@ under a network-isolating sandbox. It is a strong operational boundary, **not** 
 or formal-isolation guarantee. Host compromise, side channels, or a misconfigured environment
 can still leak data. See [SECURITY.md](SECURITY.md) and [PRIVACY.md](PRIVACY.md).
 
-## Configuration is convention until the parser lands
-The `profile.md` resolution order is currently a documented convention each component follows
-via its prompt. A shared, tested parser (`scripts/lib/profile.py`) is on the roadmap; until
-then, inter-agent consistency is not mechanically enforced.
+## Configuration parser exists, but agents are not yet routed through it
+A shared, tested parser (`scripts/lib/profile.py`) now resolves and merges `profile.md`. The
+agents and skills, however, still read the profile via their prompts — they are not yet wired
+to call the parser. So a single source of truth exists in code, but inter-agent consistency is
+not mechanically enforced everywhere until that wiring lands.
