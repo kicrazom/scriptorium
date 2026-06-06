@@ -70,3 +70,13 @@ def test_grim_accepts_possible_mean():
     # 34/10 = 3.4 exactly reachable
     out = run_engine({"op": "grim", "mean": 3.4, "n": 10, "decimals": 1})
     assert out["data"]["consistent"] is True
+
+
+def test_mann_whitney_matches_scipy():
+    a = [1, 2, 3, 4, 5]; b = [6, 7, 8, 9, 10]
+    out = run_engine({"op": "mann_whitney", "groups": [a, b]})
+    assert out["status"] == "ok"
+    ref = _sps.mannwhitneyu(a, b, alternative="two-sided")
+    assert abs(out["data"]["u"] - float(ref.statistic)) < 1e-9
+    assert abs(out["data"]["p"] - float(ref.pvalue)) < 1e-9
+    assert out["data"]["finding"]["confidence"] == 1.0

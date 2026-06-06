@@ -127,7 +127,19 @@ def grim(req):
             "nearest_consistent": [lo, hi], "finding": finding}
 
 
-OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest, "grim": grim}
+def mann_whitney(req):
+    a = list(map(float, req["groups"][0]))
+    b = list(map(float, req["groups"][1]))
+    res = stats.mannwhitneyu(a, b, alternative="two-sided")
+    finding = epistemic.make_finding(
+        claim="Mann-Whitney U computed", status="operational_fact", confidence=1.0,
+        source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="mann_whitney"),
+    )
+    return {"u": float(res.statistic), "p": float(res.pvalue), "finding": finding}
+
+
+OPS = {"check_assumptions": check_assumptions, "recompute_ttest": recompute_ttest, "grim": grim,
+       "mann_whitney": mann_whitney}
 
 
 def main():
