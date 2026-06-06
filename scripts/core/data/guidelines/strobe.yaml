@@ -1,0 +1,19 @@
+# scripts/core/data/guidelines/strobe.yaml
+guideline: strobe
+version: "cohort-2007"
+items:
+  - id: "1a"
+    item: "Study design indicated in title or abstract"
+    keywords: ["cohort", "case-control", "cross-sectional", "study design"]
+  - id: "6"
+    item: "Eligibility criteria, sources and selection of participants"
+    keywords: ["eligibility", "inclusion criteria", "exclusion criteria", "participants were"]
+  - id: "12a"
+    item: "Statistical methods, including confounding control"
+    keywords: ["statistical analysis", "adjusted for", "confound", "regression"]
+  - id: "19"
+    item: "Limitations of the study discussed"
+    keywords: ["limitation", "limitations"]
+  - id: "22"
+    item: "Source of funding stated"
+    keywords: ["funding", "funded by", "grant", "no funding"]
