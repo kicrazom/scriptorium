@@ -87,3 +87,25 @@ def get_profile(cwd, home):
     """Resolve, load, and merge in one call. Returns (merged_profile, warnings)."""
     path = resolve_profile_path(cwd, home)
     return merge_with_defaults(load_profile(path))
+
+
+def main():
+    """CLI: resolve the profile for the current working directory and print it as JSON, so any
+    component (agent or skill) can obtain the merged config by running this script instead of
+    parsing profile.md itself. Output: {"source": <path|null>, "warnings": [...], "profile": {...}}.
+    """
+    import json
+    import os
+    cwd, home = Path(os.getcwd()), Path.home()
+    path = resolve_profile_path(cwd, home)
+    try:
+        merged, warnings = merge_with_defaults(load_profile(path))
+    except ProfileError as exc:
+        print(json.dumps({"error": str(exc)}))
+        return
+    print(json.dumps({"source": str(path) if path else None,
+                      "warnings": warnings, "profile": merged}))
+
+
+if __name__ == "__main__":
+    main()

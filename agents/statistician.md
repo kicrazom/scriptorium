@@ -32,8 +32,17 @@ that exists, otherwise fall back to universal defaults:
 2. `~/.scriptorium/profile.md` (user-global)
 3. none → universal defaults below.
 
-Use `Glob`/`Read` to locate the file; do not rely on any plugin-root environment variable to
-find it. The profile is a markdown file with a YAML block. Fields you read:
+**Preferred — the bundled parser.** Since you have `Bash`, resolve the profile by running the
+tested parser, which applies the resolution order, merges over universal defaults, and reports
+unknown fields, so every component reads the config the same way:
+
+```bash
+python "${CLAUDE_PLUGIN_ROOT}/scripts/lib/profile.py"
+# -> {"source": "<path|null>", "warnings": [...], "profile": {...merged config...}}
+```
+
+If the parser is unavailable, fall back to `Glob`/`Read` on the two paths above. The profile is
+a markdown file with a YAML block. Fields you read:
 
 | Field | Effect | Universal default |
 |---|---|---|

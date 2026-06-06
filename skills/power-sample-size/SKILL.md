@@ -22,7 +22,17 @@ This skill reads an optional profile, in this resolution order, and uses the fir
 2. `~/.scriptorium/profile.md` (user-global)
 3. none → universal defaults below.
 
-Do not rely on `${CLAUDE_PLUGIN_ROOT}` to locate the profile; resolve the two literal paths above with the Read tool.
+**Preferred — the bundled parser.** Since this skill has `Bash`, resolve the profile by
+running the tested parser, which applies the resolution order, merges your settings over the
+universal defaults, and reports unknown fields:
+
+```bash
+python "${CLAUDE_PLUGIN_ROOT}/scripts/lib/profile.py"
+# -> {"source": "<path|null>", "warnings": [...], "profile": {...merged config...}}
+```
+
+Read the `profile.statistics.prefer_runtime` and `style.*` fields from its JSON output. If the
+parser is unavailable, fall back to reading the two literal paths above with the Read tool.
 
 Fields this skill consults (all optional):
 
