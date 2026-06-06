@@ -1,8 +1,12 @@
+![Scriptorium](docs/assets/scriptorium-hero.png)
+
 # Scriptorium
 
-**A Claude Code toolkit for the scientific knowledge lifecycle — protect your time, attention, and rigor.**
+**The rigor layer for scientific work — audit, verify, compute, and grade research, offline.**
 
-Scriptorium is a single Claude Code plugin that bundles four agents and eight skills for the full arc of research work: discovering literature, evaluating what's worth reading, ingesting sources with provenance, running classical and Bayesian analysis, drafting in IMRaD, refereeing manuscripts offline, and keeping the whole knowledge base honest. Every component is anti-hallucination-first (claims carry a source trace, numbers come from tool responses, absences are reported as findings), uses graduated epistemics instead of binary fact/inference, and ships with universal defaults so it works out-of-the-box for any user — personalize it later with an optional `profile.md`.
+Where generative tools *write*, Scriptorium *scrutinizes*. It recomputes statistics, checks reporting guidelines, audits citations, grades evidence on a graduated epistemic scale, and runs a confidential, offline manuscript-review path that never sends your text anywhere. Every number comes from a tested engine with a provenance trace — claims carry their source, and absences are reported, not filled.
+
+A single Claude Code plugin: four agents, eight skills, a deterministic core. It complements generative writing tools; it does not replace them. Ships with universal defaults, so it works out-of-the-box — personalize later with an optional `profile.md`.
 
 ## Install
 
@@ -14,6 +18,8 @@ Scriptorium is a single Claude Code plugin that bundles four agents and eight sk
 ## Components
 
 The name evokes the medieval *scriptorium* — the room where manuscripts were written, corrected, and stored. That triad (writer, reviewer, librarian) maps onto the core agents.
+
+<p align="center"><img src="docs/assets/scriptorium-review.png" alt="A reviewer's checklist on the desk" width="70%"></p>
 
 ### Agents
 
