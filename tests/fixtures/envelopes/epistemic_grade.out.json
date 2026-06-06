@@ -1,0 +1,15 @@
+{
+    "status": "ok",
+    "data": {
+        "overall_status": "working_hypothesis",
+        "overall_confidence": 0.6,
+        "n_findings": 2,
+        "finding": {
+            "claim": "aggregate of 2 findings: working_hypothesis (weakest-link)",
+            "status": "working_hypothesis",
+            "confidence": 0.6,
+            "source": "scripts/core/epistemic_grade.py#run=41fe7bda4b56:aggregate",
+            "source_independence": 2
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "status": "ok",
+    "data": {
+        "consistent": false,
+        "mean": 3.45,
+        "n": 10,
+        "nearest_consistent": [
+            3.3,
+            3.5
+        ],
+        "finding": {
+            "claim": "reported mean is granularity-inconsistent (GRIM)",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/stat_run.py#run=19527aac660c:grim",
+            "source_independence": 1
+        }
+    }
+}

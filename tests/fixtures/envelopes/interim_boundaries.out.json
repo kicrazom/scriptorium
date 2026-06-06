@@ -1,0 +1,18 @@
+{
+    "status": "ok",
+    "data": {
+        "k": 2,
+        "upper_bounds": [
+            2.962588,
+            1.968596
+        ],
+        "sfu": "OF",
+        "finding": {
+            "claim": "2-look O'Brien-Fleming upper boundaries computed",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/interim_boundaries.py#run=ac12104de3c2:gsdesign",
+            "source_independence": 1
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "status": "ok",
+    "data": {
+        "cited_markers": [
+            1,
+            3
+        ],
+        "n_references": 3,
+        "orphan_references": [
+            2
+        ],
+        "dangling_citations": [],
+        "finding": {
+            "claim": "1 orphan reference(s), 0 dangling citation(s)",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/citation_parse.py#run=c7e04bc48248:hygiene",
+            "source_independence": 1
+        }
+    }
+}

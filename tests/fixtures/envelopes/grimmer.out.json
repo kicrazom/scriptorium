@@ -1,0 +1,15 @@
+{
+    "status": "ok",
+    "data": {
+        "consistent": true,
+        "reliable": true,
+        "reason": "Passed all",
+        "finding": {
+            "claim": "reported mean+SD are granularity-consistent (GRIMMER: passed)",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/grimmer.py#run=0495eebfdbd2:scrutiny",
+            "source_independence": 1
+        }
+    }
+}

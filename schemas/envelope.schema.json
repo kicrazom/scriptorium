@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/envelope.schema.json",
+  "title": "EngineEnvelope",
+  "description": "The uniform output contract every Scriptorium L0 engine conforms to. On success, `data` is present and carries a graded `finding`; on error, `message` is present. Stable as of v1.0.0.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "description": "Engine-specific result. Always carries a graded finding.",
+      "required": ["finding"],
+      "properties": {
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}

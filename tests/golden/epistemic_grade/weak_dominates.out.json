@@ -1,1 +1,1 @@
-{"status": "ok", "data": {"overall_status": "working_hypothesis", "overall_confidence": 0.6, "n_findings": 3}}
+{"status": "ok", "data": {"overall_status": "working_hypothesis", "overall_confidence": 0.6, "n_findings": 3, "finding": {"claim": "aggregate of 3 findings: working_hypothesis (weakest-link)", "status": "working_hypothesis", "confidence": 0.6, "source": "scripts/core/epistemic_grade.py#run=40ddfe6de3f6:aggregate", "source_independence": 3}}}

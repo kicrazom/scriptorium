@@ -1,0 +1,28 @@
+{
+    "status": "ok",
+    "data": {
+        "guideline": "strobe",
+        "present": [
+            "1a",
+            "12a",
+            "22"
+        ],
+        "missing": [
+            {
+                "id": "6",
+                "item": "Eligibility criteria, sources and selection of participants"
+            },
+            {
+                "id": "19",
+                "item": "Limitations of the study discussed"
+            }
+        ],
+        "finding": {
+            "claim": "2 of 5 STROBE items not detected",
+            "status": "working_hypothesis",
+            "confidence": 0.6,
+            "source": "scripts/core/guideline_check.py#run=4dea6cf7e9b6:strobe",
+            "source_independence": 1
+        }
+    }
+}
