@@ -11,6 +11,10 @@ All notable changes to scriptorium are documented here. Format loosely follows
 - `scripts/run_tests.sh` pre-push quality gate.
 - L0 engines: `stat_run` (assumptions, recompute, GRIM), `guideline_check` (STROBE),
   `citation_parse` (structural hygiene), `interim_boundaries` (gsDesign R-dispatch).
+- L1 KB-provider: pluggable `query()` contract, `folder` + `obsidian` adapters, `rag`/`cag`
+  stubs, guard-integrated `kb/query.py`.
+- L3 mode-guard: defense-in-depth egress control (mode declaration, import audit, honest
+  process sandbox) with truthful `status()` disclosure.
 
 ## [0.1.0] — 2026-06-04
 

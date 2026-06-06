@@ -23,4 +23,7 @@ else
     echo "WARN gsDesign not available — interim_boundaries tests skipped"
 fi
 
+echo "== mode-guard =="
+.venv/bin/python -c "from scripts.guard import egress_guard as g; import json; print(json.dumps(g.status('reviewer')))"
+
 echo "ALL GREEN"
