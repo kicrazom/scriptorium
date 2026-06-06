@@ -3,6 +3,22 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.5.2] — 2026-06-06 — Coverage, R-CI, architecture doc
+
+### Added
+- **Coverage measurement + gate** — `pytest-cov` with `patch = subprocess` (the engines run as
+  subprocesses, so this captures their real execution, not just imported modules). Real coverage
+  **~86%**, CI-enforced at **≥80%** (`fail_under` in `pyproject.toml`). Naive `--cov` would have
+  reported a misleading 23% — fixed by measuring subprocesses honestly.
+- **`ci-r.yml`** — a dedicated CI job that installs R + `gsDesign` + `scrutiny` and actually runs
+  the R-dispatch engine tests (`grimmer`, `interim_boundaries`), which skip on the stock runner.
+- **`ARCHITECTURE.md`** — layered-design diagram + request flow + policy boundaries (60-second
+  overview), linked from the README honest-scope note.
+
+### Changed
+- README: "small deterministic core" → "tested deterministic core" (nine engines — "small" was
+  misleading); added coverage details to the Testing section.
+
 ## [0.5.1] — 2026-06-06 — Doc consistency + test discoverability
 
 ### Fixed

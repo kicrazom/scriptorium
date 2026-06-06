@@ -7,9 +7,9 @@
 
 **An early-stage Claude Code plugin for scientific-workflow rigor — audit, compute, and grade research, offline-first.**
 
-Where generative tools *write*, Scriptorium *scrutinizes*: it recomputes statistics, screens reporting guidelines, audits citation hygiene, grades evidence on a graduated epistemic scale, and runs a confidential, offline manuscript-review path. It pairs a small **deterministic core** (tested Python engines whose every number carries a provenance trace) with a **prompt layer** of agents and skills that reason over the rest. It complements generative writing tools; it does not replace them.
+Where generative tools *write*, Scriptorium *scrutinizes*: it recomputes statistics, screens reporting guidelines, audits citation hygiene, grades evidence on a graduated epistemic scale, and runs a confidential, offline manuscript-review path. It pairs a **tested deterministic core** (Python engines whose every number carries a provenance trace) with a **prompt layer** of agents and skills that reason over the rest. It complements generative writing tools; it does not replace them.
 
-> **Honest scope.** This is a young project. Some capabilities are tested code; others are guided agent workflows. The line between them is drawn explicitly in [**STATUS.md**](STATUS.md), and every limitation is listed in [**LIMITATIONS.md**](LIMITATIONS.md). Read those before relying on it.
+> **Honest scope.** This is a young project. Some capabilities are tested code; others are guided agent workflows. The line between them is drawn explicitly in [**STATUS.md**](STATUS.md), every limitation is listed in [**LIMITATIONS.md**](LIMITATIONS.md), and the layered design is in [**ARCHITECTURE.md**](ARCHITECTURE.md) (60-second overview). Read those before relying on it.
 
 ## Why this exists
 
@@ -68,11 +68,14 @@ More input → output fixtures live in [`examples/`](examples/).
 ## Testing
 
 The deterministic core is unit- and golden-tested; CI runs the suite on Python 3.10–3.12 with
-a blocking `ruff` lint (see the badge above).
+a blocking `ruff` lint (see the badge above). Coverage is **~86%** and CI-enforced at **≥80%**
+(`fail_under` in `pyproject.toml`); because the engines are tested as subprocesses, coverage
+uses `patch = subprocess` so the number reflects their real execution, not just imported modules.
 
 ```bash
 pip install -e ".[dev]"
-pytest -q          # the full suite
+pytest -q              # the full suite
+pytest --cov -q        # with coverage (enforces the ≥80% gate)
 ```
 
 Tests live next to what they cover, **not** in a flat `tests/` directory:
