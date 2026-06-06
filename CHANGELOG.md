@@ -3,6 +3,25 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [0.4.0] — 2026-06-06 — Statistics core expansion
+
+### Added
+- **Power/sample-size families:** `one_sample_t`, `correlation` (Fisher z, closed form),
+  `survival_logrank_events` (Schoenfeld; returns required events). The engine now covers
+  seven designs, each self-documenting its `method` and `assumptions`.
+- **Config parser** `scripts/lib/profile.py` — resolves `profile.md` (project → user →
+  defaults), extracts the YAML block, merges over universal defaults, and warns on unknown
+  sections instead of crashing. Tested behaviorally.
+- **JSON Schema I/O contracts** (`schemas/`: power request/response, finding, profile),
+  enforced against the committed example fixtures in `tests/test_schemas.py`.
+- **Examples:** `correlation` input/output fixture (validated against the schemas).
+
+### Deferred
+- **GRIMMER** moved to v0.4.1 — deferred until it can be ported from and validated against a
+  reference implementation (`scrutiny` / `rsprite2`). Shipping an unverified statistic would
+  defeat the tool's purpose.
+- Regression-power approximation, and routing agents through the new parser → v0.4.1.
+
 ## [0.3.0] — 2026-06-06 — Credibility release
 
 Theme: *less manifesto, more evidence.* Claims are now drawn precisely against the
