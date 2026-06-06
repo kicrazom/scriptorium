@@ -1,0 +1,22 @@
+# scripts/core/data/guidelines/prisma.yaml
+guideline: prisma
+version: "2020"
+items:
+  - id: "1"
+    item: "Identification as a systematic review in the title"
+    keywords: ["systematic review", "meta-analysis"]
+  - id: "5"
+    item: "Eligibility criteria for the review"
+    keywords: ["eligibility criteria", "inclusion criteria", "exclusion criteria"]
+  - id: "6"
+    item: "Information sources (databases, registers) and last search date"
+    keywords: ["pubmed", "medline", "embase", "cochrane", "databases searched", "search date"]
+  - id: "7"
+    item: "Full search strategy presented"
+    keywords: ["search strategy", "search terms", "boolean", "search string"]
+  - id: "16a"
+    item: "Risk of bias assessment of included studies"
+    keywords: ["risk of bias", "rob 2", "robins", "quality assessment", "newcastle-ottawa"]
+  - id: "21"
+    item: "Registration and protocol (e.g. PROSPERO)"
+    keywords: ["prospero", "registration", "protocol", "registered"]

@@ -1,0 +1,22 @@
+# scripts/core/data/guidelines/consort.yaml
+guideline: consort
+version: "2010"
+items:
+  - id: "1a"
+    item: "Identification as a randomised trial in the title"
+    keywords: ["randomised", "randomized", "randomised controlled trial", "rct"]
+  - id: "6a"
+    item: "Completely defined pre-specified primary and secondary outcome measures"
+    keywords: ["primary outcome", "primary endpoint", "secondary outcome"]
+  - id: "7a"
+    item: "How sample size was determined"
+    keywords: ["sample size", "power calculation", "powered to detect"]
+  - id: "8a"
+    item: "Method used to generate the random allocation sequence"
+    keywords: ["allocation sequence", "randomisation", "random allocation", "computer-generated"]
+  - id: "11a"
+    item: "Blinding — who was blinded after assignment"
+    keywords: ["blinded", "blinding", "double-blind", "single-blind", "masking"]
+  - id: "17a"
+    item: "Outcomes and estimation — effect size and its precision (e.g. 95% CI)"
+    keywords: ["confidence interval", "95% ci", "effect size", "hazard ratio", "risk ratio"]
