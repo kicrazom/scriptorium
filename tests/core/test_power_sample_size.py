@@ -37,3 +37,13 @@ def test_unknown_test_is_error():
     )
     out = json.loads(proc.stdout)
     assert out["status"] == "error"
+
+
+def test_paired_t_family():
+    payload = {"test": "paired_t", "effect_size": 0.5, "alpha": 0.05, "power": 0.80}
+    out = run_engine(payload)
+    assert out["status"] == "ok"
+    # canonical one-sample/paired n for d=0.5, power .80 ~ 34
+    assert 33 <= out["data"]["n_per_group"] <= 35
+    assert out["data"]["n_total"] == out["data"]["n_per_group"]  # single group of pairs
+    assert out["data"]["finding"]["status"] == "operational_fact"

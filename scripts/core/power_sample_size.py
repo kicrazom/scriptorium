@@ -16,35 +16,45 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from scripts.lib import json_io, provenance, epistemic  # noqa: E402
 
-from statsmodels.stats.power import TTestIndPower  # noqa: E402
-
-
 def two_sample_t(effect_size, alpha, power, ratio):
-    analysis = TTestIndPower()
-    n1 = analysis.solve_power(
+    from statsmodels.stats.power import TTestIndPower
+    n1 = TTestIndPower().solve_power(
         effect_size=effect_size, alpha=alpha, power=power,
         ratio=ratio, alternative="two-sided",
     )
     return int(math.ceil(n1))
 
 
+def paired_t(effect_size, alpha, power):
+    from statsmodels.stats.power import TTestPower
+    n = TTestPower().solve_power(
+        effect_size=effect_size, alpha=alpha, power=power, alternative="two-sided",
+    )
+    return int(math.ceil(n))
+
+
 def compute(req):
     test = req.get("test")
-    if test != "two_sample_t":
-        raise ValueError(f"unsupported test: {test!r}")
-    effect_size = float(req["effect_size"])
     alpha = float(req.get("alpha", 0.05))
     power = float(req.get("power", 0.80))
-    ratio = float(req.get("ratio", 1.0))
 
-    n_per_group = two_sample_t(effect_size, alpha, power, ratio)
-    n_total = n_per_group + int(math.ceil(n_per_group * ratio))
+    if test == "two_sample_t":
+        effect_size = float(req["effect_size"])
+        ratio = float(req.get("ratio", 1.0))
+        n_per_group = two_sample_t(effect_size, alpha, power, ratio)
+        n_total = n_per_group + int(math.ceil(n_per_group * ratio))
+        claim = f"n={n_per_group}/group for d={effect_size}, alpha={alpha}, power={power}"
+    elif test == "paired_t":
+        effect_size = float(req["effect_size"])
+        n_per_group = paired_t(effect_size, alpha, power)
+        n_total = n_per_group  # single group of pairs
+        claim = f"n={n_per_group} pairs for d={effect_size}, alpha={alpha}, power={power}"
+    else:
+        raise ValueError(f"unsupported test: {test!r}")
 
     rid = provenance.run_id(seed=json.dumps(req, sort_keys=True))
     finding = epistemic.make_finding(
-        claim=f"n={n_per_group}/group for d={effect_size}, alpha={alpha}, power={power}",
-        status="operational_fact",
-        confidence=1.0,
+        claim=claim, status="operational_fact", confidence=1.0,
         source=provenance.engine_trace("power_sample_size", run_id=rid, anchor="result"),
         source_independence=1,
     )
