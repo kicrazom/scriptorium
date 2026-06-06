@@ -1,6 +1,6 @@
 [project]
 name = "scriptorium"
-version = "0.4.0"
+version = "0.4.1"
 description = "Sovereign rigor/audit layer for the scientific knowledge lifecycle"
 requires-python = ">=3.10"
 dependencies = [
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "jsonschema>=4.18"]
+dev = ["pytest>=8.0", "jsonschema>=4.18", "ruff>=0.5"]
 
 [tool.setuptools.packages.find]
 include = ["scripts*"]
@@ -20,3 +20,11 @@ include = ["scripts*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+# Tests intentionally use inline imports (scoped to a test) and compact `a = ...; b = ...`
+# data setup; these are deliberate, not defects.
+"tests/**" = ["E402", "E702"]

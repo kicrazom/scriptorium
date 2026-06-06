@@ -7,6 +7,9 @@ Three levels, strongest first:
 
 The guard NEVER claims an isolation it cannot deliver — status() discloses the truth.
 """
+import re
+import shutil
+import subprocess
 
 LOCAL_BACKENDS = {"folder", "obsidian", "cag"}
 REMOTE_BACKENDS = {"rag"}
@@ -27,8 +30,6 @@ def assert_local_only(backend, mode):
         f"(allowed: {sorted(LOCAL_BACKENDS)})"
     )
 
-
-import re
 
 NETWORK_MODULES = {
     "requests", "httpx", "urllib", "urllib2", "socket",
@@ -51,9 +52,6 @@ def audit_imports(paths):
                     violations.append({"file": path, "module": module, "line": lineno})
     return violations
 
-
-import shutil
-import subprocess
 
 _UNSHARE = shutil.which("unshare")
 

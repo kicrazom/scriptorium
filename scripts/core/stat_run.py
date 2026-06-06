@@ -66,7 +66,6 @@ def check_assumptions(req):
 
 
 def recompute_ttest(req):
-    import math
     a = list(map(float, req["groups"][0]))
     b = list(map(float, req["groups"][1]))
     equal_var = bool(req.get("equal_var", True))
