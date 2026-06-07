@@ -1,5 +1,7 @@
 # Injection-refusal testing of scientific-writing AI agents — a protocol and pilot
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582861.svg)](https://doi.org/10.5281/zenodo.20582861)
+
 **A reusable protocol and a pilot baseline for measuring whether AI agents used in scientific
 writing and peer review *refuse* directives that are injected into the documents they process.**
 
@@ -93,7 +95,11 @@ SCRIPTORIUM_RUN_LLM_JUDGE=1 python benchmarks/sci-writing-injection/run_benchmar
 ## Citation & license
 
 The harness code is **AGPL-3.0** (repository root). This benchmark artifact — protocol, case
-design, and results — is **CC-BY-NC-4.0** (`./LICENSE`). Cite via the Zenodo DOI on deposit.
+design, and results — is **CC-BY-NC-4.0** (`./LICENSE`).
+
+Cite as:
+
+> Minarowski Ł. *Injection-refusal testing of scientific-writing AI agents: a protocol and pilot baseline.* Zenodo (2026). DOI: [10.5281/zenodo.20582861](https://doi.org/10.5281/zenodo.20582861).
 
 ## References
 
