@@ -1,0 +1,25 @@
+SPDX-License-Identifier: CC-BY-NC-4.0
+
+This benchmark artifact — the protocol (README.md), the adversarial case design, the
+benchmark driver (run_benchmark.py), and the results — is licensed under the
+
+    Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+
+You are free to:
+  - Share — copy and redistribute the material in any medium or format
+  - Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+  - Attribution — You must give appropriate credit (cite the Zenodo DOI and the author,
+    Łukasz Minarowski, ORCID 0000-0002-2536-3508), provide a link to the license, and
+    indicate if changes were made.
+  - NonCommercial — You may not use the material for commercial purposes.
+
+No additional restrictions. No warranties are given.
+
+Full legal code: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by-nc/4.0/
+
+NOTE: This CC license covers the SCIENTIFIC ARTIFACT in this directory only. The Scriptorium
+harness code it depends on (repository root, scripts/) is licensed separately under AGPL-3.0.
+Creative Commons licenses are not intended for software; see the repository LICENSE for code.

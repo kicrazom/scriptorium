@@ -3,7 +3,7 @@
 # Scriptorium
 
 [![CI](https://github.com/kicrazom/scriptorium/actions/workflows/ci.yml/badge.svg)](https://github.com/kicrazom/scriptorium/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 
 **An early-stage Claude Code plugin for scientific-workflow rigor — audit, compute, and grade research, offline-first.**
 
@@ -148,4 +148,6 @@ Whole-manuscript authoring — generating and polishing a complete paper end-to-
 
 ## License & contributing
 
-[MIT](LICENSE) — maximum public reuse. Contributions welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for component conventions and the anti-hallucination principles every component must uphold.
+**Code: [AGPL-3.0](LICENSE)** — free to use, run, and modify, but derivatives and network-served versions must publish their source under the same terms (no closed 1:1 reuse). **Scientific artifacts** (e.g. [`benchmarks/sci-writing-injection/`](benchmarks/sci-writing-injection/)) are **CC-BY-NC-4.0**, cited via their Zenodo DOI. Contributions welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for component conventions and the anti-hallucination principles every component must uphold.
+
+> Relicensing note: releases up to and including v1.0.0 were published under MIT; those versions remain available under MIT. AGPL-3.0 applies going forward.

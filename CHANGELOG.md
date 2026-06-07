@@ -19,6 +19,17 @@ All notable changes to scriptorium are documented here. Format loosely follows
 - `docs/behavioral-validation.md` — design, run instructions, and the same-family-judge caveat.
 - 3 adversarial cases × 3 agents (peer-reviewer, research-scout, librarian). First gated run:
   all three refused (scores 1.0; single-runtime claude agent+judge).
+- **`benchmarks/sci-writing-injection/`** — a protocol + pilot baseline applying the harness to
+  external scientific-writing/peer-review agents (the surface the 2025 arXiv hidden-prompt
+  incident exploited). Pilot: 5/5 agents refused a blatant injection (3 Scriptorium + the
+  claude-scientific-writer peer-review and scientific-writing skills). Framed honestly as a
+  difficulty-floor baseline, not a robustness certificate. CC-BY-NC-4.0; Zenodo DOI on deposit.
+
+### Changed
+- **Relicensed code MIT → AGPL-3.0-or-later** (sole-copyright-holder relicense). Free to use,
+  run, modify; derivatives and network-served versions must publish source under the same terms
+  — no closed 1:1 reuse. Releases up to v1.0.0 remain available under MIT. Scientific artifacts
+  under `benchmarks/` are CC-BY-NC-4.0 (separate from the code license; CC is not for software).
 
 ## [1.0.0] — 2026-06-06 — Stable deterministic-core contract
 

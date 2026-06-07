@@ -2,6 +2,7 @@
 name = "scriptorium"
 version = "1.0.0"
 description = "Sovereign rigor/audit layer for the scientific knowledge lifecycle"
+license = "AGPL-3.0-or-later"
 requires-python = ">=3.10"
 dependencies = [
     "statsmodels>=0.14",
