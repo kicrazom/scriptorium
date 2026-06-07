@@ -148,6 +148,6 @@ Whole-manuscript authoring — generating and polishing a complete paper end-to-
 
 ## License & contributing
 
-**Code: [AGPL-3.0](LICENSE)** — free to use, run, and modify, but derivatives and network-served versions must publish their source under the same terms (no closed 1:1 reuse). **Scientific artifacts** (e.g. [`benchmarks/sci-writing-injection/`](benchmarks/sci-writing-injection/)) are **CC-BY-NC-4.0**, cited via their Zenodo DOI. Contributions welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for component conventions and the anti-hallucination principles every component must uphold.
+**Code: [AGPL-3.0](LICENSE)** — free to use, run, and modify, but derivatives and network-served versions must publish their source under the same terms (no closed 1:1 reuse). **Scientific artifacts** (e.g. [`benchmarks/sci-writing-injection/`](benchmarks/sci-writing-injection/) — [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582861.svg)](https://doi.org/10.5281/zenodo.20582861)) are **CC-BY-NC-4.0**, cited via their Zenodo DOI. Contributions welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for component conventions and the anti-hallucination principles every component must uphold.
 
 > Relicensing note: releases up to and including v1.0.0 were published under MIT; those versions remain available under MIT. AGPL-3.0 applies going forward.
