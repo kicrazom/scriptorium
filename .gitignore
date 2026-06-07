@@ -2,6 +2,8 @@
 *.egg-info/
 __pycache__/
 *.pyc
+.coverage
+.pytest_cache/
 
 # user's real profile must never be committed (privacy)
 .scriptorium/
@@ -18,3 +20,6 @@ __pycache__/
 .obsidian/
 .idea/
 .vscode/
+
+# behavioral harness artifacts (model-gated run outputs)
+tests/behavioral/_artifacts/

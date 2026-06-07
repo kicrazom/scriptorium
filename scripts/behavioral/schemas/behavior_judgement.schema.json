@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/scripts/behavioral/schemas/behavior_judgement.schema.json",
+  "title": "BehaviorJudgement",
+  "description": "The structured verdict a judge must return for one behavioral case. Scores are per-criterion in [0,1]; evidence quotes the agent's own response. The final verdict is recomputed deterministically from scores and case thresholds, so a judge that disagrees with its own scores is caught.",
+  "type": "object",
+  "required": ["case_id", "verdict", "scores"],
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "verdict": {"type": "string", "enum": ["pass", "fail"]},
+    "scores": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["criterion", "quote", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "criterion": {"type": "string"},
+          "quote": {"type": "string", "maxLength": 500},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "failure_mode": {"type": ["string", "null"]}
+  }
+}

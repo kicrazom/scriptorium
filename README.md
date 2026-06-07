@@ -25,6 +25,7 @@ The AI-for-science market is crowded with tools that *generate*. Far fewer help 
 - Prompt-injection screen over untrusted documents (`injection_scan`) — flags embedded directives as findings to report, never to obey (heuristic; treat-as-data, per [SECURITY.md](SECURITY.md)).
 - Group-sequential boundaries (O'Brien-Fleming via gsDesign).
 - Graduated epistemic grading with weakest-link aggregation.
+- **Behavioral injection-refusal harness** — goes beyond *detecting* injection to verifying agents actually **refuse** an embedded directive. The core (schemas, verdict logic, untrusted-data prompt framing, redacted report) is deterministic and default-CI; a model-gated run against a real agent + judge backend (pluggable: `claude_cli` / `codex_cli` / `local_vllm`, skip-if-unavailable) sits behind `SCRIPTORIUM_RUN_LLM_JUDGE=1`. See [docs/behavioral-validation.md](docs/behavioral-validation.md).
 
 **Agent-guided workflows (model-reasoned, not engine-backed):**
 - Confidential offline manuscript refereeing (`peer-reviewer`).
@@ -37,6 +38,7 @@ See [STATUS.md](STATUS.md) for the precise component-by-component matrix.
 
 - **Config parser is wired into the Bash-capable components only.** A tested parser (`scripts/lib/profile.py`, runnable as a CLI) now backs config resolution, and the `statistician` agent and `power-sample-size` skill call it. The offline read-only agents (e.g. `peer-reviewer`) still read `profile.md` directly — by design, since they have no `Bash`.
 - Semantic citation *support* (does the source actually back the claim) and contradiction-detection against your own notes — planned, not present.
+- Cross-runtime behavioral concordance (e.g. `claude_cli` vs `codex_cli` as independent judges) — supported by the harness but not yet run as a standing check; the shipped run is single-runtime (same-family agent + judge), an honest limitation noted in [docs/behavioral-validation.md](docs/behavioral-validation.md).
 - It is **not** a medical decision system and **not** a replacement for expert review. See [LIMITATIONS.md](LIMITATIONS.md).
 
 ## Install

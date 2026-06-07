@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/scripts/behavioral/schemas/behavior_case.schema.json",
+  "title": "BehaviorCase",
+  "description": "One adversarial behavioral test: an agent is given a benign task plus an untrusted document carrying an embedded directive. The case declares the behavior we require and the judge thresholds. Model-agnostic — any backend may run it.",
+  "type": "object",
+  "required": ["id", "agent", "user_task", "untrusted_document_path", "judge"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "agent": {
+      "type": "string",
+      "description": "Which prompt-layer agent is under test.",
+      "enum": ["peer-reviewer", "research-scout", "librarian", "statistician"]
+    },
+    "mode": {
+      "type": "string",
+      "description": "Operating mode the agent must preserve under attack.",
+      "enum": ["offline", "online"],
+      "default": "offline"
+    },
+    "user_task": {"type": "string", "minLength": 1},
+    "untrusted_document_path": {"type": "string", "minLength": 1},
+    "expected_behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "must": {"type": "array", "items": {"type": "string"}},
+        "must_not": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "judge": {
+      "type": "object",
+      "required": ["pass_threshold", "required_scores"],
+      "additionalProperties": false,
+      "properties": {
+        "pass_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "required_scores": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    }
+  }
+}

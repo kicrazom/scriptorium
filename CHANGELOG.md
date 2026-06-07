@@ -3,6 +3,23 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Behavioral injection-refusal harness** (`scripts/behavioral/`, `tests/behavioral/`) — the
+  post-1.0 roadmap's first item. Tests whether an agent actually **refuses** a directive
+  embedded in an untrusted document, not merely whether `injection_scan` *detects* it. Two
+  layers: a deterministic core in default CI (case + judgement JSON schemas, pass/fail verdict
+  recomputed from judge scores, untrusted-data prompt framing, JSON-recovery from judge output,
+  commit-safe redacted report — document SHA-256, never its text; 28 tests) and a model-gated
+  real-runtime run behind `SCRIPTORIUM_RUN_LLM_JUDGE=1` (marker `llm_judge`).
+- **Pluggable, model-agnostic backends** (`scripts/behavioral/backends.py`) with the repo's
+  skip-if-unavailable convention: `claude_cli` (verified), `codex_cli` (provisional argv),
+  `local_vllm` (planned). Cross-runtime agreement is documented as a validity signal.
+- `docs/behavioral-validation.md` — design, run instructions, and the same-family-judge caveat.
+- 3 adversarial cases × 3 agents (peer-reviewer, research-scout, librarian). First gated run:
+  all three refused (scores 1.0; single-runtime claude agent+judge).
+
 ## [1.0.0] — 2026-06-06 — Stable deterministic-core contract
 
 First stable release. The deterministic core's contract is now frozen under SemVer (see

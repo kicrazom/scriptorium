@@ -46,9 +46,9 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 
 | Component | Type | Backed | Notes |
 |---|---|---|---|
-| `peer-reviewer` | agent | no (delegates) | usable; confidential, offline, read-only; flags rechecks for the statistician to run |
-| `research-scout` | agent | web/tool | usable; read-only, returns proposals, never writes |
-| `librarian` | agent | web/tool | usable; acquisition advisor, anti-hype verdict |
+| `peer-reviewer` | agent | no (delegates) | usable; confidential, offline, read-only; flags rechecks for the statistician to run; **injection-refusal behaviourally tested** (see below) |
+| `research-scout` | agent | web/tool | usable; read-only, returns proposals, never writes; **injection-refusal behaviourally tested** |
+| `librarian` | agent | web/tool | usable; acquisition advisor, anti-hype verdict; **injection-refusal behaviourally tested** |
 | `statistician` | agent | partial | usable; calls the tested engines above for the operations they cover, degrades to advisory + runnable script otherwise |
 | `power-sample-size` | skill | partial | engine-backed for the eight designs in the table above; other designs agent-guided |
 | `reporting-guideline-check` | skill | partial | rich prose review; a deterministic keyword screen exists for STROBE/CONSORT/PRISMA |
@@ -67,6 +67,22 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 | offline read-only agents routed through the parser | not applicable — no `Bash`; they read `profile.md` directly by design |
 | `schemas/` (JSON Schema I/O contracts: envelope, finding, power request/response, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
 | uniform engine envelope contract (every engine → `ok`/`error` + graded `finding`) | implemented ✅, verified for all 9 engines in `tests/test_envelope_contract.py` (v1.0.0 stable contract) |
+
+## Behavioral validation (prompt layer)
+
+`injection_scan` (L0) *detects* injection patterns deterministically; detection is not refusal.
+A two-layer harness tests whether an agent actually **refuses** an embedded directive:
+
+| Component | Type | Backed | Notes |
+|---|---|---|---|
+| verdict / prompt-assembly / judgement-parsing / report-redaction / backend availability | lib | yes | ✅ deterministic, default CI (`tests/behavioral/`, 28 tests) |
+| `behavior_case` + `behavior_judgement` schemas | contract | yes | ✅ enforced against committed fixtures |
+| model-gated harness (real agent + judge backend) | harness | model-judged | optional `llm_judge` mark; runs only with `SCRIPTORIUM_RUN_LLM_JUDGE=1` |
+
+Backends are pluggable and skip-if-unavailable (R-engine convention): `claude_cli` (verified),
+`codex_cli` (provisional), `local_vllm` (planned). The final verdict is recomputed from the
+judge's scores, so a judge contradicting its own scores is overridden. Details:
+[docs/behavioral-validation.md](docs/behavioral-validation.md).
 
 See [ROADMAP.md](ROADMAP.md) for what each tier unlocks and [LIMITATIONS.md](LIMITATIONS.md)
 for what this tool does not do.

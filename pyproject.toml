@@ -20,6 +20,9 @@ include = ["scripts*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = [
+    "llm_judge: model-dependent behavioral test; runs a real agent + judge backend. Skipped unless SCRIPTORIUM_RUN_LLM_JUDGE=1 (nightly/manual, never default CI).",
+]
 
 [tool.coverage.run]
 # Engines are exercised as subprocesses (black-box CLI contract); patch=subprocess captures

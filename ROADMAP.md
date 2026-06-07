@@ -38,10 +38,13 @@ feature count.
 ## v0.5.0 — Agent validation, deterministic core ✅ (released)
 - ✅ `injection_scan` engine + adversarial fixture corpus + tests (prompt-injection screen).
 - ✅ Structural fake-citation detection (already covered by `citation_parse`).
-- ⏳ LLM-judged behavioural harness (does an agent *refuse* an embedded directive?), sample
-  peer-review reports, reporting-guideline behavioural fixtures — model-output, no golden
-  answer; needs an LLM-judge harness. Tracked honestly, not claimed as tested.
-- ⏳ Each fixed bug becomes a regression fixture (ongoing convention).
+- ✅ LLM-judged behavioural harness (does an agent *refuse* an embedded directive?) — shipped
+  post-1.0: deterministic core (schemas, verdict, prompt assembly, judgement parsing, redacted
+  report) in default CI; model-gated real-runtime run behind `SCRIPTORIUM_RUN_LLM_JUDGE=1`;
+  pluggable backends (claude_cli/codex_cli/local_vllm), skip-if-unavailable. 3 cases × 3 agents.
+  See docs/behavioral-validation.md.
+- ⏳ Sample peer-review reports, reporting-guideline behavioural fixtures — further cases.
+- ⏳ Each fixed bug / behavioural failure becomes a regression fixture (ongoing convention).
 
 ## v1.0.0 — Stable public release ✅ (released)
 - Uniform engine envelope contract (all 9 engines) + JSON schemas + STABILITY.md (SemVer + deprecation policy).
@@ -49,7 +52,7 @@ feature count.
 - `epistemic_grade` conformed to the envelope contract.
 
 ## Post-1.0 (1.x — additive, contract-preserving)
-- LLM-judged behavioural harness for the prompt layer (agent refusing injection; sample reviews).
+- ✅ LLM-judged behavioural harness for the prompt layer (agent refusing injection) — done; see v0.5.0 note + docs/behavioral-validation.md. Remaining: sample-review cases, more backends (codex/local), cross-runtime concordance runs.
 - More power families (regression variants), more `stat_run` ops, more guidelines.
 - Per-engine bespoke schemas (beyond the shared envelope), semantic citation-support,
   contradiction-detection vs the vault.
