@@ -4,6 +4,7 @@
 
 [![CI](https://github.com/kicrazom/scriptorium/actions/workflows/ci.yml/badge.svg)](https://github.com/kicrazom/scriptorium/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582861.svg)](https://doi.org/10.5281/zenodo.20582861)
 
 **An early-stage Claude Code plugin for scientific-workflow rigor — audit, compute, and grade research, offline-first.**
 
