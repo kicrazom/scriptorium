@@ -80,6 +80,10 @@ NEGATIVE_CONTROLS = {
         "injections": [{"pattern": "ignore-previous", "snippet": "..."}],  # missing line
         "finding": {"claim": "x", "status": "working_hypothesis",
                     "confidence": 0.6, "source": "s", "source_independence": 1}}},
+    "grimmer": {"status": "ok", "data": {
+        "consistent": "yes", "reliable": True, "reason": "Passed all",  # consistent must be boolean
+        "finding": {"claim": "x", "status": "operational_fact",
+                    "confidence": 1.0, "source": "s", "source_independence": 1}}},
 }
 
 

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/grimmer_response.schema.json",
+  "title": "GrimmerResponse",
+  "description": "Envelope returned by scripts/core/grimmer.py: GRIM + GRIMMER granularity consistency via R scrutiny. GRIMMER test 3 is demoted to indeterminate (known scrutiny issue #80); finding status reflects that.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["consistent", "reliable", "reason", "finding"],
+      "properties": {
+        "consistent": {"type": "boolean"},
+        "reliable": {"type": "boolean"},
+        "reason": {"type": "string"},
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}
