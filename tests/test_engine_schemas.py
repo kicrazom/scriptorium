@@ -76,6 +76,10 @@ NEGATIVE_CONTROLS = {
         "orphan_references": [2], "dangling_citations": [],
         "finding": {"claim": "x", "status": "operational_fact",
                     "confidence": 1.0, "source": "s", "source_independence": 1}}},
+    "injection_scan": {"status": "ok", "data": {
+        "injections": [{"pattern": "ignore-previous", "snippet": "..."}],  # missing line
+        "finding": {"claim": "x", "status": "working_hypothesis",
+                    "confidence": 0.6, "source": "s", "source_independence": 1}}},
 }
 
 

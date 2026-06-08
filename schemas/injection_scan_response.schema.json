@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/injection_scan_response.schema.json",
+  "title": "InjectionScanResponse",
+  "description": "Envelope returned by scripts/core/injection_scan.py: deterministic prompt-injection pattern scan over an untrusted document. Heuristic — absence of a hit is never proof the document is safe.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["injections", "finding"],
+      "properties": {
+        "injections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "line", "snippet"],
+            "properties": {
+              "pattern": {"type": "string"},
+              "line": {"type": "integer", "minimum": 1},
+              "snippet": {"type": "string"}
+            }
+          }
+        },
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}
