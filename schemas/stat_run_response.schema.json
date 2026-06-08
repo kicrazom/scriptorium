@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/stat_run_response.schema.json",
+  "title": "StatRunResponse",
+  "description": "Envelope returned by scripts/core/stat_run.py. Op-dispatched (grim, check_assumptions, recompute_ttest, mann_whitney, chi_square, fisher) so data fields vary by op; only finding is invariant. Known fields are typed when present.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["finding"],
+      "properties": {
+        "consistent": {"type": "boolean"},
+        "mean": {"type": "number"},
+        "n": {"type": "integer"},
+        "nearest_consistent": {"type": "array", "items": {"type": "number"}},
+        "t": {"type": "number"},
+        "df": {"type": "number"},
+        "p": {"type": "number"},
+        "ci95": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "assumptions": {"type": "object"},
+        "recommended_alternative": {"type": "string"},
+        "finding": {"$ref": "finding.schema.json"}
+      },
+      "description": "grim: {consistent, mean, n, nearest_consistent}; recompute_ttest: {t, df, p, ci95}; check_assumptions: {assumptions, recommended_alternative}. mann_whitney, chi_square, and fisher also return op-specific fields covered by the permissive (additionalProperties: true) contract. All optional, typed when present."
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}
