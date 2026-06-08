@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/citation_parse_response.schema.json",
+  "title": "CitationParseResponse",
+  "description": "Envelope returned by scripts/core/citation_parse.py: structural citation hygiene (orphan references + dangling in-text markers). NOT semantic support (that is Sprint 3).",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["cited_markers", "n_references", "orphan_references", "dangling_citations", "finding"],
+      "properties": {
+        "cited_markers": {"type": "array", "items": {"type": "integer"}},
+        "n_references": {"type": "integer", "minimum": 0},
+        "orphan_references": {"type": "array", "items": {"type": "integer"}},
+        "dangling_citations": {"type": "array", "items": {"type": "integer"}},
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}

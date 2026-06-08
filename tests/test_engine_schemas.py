@@ -71,6 +71,11 @@ NEGATIVE_CONTROLS = {
         "missing": [{"oops": "no id"}],  # each missing item requires id + item
         "finding": {"claim": "x", "status": "working_hypothesis",
                     "confidence": 0.6, "source": "s", "source_independence": 1}}},
+    "citation_parse": {"status": "ok", "data": {
+        "cited_markers": [1, 3], "n_references": "three",  # must be integer
+        "orphan_references": [2], "dangling_citations": [],
+        "finding": {"claim": "x", "status": "operational_fact",
+                    "confidence": 1.0, "source": "s", "source_independence": 1}}},
 }
 
 
