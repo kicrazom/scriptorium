@@ -54,8 +54,10 @@ feature count.
 ## Post-1.0 (1.x — additive, contract-preserving)
 - ✅ LLM-judged behavioural harness for the prompt layer (agent refusing injection) — done; see v0.5.0 note + docs/behavioral-validation.md. Remaining: sample-review cases, more backends (codex/local), cross-runtime concordance runs.
 - More power families (regression variants), more `stat_run` ops, more guidelines.
-- Per-engine bespoke schemas (beyond the shared envelope), semantic citation-support,
-  contradiction-detection vs the vault.
+- ✅ Per-engine bespoke schemas (beyond the shared envelope) — done in v1.2.0; every engine
+  has a bespoke response schema + representative fixture + negative control
+  (`tests/test_engine_schemas.py`).
+- Semantic citation-support, contradiction-detection vs the vault.
 
 ## Principle
 Every README promise carries one of three labels — **implemented**, **agent-guided**, or

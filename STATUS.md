@@ -67,6 +67,7 @@ where R / the package is absent (e.g. on the default CI runner), and run locally
 | offline read-only agents routed through the parser | not applicable — no `Bash`; they read `profile.md` directly by design |
 | `schemas/` (JSON Schema I/O contracts: envelope, finding, power request/response, profile) | implemented ✅, enforced in `tests/test_schemas.py` |
 | uniform engine envelope contract (every engine → `ok`/`error` + graded `finding`) | implemented ✅, verified for all 9 engines in `tests/test_envelope_contract.py` (v1.0.0 stable contract) |
+| per-engine bespoke response schemas (each engine's `data` payload pinned, not just the shared envelope) | implemented ✅, enforced in `tests/test_engine_schemas.py` (representative fixture + negative control per engine; v1.2.0) |
 
 ## Behavioral validation (prompt layer)
 

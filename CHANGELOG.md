@@ -3,7 +3,19 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.2.0] — 2026-06-08 — Per-engine bespoke schemas
+
+### Added
+- **Bespoke per-engine response schemas** — each of the seven remaining L0 engines
+  (`stat_run`, `guideline_check`, `citation_parse`, `injection_scan`, `grimmer`,
+  `interim_boundaries`, `epistemic_grade`) now has its own
+  `schemas/<engine>_response.schema.json` pinning the engine-specific `data` payload, on top
+  of the shared envelope (`power_sample_size` already had one). A new auto-discovering contract
+  test (`tests/test_engine_schemas.py`) validates a committed representative output per engine
+  against its schema and proves each schema rejects a malformed output via a per-engine
+  negative control (21 schema cases; 154 tests total).
+
+## [1.1.0] — 2026-06-07 — Behavioral injection-refusal harness + sci-writing pilot
 
 ### Added
 - **Behavioral injection-refusal harness** (`scripts/behavioral/`, `tests/behavioral/`) — the
