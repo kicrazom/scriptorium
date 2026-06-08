@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/interim_boundaries_response.schema.json",
+  "title": "InterimBoundariesResponse",
+  "description": "Envelope returned by scripts/core/interim_boundaries.py: group-sequential efficacy boundaries via R gsDesign (O'Brien-Fleming / Pocock spending).",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["k", "upper_bounds", "sfu", "finding"],
+      "properties": {
+        "k": {"type": "integer", "minimum": 1},
+        "upper_bounds": {"type": "array", "items": {"type": "number"}, "minItems": 1},
+        "sfu": {"type": "string"},
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}

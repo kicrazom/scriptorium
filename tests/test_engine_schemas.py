@@ -84,6 +84,10 @@ NEGATIVE_CONTROLS = {
         "consistent": "yes", "reliable": True, "reason": "Passed all",  # consistent must be boolean
         "finding": {"claim": "x", "status": "operational_fact",
                     "confidence": 1.0, "source": "s", "source_independence": 1}}},
+    "interim_boundaries": {"status": "ok", "data": {
+        "k": "two", "upper_bounds": [2.96, 1.97], "sfu": "OF",  # k must be integer
+        "finding": {"claim": "x", "status": "operational_fact",
+                    "confidence": 1.0, "source": "s", "source_independence": 1}}},
 }
 
 
