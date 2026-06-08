@@ -88,6 +88,10 @@ NEGATIVE_CONTROLS = {
         "k": "two", "upper_bounds": [2.96, 1.97], "sfu": "OF",  # k must be integer
         "finding": {"claim": "x", "status": "operational_fact",
                     "confidence": 1.0, "source": "s", "source_independence": 1}}},
+    "epistemic_grade": {"status": "ok", "data": {
+        "overall_status": "made_up", "overall_confidence": 0.6, "n_findings": 2,  # bad enum
+        "finding": {"claim": "x", "status": "working_hypothesis",
+                    "confidence": 0.6, "source": "s", "source_independence": 2}}},
 }
 
 

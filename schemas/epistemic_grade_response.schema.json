@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/epistemic_grade_response.schema.json",
+  "title": "EpistemicGradeResponse",
+  "description": "Envelope returned by scripts/core/epistemic_grade.py: weakest-link aggregation of multiple findings. overall_status mirrors the finding.status enum (deliberate inline copy).",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["overall_status", "overall_confidence", "n_findings", "finding"],
+      "properties": {
+        "overall_status": {
+          "type": "string",
+          "enum": [
+            "contradicted", "speculative_hypothesis", "working_hypothesis",
+            "corroborated_inference", "operational_fact", "canonical_fact"
+          ]
+        },
+        "overall_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "n_findings": {"type": "integer", "minimum": 0},
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}
