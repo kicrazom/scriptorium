@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/guideline_check_response.schema.json",
+  "title": "GuidelineCheckResponse",
+  "description": "Envelope returned by scripts/core/guideline_check.py: keyword gap-screen of a manuscript against a reporting checklist (STROBE/CONSORT/PRISMA).",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["guideline", "present", "missing", "finding"],
+      "properties": {
+        "guideline": {"type": "string"},
+        "present": {"type": "array", "items": {"type": "string"}},
+        "missing": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "item"],
+            "properties": {"id": {"type": "string"}, "item": {"type": "string"}}
+          }
+        },
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}

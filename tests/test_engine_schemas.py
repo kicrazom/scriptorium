@@ -66,6 +66,11 @@ NEGATIVE_CONTROLS = {
     "stat_run": {"status": "ok", "data": {"n": "ten",  # n must be integer
                  "finding": {"claim": "x", "status": "operational_fact",
                              "confidence": 1.0, "source": "s", "source_independence": 1}}},
+    "guideline_check": {"status": "ok", "data": {
+        "guideline": "strobe", "present": ["1a"],
+        "missing": [{"oops": "no id"}],  # each missing item requires id + item
+        "finding": {"claim": "x", "status": "working_hypothesis",
+                    "confidence": 0.6, "source": "s", "source_independence": 1}}},
 }
 
 
