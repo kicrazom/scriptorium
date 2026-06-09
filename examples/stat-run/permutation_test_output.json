@@ -1,0 +1,21 @@
+{
+    "status": "ok",
+    "data": {
+        "statistic": "mean_diff",
+        "observed": -0.983333,
+        "p": 0.0021645021645021645,
+        "alternative": "two-sided",
+        "exact": true,
+        "method": "exact (full enumeration)",
+        "n_combinations": 924,
+        "n_resamples": 924,
+        "seed": null,
+        "finding": {
+            "claim": "exact permutation p-value computed",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/stat_run.py#run=ba1c62c942e8:permutation_test",
+            "source_independence": 1
+        }
+    }
+}

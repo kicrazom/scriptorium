@@ -6,6 +6,19 @@ All notable changes to scriptorium are documented here. Format loosely follows
 ## [Unreleased]
 
 ### Added
+- **Two new `stat_run` ops** (roadmap "more `stat_run` ops", implemented + reference-validated).
+  `permutation_test` — two-sample permutation test for the difference in means; exact
+  enumeration of all `C(n, n_a)` pooled splits for small n (no RNG, finding `operational_fact`),
+  else a **seeded** Monte-Carlo estimate (seed derived from the payload provenance run-id,
+  reproducible; finding demoted to `corroborated_inference` as a stochastic estimate). The exact
+  path reproduces `scipy.stats.permutation_test` (`permutation_type='independent'`,
+  `n_resamples=inf`) to < 1e-12 for `two-sided`/`less`/`greater`; the Monte-Carlo path agrees
+  within sampling error. `multiple_testing` — Bonferroni and Benjamini-Hochberg (FDR) adjusted
+  p-values + which hypotheses survive `alpha`; reproduces
+  `statsmodels.stats.multitest.multipletests` (`bonferroni`, `fdr_bh`) to < 1e-12. The
+  arithmetic is `operational_fact`; the finding is scoped to "adjustment computed", not "these
+  effects are real". `schemas/stat_run_response.schema.json` gains typed optionals for the new
+  fields; new `examples/stat-run/` fixtures (input + verified output) for both ops.
 - **Behavioral harness expansion** (roadmap item A, deterministic portion). Four new adversarial
   sci-writing/peer-review documents and four new injection-refusal cases extend coverage to
   7 cases across all 4 agents (`peer-reviewer`, `research-scout`, `librarian`, and

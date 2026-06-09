@@ -63,6 +63,9 @@ feature count.
   - ⏳ Cross-runtime concordance runs (claude_cli vs a second runtime) — blocked on a second
     runtime being installed (codex absent / local_vllm endpoint unconfigured).
 - More power families (regression variants), more `stat_run` ops, more guidelines.
+  - ✅ `stat_run` ops `permutation_test` (exact + seeded Monte-Carlo, validated vs
+    `scipy.stats.permutation_test`) and `multiple_testing` (Bonferroni + Benjamini-Hochberg,
+    validated vs `statsmodels` `multipletests`) — done on `feat/stat-run-ops`.
 - ✅ Per-engine bespoke schemas (beyond the shared envelope) — done in v1.2.0; every engine
   has a bespoke response schema + representative fixture + negative control
   (`tests/test_engine_schemas.py`).

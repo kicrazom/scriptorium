@@ -1,0 +1,76 @@
+{
+    "status": "ok",
+    "data": {
+        "n_tests": 12,
+        "alpha": 0.05,
+        "bonferroni": {
+            "p_adjusted": [
+                0.012,
+                0.096,
+                0.468,
+                0.492,
+                0.504,
+                0.72,
+                0.888,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "reject": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ],
+            "n_significant": 1
+        },
+        "benjamini_hochberg": {
+            "p_adjusted": [
+                0.012,
+                0.048,
+                0.1008,
+                0.1008,
+                0.1008,
+                0.12,
+                0.1268571429,
+                0.2421818182,
+                0.2421818182,
+                0.2421818182,
+                0.2421818182,
+                0.48
+            ],
+            "reject": [
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ],
+            "n_significant": 2
+        },
+        "finding": {
+            "claim": "multiple-testing adjustment computed (Bonferroni + Benjamini-Hochberg)",
+            "status": "operational_fact",
+            "confidence": 1.0,
+            "source": "scripts/core/stat_run.py#run=6ceb14005269:multiple_testing",
+            "source_independence": 1
+        }
+    }
+}

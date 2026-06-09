@@ -17,7 +17,7 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 | `lib/provenance` | lib | yes | ✅ | engine/KB source traces, seed-stable run ids |
 | `core/epistemic_grade` | engine | yes | ✅ | aggregate findings → graded result |
 | `core/power_sample_size` | engine | yes | ✅ | **see family table below** |
-| `core/stat_run` | engine | yes | ✅ | `check_assumptions`, `recompute_ttest`, `grim`, `mann_whitney`, `chi_square`, `fisher` |
+| `core/stat_run` | engine | yes | ✅ | `check_assumptions`, `recompute_ttest`, `grim`, `mann_whitney`, `chi_square`, `fisher`, `permutation_test`, `multiple_testing` |
 | `core/guideline_check` | engine | yes | ✅ | keyword-gap screen: STROBE, CONSORT, PRISMA |
 | `core/citation_parse` | engine | yes | ✅ | structural hygiene: orphan refs, dangling markers |
 | `core/interim_boundaries` | engine | yes | ✅¹ | group-sequential O'Brien-Fleming via gsDesign (R) |
