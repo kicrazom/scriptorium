@@ -8,6 +8,10 @@ defenses work, and to be honest about what is *not* yet automatically tested.
 | Fixture | Engine | Asserted |
 |---|---|---|
 | `injection_manuscript.md` | `core/injection_scan` | embedded "ignore previous instructions" / role-reassign / reveal-prompt patterns are flagged (`tests/core/test_injection_scan.py`) |
+| `injection_append_verbatim.md` | `core/injection_scan` | forced verbatim-output directive flagged (`append-verbatim`) |
+| `injection_citation_laundering.md` | `core/injection_scan` | citation-laundering directive flagged (`citation-injection`) |
+| `injection_tool_exfil.md` | `core/injection_scan` | command-exec + exfiltration flagged (`exfil-command`, `exfil-network`) |
+| `injection_obfuscated.md` | `core/injection_scan` | base64 "decode and follow" payload flagged (`decode-execute`) |
 | `clean_manuscript.md` | `core/injection_scan` | no false positives on legitimate prose |
 
 `injection_scan` operationalises the [SECURITY.md](../../../SECURITY.md) threat model —

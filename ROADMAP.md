@@ -52,7 +52,16 @@ feature count.
 - `epistemic_grade` conformed to the envelope contract.
 
 ## Post-1.0 (1.x — additive, contract-preserving)
-- ✅ LLM-judged behavioural harness for the prompt layer (agent refusing injection) — done; see v0.5.0 note + docs/behavioral-validation.md. Remaining: sample-review cases, more backends (codex/local), cross-runtime concordance runs.
+- ✅ LLM-judged behavioural harness for the prompt layer (agent refusing injection) — done; see v0.5.0 note + docs/behavioral-validation.md.
+  - ✅ Expanded adversarial case set — 7 cases / 4 agents / 5 attack classes (append-verbatim,
+    citation-laundering, tool-exfil, base64-obfuscated, plus the original); each anchored
+    deterministically by `core/injection_scan` + schema validation.
+  - ✅ `local_vllm` backend — scaffolded, skip-if-unavailable, unit-tested (skip path + payload).
+    **Not yet validated against a live model.**
+  - ⏳ `codex_cli` argv provisional→verified — blocked: no `codex` install available to confirm
+    `codex exec` syntax (argv pinned in a unit test meanwhile).
+  - ⏳ Cross-runtime concordance runs (claude_cli vs a second runtime) — blocked on a second
+    runtime being installed (codex absent / local_vllm endpoint unconfigured).
 - More power families (regression variants), more `stat_run` ops, more guidelines.
 - ✅ Per-engine bespoke schemas (beyond the shared envelope) — done in v1.2.0; every engine
   has a bespoke response schema + representative fixture + negative control

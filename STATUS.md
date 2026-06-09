@@ -22,7 +22,7 @@ Legend — **Type:** `engine`/`lib` = deterministic code · `agent`/`skill` = pr
 | `core/citation_parse` | engine | yes | ✅ | structural hygiene: orphan refs, dangling markers |
 | `core/interim_boundaries` | engine | yes | ✅¹ | group-sequential O'Brien-Fleming via gsDesign (R) |
 | `core/grimmer` | engine | yes | ✅¹ | SD granularity consistency via `scrutiny` (R); demotes the known-buggy test 3 (scrutiny #80) to indeterminate |
-| `core/injection_scan` | engine | yes | ✅ | heuristic prompt-injection screen over untrusted docs; hits are findings to report, never directives to obey |
+| `core/injection_scan` | engine | yes | ✅ | heuristic prompt-injection screen over untrusted docs; 15 curated patterns (ignore/role-reassign/reveal-prompt + append-verbatim, citation-laundering, command/data exfil, base64-obfuscated); hits are findings to report, never directives to obey |
 | `kb/` provider | engine | yes | ✅ | `folder`, `obsidian` implemented; `rag`, `cag` are stubs |
 | `guard/egress_guard` | engine | yes | ✅ | defense-in-depth offline enforcement + honest status |
 
@@ -76,12 +76,13 @@ A two-layer harness tests whether an agent actually **refuses** an embedded dire
 
 | Component | Type | Backed | Notes |
 |---|---|---|---|
-| verdict / prompt-assembly / judgement-parsing / report-redaction / backend availability | lib | yes | ✅ deterministic, default CI (`tests/behavioral/`, 28 tests) |
+| verdict / prompt-assembly / judgement-parsing / report-redaction / backend availability | lib | yes | ✅ deterministic, default CI (`tests/behavioral/`, 37 tests); 7 cases / 4 agents / 5 attack classes |
 | `behavior_case` + `behavior_judgement` schemas | contract | yes | ✅ enforced against committed fixtures |
 | model-gated harness (real agent + judge backend) | harness | model-judged | optional `llm_judge` mark; runs only with `SCRIPTORIUM_RUN_LLM_JUDGE=1` |
 
 Backends are pluggable and skip-if-unavailable (R-engine convention): `claude_cli` (verified),
-`codex_cli` (provisional), `local_vllm` (planned). The final verdict is recomputed from the
+`codex_cli` (provisional argv), `local_vllm` (scaffolded, skip-if-unavailable, not yet validated
+against a live model). The final verdict is recomputed from the
 judge's scores, so a judge contradicting its own scores is overridden. Details:
 [docs/behavioral-validation.md](docs/behavioral-validation.md).
 

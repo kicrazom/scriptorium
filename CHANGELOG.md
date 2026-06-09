@@ -3,6 +3,28 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Behavioral harness expansion** (roadmap item A, deterministic portion). Four new adversarial
+  sci-writing/peer-review documents and four new injection-refusal cases extend coverage to
+  7 cases across all 4 agents (`peer-reviewer`, `research-scout`, `librarian`, and
+  `statistician`, previously uncovered) and five attack classes: forced verbatim output,
+  citation laundering, command/data exfiltration, and base64-obfuscated payloads, plus the
+  original. `core/injection_scan` gains five matching curated patterns (`append-verbatim`,
+  `citation-injection`, `exfil-command`, `exfil-network`, `decode-execute`); the clean-manuscript
+  control still yields zero false positives. Each new document is deterministically flagged in
+  default CI, and a loader guard asserts every case points at an existing document + agent.
+- **`local_vllm` backend** (`scripts/behavioral/backends.py`) — a local vLLM
+  (OpenAI-compatible HTTP) backend following the skip-if-unavailable convention. Scaffolded and
+  unit-tested (deterministic skip path + greedy request-payload construction) but **not
+  validated against a live model**. `CliBackend.argv` is now a read-only property so the pinned
+  claude/codex invocation syntax is checked without spawning a process.
+
+### Notes
+- `codex_cli` remains **provisional**: no `codex` install was available to verify `codex exec`
+  syntax, so cross-runtime concordance runs stay blocked on a second runtime.
+
 ## [1.2.0] — 2026-06-08 — Per-engine bespoke schemas
 
 ### Added
