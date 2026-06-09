@@ -33,6 +33,11 @@ PATTERNS = [
     ("respond-only", r"respond\s+(?:only\s+)?with\s+(?:the\s+word|exactly|['\"])"),
     ("override-safety", r"override\s+(?:your|the)\s+(?:instructions?|safety|rules?|guard)"),
     ("force-verdict", r"(?:you\s+must|always)\s+(?:recommend|return|output)\s+(?:accept|acceptance|approval|['\"]?accept)"),
+    ("append-verbatim", r"(?:append|add|insert|paste)\s+(?:the\s+following|this|these)\b[^\n]*\b(?:to|into|at\s+the\s+(?:top|start|end|beginning)\s+of)\s+(?:your|the)\s+(?:review|report|response|summary|assessment|output|verdict)"),
+    ("citation-injection", r"(?:cite|add|include|insert|append)\s+(?:the\s+following|these)\s+(?:citations?|references?|papers?|works?|sources?)\b"),
+    ("exfil-command", r"(?:run|execute|eval)\s+(?:the\s+following|this)\s+(?:command|shell|code|script|snippet)\b"),
+    ("exfil-network", r"(?:send|post|upload|transmit|exfiltrate|forward|email)\s+[^\n]*\bto\s+https?://"),
+    ("decode-execute", r"(?:decode|de-?obfuscate|base64\s*-?decode|un-?base64)\b[^\n]*\b(?:execute|run|follow|obey|apply|the\s+instructions?)"),
 ]
 _COMPILED = [(label, re.compile(rx, re.IGNORECASE)) for label, rx in PATTERNS]
 
