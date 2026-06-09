@@ -96,3 +96,84 @@ def test_fisher_matches_scipy():
     out = run_engine({"op": "fisher", "table": table})
     odds, p = _sps.fisher_exact(table)
     assert abs(out["data"]["p"] - float(p)) < 1e-9
+
+
+# --- permutation_test: reference-validated vs scipy.stats.permutation_test (exact path) ---
+
+import numpy as _np  # noqa: E402
+
+
+def _diff_means(x, y):
+    return _np.mean(x) - _np.mean(y)
+
+
+def _scipy_perm(a, b, alternative):
+    return _sps.permutation_test(
+        (a, b), _diff_means, permutation_type="independent",
+        alternative=alternative, n_resamples=_np.inf, vectorized=False,
+    ).pvalue
+
+
+def test_permutation_test_exact_matches_scipy_two_sided():
+    a = [5.1, 4.9, 5.0, 5.2, 4.8, 5.05]
+    b = [6.0, 5.9, 6.1, 5.8, 6.2, 5.95]
+    out = run_engine({"op": "permutation_test", "groups": [a, b]})
+    assert out["status"] == "ok"
+    assert out["data"]["exact"] is True
+    # C(12,6) = 924 <= 10000 default -> exact enumeration, no RNG.
+    assert out["data"]["seed"] is None
+    assert abs(out["data"]["p"] - float(_scipy_perm(a, b, "two-sided"))) < 1e-12
+    assert out["data"]["finding"]["status"] == "operational_fact"
+    assert out["data"]["finding"]["confidence"] == 1.0
+
+
+def test_permutation_test_exact_one_sided_matches_scipy():
+    a = [5.1, 4.9, 5.0, 5.2, 4.8, 5.05]
+    b = [6.0, 5.9, 6.1, 5.8, 6.2, 5.95]
+    for alt in ("less", "greater"):
+        out = run_engine({"op": "permutation_test", "groups": [a, b], "alternative": alt})
+        assert abs(out["data"]["p"] - float(_scipy_perm(a, b, alt))) < 1e-12
+
+
+def test_permutation_test_monte_carlo_is_seeded_and_corroborated():
+    # Force MC by lowering exact_max below C(8,4)=70.
+    a = [1.0, 2.0, 3.0, 4.0]
+    b = [3.0, 4.0, 5.0, 6.0]
+    payload = {"op": "permutation_test", "groups": [a, b],
+               "exact_max_perms": 10, "n_resamples": 2000}
+    out1 = run_engine(payload)
+    out2 = run_engine(payload)
+    assert out1["data"]["exact"] is False
+    assert out1["data"]["seed"] is not None
+    # Deterministic: same payload -> byte-identical seeded result.
+    assert out1["data"]["p"] == out2["data"]["p"]
+    assert out1["data"]["finding"]["status"] == "corroborated_inference"
+    # Agrees with scipy's exact p within Monte-Carlo sampling error.
+    exact_p = float(_scipy_perm(a, b, "two-sided"))
+    assert abs(out1["data"]["p"] - exact_p) < 0.05
+
+
+# --- multiple_testing: reference-validated vs statsmodels multipletests ---
+
+from statsmodels.stats.multitest import multipletests as _multipletests  # noqa: E402
+
+
+def test_multiple_testing_matches_statsmodels():
+    pv = [0.001, 0.008, 0.039, 0.041, 0.042, 0.060, 0.074, 0.205, 0.212, 0.216, 0.222, 0.480]
+    out = run_engine({"op": "multiple_testing", "pvalues": pv, "alpha": 0.05})
+    assert out["status"] == "ok"
+
+    rej_b, pc_b, _, _ = _multipletests(pv, alpha=0.05, method="bonferroni")
+    assert _np.allclose(out["data"]["bonferroni"]["p_adjusted"], pc_b, atol=1e-9)
+    assert out["data"]["bonferroni"]["reject"] == list(rej_b)
+
+    rej_bh, pc_bh, _, _ = _multipletests(pv, alpha=0.05, method="fdr_bh")
+    assert _np.allclose(out["data"]["benjamini_hochberg"]["p_adjusted"], pc_bh, atol=1e-9)
+    assert out["data"]["benjamini_hochberg"]["reject"] == list(rej_bh)
+
+    assert out["data"]["finding"]["status"] == "operational_fact"
+
+
+def test_multiple_testing_rejects_out_of_range():
+    out = run_engine({"op": "multiple_testing", "pvalues": [0.1, 1.5]})
+    assert out["status"] == "error"

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/kicrazom/scriptorium/schemas/stat_run_response.schema.json",
   "title": "StatRunResponse",
-  "description": "Envelope returned by scripts/core/stat_run.py. Op-dispatched (grim, check_assumptions, recompute_ttest, mann_whitney, chi_square, fisher) so data fields vary by op; only finding is invariant. Known fields are typed when present.",
+  "description": "Envelope returned by scripts/core/stat_run.py. Op-dispatched (grim, check_assumptions, recompute_ttest, mann_whitney, chi_square, fisher, permutation_test, multiple_testing) so data fields vary by op; only finding is invariant. Known fields are typed when present.",
   "type": "object",
   "required": ["status"],
   "properties": {
@@ -22,9 +22,21 @@
         "ci95": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
         "assumptions": {"type": "object"},
         "recommended_alternative": {"type": "string"},
+        "statistic": {"type": "string"},
+        "observed": {"type": "number"},
+        "alternative": {"type": "string", "enum": ["two-sided", "less", "greater"]},
+        "exact": {"type": "boolean"},
+        "method": {"type": "string"},
+        "n_combinations": {"type": "integer"},
+        "n_resamples": {"type": "integer"},
+        "seed": {"type": ["integer", "null"]},
+        "n_tests": {"type": "integer"},
+        "alpha": {"type": "number"},
+        "bonferroni": {"type": "object"},
+        "benjamini_hochberg": {"type": "object"},
         "finding": {"$ref": "finding.schema.json"}
       },
-      "description": "grim: {consistent, mean, n, nearest_consistent}; recompute_ttest: {t, df, p, ci95}; check_assumptions: {assumptions, recommended_alternative}. mann_whitney, chi_square, and fisher also return op-specific fields covered by the permissive (additionalProperties: true) contract. All optional, typed when present."
+      "description": "grim: {consistent, mean, n, nearest_consistent}; recompute_ttest: {t, df, p, ci95}; check_assumptions: {assumptions, recommended_alternative}; permutation_test: {statistic, observed, p, alternative, exact, method, n_combinations, n_resamples, seed}; multiple_testing: {n_tests, alpha, bonferroni, benjamini_hochberg}. mann_whitney, chi_square, and fisher also return op-specific fields covered by the permissive (additionalProperties: true) contract. All optional, typed when present."
     }
   },
   "allOf": [
