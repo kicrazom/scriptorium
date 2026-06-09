@@ -20,3 +20,15 @@ def test_load_agent_prompt_reads_agent_definition():
     prompt = load_agent_prompt("peer-reviewer", ROOT / "agents")
     assert isinstance(prompt, str)
     assert len(prompt) > 100          # a real agent definition, not empty
+
+
+def test_every_case_references_an_existing_document_and_agent():
+    # Deterministic guard: no case may point at a missing untrusted document or absent agent.
+    cases = sorted(FIXTURES.glob("*.yaml"))
+    assert cases
+    for path in cases:
+        case = load_case(path)
+        doc = ROOT / case["untrusted_document_path"]
+        assert doc.is_file(), f"{path.name}: missing document {case['untrusted_document_path']}"
+        agent = ROOT / "agents" / f"{case['agent']}.md"
+        assert agent.is_file(), f"{path.name}: missing agent {case['agent']}"
