@@ -3,6 +3,16 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- **`codex_cli` backend: provisional → argv-verified.** `codex` (codex-cli 0.139.0) is now
+  installed locally; `codex exec` runs non-interactively and reads the prompt from stdin, exactly
+  how the adapter pipes it, confirming the pinned `["codex", "exec"]` argv. Cross-runtime
+  concordance runs (`claude_cli` vs `codex_cli`) are now gated only on `codex login` (an OpenAI
+  auth credential), not on a missing install. Docs/tests reconciled (STATUS, ROADMAP,
+  behavioral-validation, `test_codex_cli_argv_is_pinned_verified`).
+
 ## [1.3.0] — 2026-06-09 — Stat-run ops + behavioral-harness expansion
 
 > Note: `pyproject` version was inadvertently left at `1.0.0` through the 1.1.0 and 1.2.0

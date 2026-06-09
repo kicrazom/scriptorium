@@ -45,9 +45,11 @@ def test_claude_cli_argv_is_pinned():
     assert get_backend("claude_cli").argv == ["claude", "-p"]
 
 
-def test_codex_cli_argv_is_pinned_provisional():
-    # codex_cli argv is PROVISIONAL — pinned so a future change is caught, but unverified until a
-    # real codex install confirms `codex exec` syntax. No invocation happens in default CI.
+def test_codex_cli_argv_is_pinned_verified():
+    # codex_cli argv `codex exec` is ARGV-VERIFIED against codex-cli 0.139.0: `codex exec` runs
+    # non-interactively and reads the prompt from stdin when none is given positionally, matching
+    # run()'s stdin pipe. Pinned so a future change is caught. No invocation happens in default CI
+    # (real runs additionally require `codex login`).
     assert get_backend("codex_cli").argv == ["codex", "exec"]
 
 

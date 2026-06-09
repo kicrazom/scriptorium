@@ -27,7 +27,7 @@ class CliBackend:
     @property
     def argv(self):
         """The pinned invocation argv (read-only copy). Lets tests assert the syntax without
-        spawning the process — verified for claude_cli, provisional for codex_cli."""
+        spawning the process — verified for claude_cli, argv-verified for codex_cli."""
         return list(self._argv)
 
     def available(self):
@@ -112,9 +112,12 @@ class VllmBackend:
         return body["choices"][0]["message"]["content"]
 
 
-# claude_cli: verified flags (`claude -p` headless print). codex_cli: argv is PROVISIONAL — it
-# skips wherever `codex` is absent, so no test depends on it; confirm the exec syntax before the
-# first real codex run. local_vllm: scaffolded, skip-if-unavailable, unvalidated against a model.
+# claude_cli: verified flags (`claude -p` headless print). codex_cli: argv `codex exec` is
+# ARGV-VERIFIED against codex-cli 0.139.0 — `codex exec` runs non-interactively and reads the
+# prompt from stdin when none is passed positionally, exactly how run() pipes it. Real
+# cross-runtime runs additionally require `codex login` (an auth credential, not a code concern);
+# the backend stays skip-if-unavailable wherever `codex` is absent from PATH. local_vllm:
+# scaffolded, skip-if-unavailable, unvalidated against a model.
 _REGISTRY = {
     "claude_cli": CliBackend("claude_cli", "claude", argv=["claude", "-p"]),
     "codex_cli": CliBackend("codex_cli", "codex", argv=["codex", "exec"]),

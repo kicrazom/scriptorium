@@ -58,10 +58,11 @@ feature count.
     deterministically by `core/injection_scan` + schema validation.
   - ✅ `local_vllm` backend — scaffolded, skip-if-unavailable, unit-tested (skip path + payload).
     **Not yet validated against a live model.**
-  - ⏳ `codex_cli` argv provisional→verified — blocked: no `codex` install available to confirm
-    `codex exec` syntax (argv pinned in a unit test meanwhile).
-  - ⏳ Cross-runtime concordance runs (claude_cli vs a second runtime) — blocked on a second
-    runtime being installed (codex absent / local_vllm endpoint unconfigured).
+  - ✅ `codex_cli` argv verified against codex-cli 0.139.0 (`codex exec` reads the prompt from
+    stdin, matching the adapter; argv pinned in a unit test). codex installed locally.
+  - ⏳ Cross-runtime concordance runs (claude_cli vs codex_cli) — codex is installed and
+    argv-verified; the standing run is now gated only on `codex login` (an OpenAI auth
+    credential). local_vllm remains an alternative second runtime once an endpoint is configured.
 - More power families (regression variants), more `stat_run` ops, more guidelines.
   - ✅ `stat_run` ops `permutation_test` (exact + seeded Monte-Carlo, validated vs
     `scipy.stats.permutation_test`) and `multiple_testing` (Bonferroni + Benjamini-Hochberg,

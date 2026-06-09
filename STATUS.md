@@ -81,8 +81,8 @@ A two-layer harness tests whether an agent actually **refuses** an embedded dire
 | model-gated harness (real agent + judge backend) | harness | model-judged | optional `llm_judge` mark; runs only with `SCRIPTORIUM_RUN_LLM_JUDGE=1` |
 
 Backends are pluggable and skip-if-unavailable (R-engine convention): `claude_cli` (verified),
-`codex_cli` (provisional argv), `local_vllm` (scaffolded, skip-if-unavailable, not yet validated
-against a live model). The final verdict is recomputed from the
+`codex_cli` (argv-verified vs codex-cli 0.139.0; real runs additionally need `codex login`),
+`local_vllm` (scaffolded, skip-if-unavailable, not yet validated against a live model). The final verdict is recomputed from the
 judge's scores, so a judge contradicting its own scores is overridden. Details:
 [docs/behavioral-validation.md](docs/behavioral-validation.md).
 

@@ -25,8 +25,10 @@ R-engine convention, a backend whose CLI is absent reports `available() == False
 harness **skips** it rather than failing.
 
 - `claude_cli` — Claude Code headless (`claude -p`). Verified.
-- `codex_cli` — Codex CLI (`codex exec`). Adapter present; argv **provisional** until a real
-  codex install confirms the syntax. Skips where `codex` is absent.
+- `codex_cli` — Codex CLI (`codex exec`). Adapter present; argv **verified** against codex-cli
+  0.139.0 — `codex exec` runs non-interactively and reads the prompt from stdin (exactly how the
+  adapter pipes it). Skips where `codex` is absent from PATH. A real cross-runtime run
+  additionally requires `codex login` (an OpenAI auth credential, not a code concern).
 - `local_vllm` — a local vLLM (OpenAI-compatible HTTP) endpoint, for fully sovereign offline
   runs. **Scaffolded, skip-if-unavailable — not yet validated against a live model.**
   `available()` is `False` unless `SCRIPTORIUM_VLLM_ENDPOINT` is set *and* a short TCP probe to
