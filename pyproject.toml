@@ -1,6 +1,6 @@
 [project]
 name = "scriptorium"
-version = "1.0.0"
+version = "1.3.0"
 description = "Sovereign rigor/audit layer for the scientific knowledge lifecycle"
 license = "AGPL-3.0-or-later"
 requires-python = ">=3.10"

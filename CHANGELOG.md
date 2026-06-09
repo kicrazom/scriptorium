@@ -3,7 +3,10 @@
 All notable changes to scriptorium are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.3.0] — 2026-06-09 — Stat-run ops + behavioral-harness expansion
+
+> Note: `pyproject` version was inadvertently left at `1.0.0` through the 1.1.0 and 1.2.0
+> tags (git tags were the source of truth); this release reconciles `pyproject` to `1.3.0`.
 
 ### Added
 - **Two new `stat_run` ops** (roadmap "more `stat_run` ops", implemented + reference-validated).
