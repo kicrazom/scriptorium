@@ -116,6 +116,7 @@ The name evokes the medieval *scriptorium* — the room where manuscripts were w
 | [reporting-guideline-check](skills/reporting-guideline-check/SKILL.md) | REVIEW | Reporting checklist (STROBE/CONSORT/PRISMA/TRIPOD + extended) → compliance table, gap list, fixes. |
 | [epistemic-status](skills/epistemic-status/SKILL.md) | all | Graduated evidence status + confidence + source independence for any claim, with explicit promotion thresholds. |
 | [field-note-from-url](skills/field-note-from-url/SKILL.md) | INGEST | URL → structured note with provenance frontmatter; stub pattern for blocked sources. |
+| [youtube-research-ingestor](skills/youtube-research-ingestor/SKILL.md) | INGEST | YouTube URL → local research artifact (transcript, summary, graded-claims table, references, verification-needed, audit); local-first, secondary-source discipline, no fabricated citations. |
 | [manuscript-imrad](skills/manuscript-imrad/SKILL.md) | WRITE | Structure-audit a draft against IMRaD; claims-vs-data alignment, explicit Limitations, spin-flagging. |
 | [peer-paraphrase](skills/peer-paraphrase/SKILL.md) | WRITE | Academic paraphrasing by the PEER framework (Point → Evidence → Explanation → Repeat). |
 | [power-sample-size](skills/power-sample-size/SKILL.md) | ANALYZE | A-priori power & sample-size + sensitivity table + Methods sentence; engine-backed for the designs listed in [STATUS.md](STATUS.md), agent-guided beyond. |

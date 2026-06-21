@@ -5,6 +5,18 @@ All notable changes to scriptorium are documented here. Format loosely follows
 
 ## [Unreleased]
 
+### Added
+- **`youtube-research-ingestor` skill (INGEST).** Turns a YouTube URL into a local,
+  source-graded research artifact — metadata, transcript (official subtitles first,
+  local Whisper fallback), structured summary, an extracted-claims table, references/
+  entities mentioned, a verification-needed list, optional technical-artifact and frame
+  notes, and an audit. Local-first (yt-dlp + ffmpeg + whisper), treats YouTube as a
+  secondary source, never promotes an unsupported claim to fact, never fabricates
+  references/DOIs/timestamps/quotations. Composes with `epistemic-status` (claim grading),
+  `field-note-from-url` (provenance note), and `literature-search` (primary-source
+  verification). Modes: transcript | summary | claims | scientific-review |
+  technical-review | teaching-notes.
+
 ### Changed
 - **`codex_cli` backend: provisional → argv-verified.** `codex` (codex-cli 0.139.0) is now
   installed locally; `codex exec` runs non-interactively and reads the prompt from stdin, exactly
