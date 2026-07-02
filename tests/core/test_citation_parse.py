@@ -35,3 +35,15 @@ def test_clean_citations_no_issues():
     out = run_engine(payload)
     assert out["data"]["orphan_references"] == []
     assert out["data"]["dangling_citations"] == []
+
+
+def test_expands_ranges_and_lists():
+    # [1-3] is a range, [2,4] a list — both must expand to individual cited markers.
+    payload = {
+        "body_text": "Range [1-3] and list [2,4]. Also [6].",
+        "references": ["r1", "r2", "r3", "r4", "r5"],
+    }
+    out = run_engine(payload)
+    assert out["data"]["cited_markers"] == [1, 2, 3, 4, 6]
+    assert out["data"]["orphan_references"] == [5]     # only ref 5 uncited
+    assert out["data"]["dangling_citations"] == [6]    # [6] exceeds 5 references
