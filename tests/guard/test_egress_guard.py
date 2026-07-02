@@ -38,6 +38,36 @@ def test_audit_imports_clean_file(tmp_path):
     assert g.audit_imports([str(f)]) == []
 
 
+def test_audit_imports_catches_dotted_and_comma(tmp_path):
+    # Regression: the old line-regex missed dotted from-imports and comma lists.
+    f = tmp_path / "sneaky.py"
+    f.write_text(
+        "from urllib.request import urlopen\n"
+        "import os, socket\n"
+        "from http.client import HTTPConnection\n"
+    )
+    mods = {v["module"] for v in g.audit_imports([str(f)])}
+    assert {"urllib", "socket", "http"} <= mods
+    assert "os" not in mods
+
+
+def test_assert_local_imports_blocks_network_in_reviewer(tmp_path):
+    f = tmp_path / "leaky.py"
+    f.write_text("import requests\n")
+    with pytest.raises(g.EgressViolation):
+        g.assert_local_imports([str(f)], mode="reviewer")
+
+
+def test_assert_local_imports_allows_clean_and_author(tmp_path):
+    clean = tmp_path / "clean.py"
+    clean.write_text("import json\n")
+    assert g.assert_local_imports([str(clean)], mode="reviewer") is None
+    leaky = tmp_path / "leaky.py"
+    leaky.write_text("import socket\n")
+    # author-mode is not egress-restricted, so a network import is allowed there.
+    assert g.assert_local_imports([str(leaky)], mode="author") is None
+
+
 def test_sandbox_claim_matches_reality():
     available = g.sandbox_available()
     result = g.run_sandboxed([__import__("sys").executable, "-c", "print('hi')"])
