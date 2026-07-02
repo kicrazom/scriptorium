@@ -23,6 +23,15 @@ def test_author_mode_folder_query(tmp_path):
     assert len(out["data"]["evidence"]) >= 1
 
 
+def test_reviewer_mode_folder_query_ok(tmp_path):
+    # L2 audits the (clean) folder provider -> reviewer-mode local query still succeeds.
+    (tmp_path / "a.md").write_text("Spirometry shows obstruction in asthma.\n")
+    out = run_cli({"claim": "spirometry obstruction asthma",
+                   "backend": "folder", "path": str(tmp_path), "mode": "reviewer"})
+    assert out["status"] == "ok"
+    assert len(out["data"]["evidence"]) >= 1
+
+
 def test_reviewer_mode_refuses_rag(tmp_path):
     out = run_cli({"claim": "x", "backend": "rag", "path": str(tmp_path), "mode": "reviewer"})
     assert out["status"] == "error"
