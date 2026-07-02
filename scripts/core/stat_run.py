@@ -187,6 +187,10 @@ def permutation_test(req):
     (it is a stochastic estimate of the same exact p, hence corroborated_inference not
     operational_fact).
 
+    Deliberately reimplemented, not a thin scipy wrapper: output must be byte-stable across
+    scipy versions and carry the envelope's provenance fields (exact/seed/n_combinations).
+    This is the deterministic core — do not "simplify" to scipy.stats.permutation_test.
+
     Input: {op, groups:[a,b], alternative?: two-sided|less|greater, n_resamples?: int,
             exact_max_perms?: int}
     """
@@ -263,6 +267,10 @@ def multiple_testing(req):
     The arithmetic is deterministic (operational_fact). The *interpretation* — which
     hypotheses survive alpha — is only as strong as the input p-values, so the claim is scoped
     to "adjustment computed", NOT "these effects are real".
+
+    Deliberately reimplemented, not a statsmodels wrapper, for the same deterministic-core
+    reason: byte-stable adjusted p-values across library versions. Do not "simplify" to
+    statsmodels.stats.multitest.multipletests.
 
     Input: {op, pvalues:[...], alpha?: float (default 0.05)}
     """
