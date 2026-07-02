@@ -22,5 +22,8 @@ def error(message):
 def emit(envelope, stream=None):
     """Write an envelope as JSON to a stream (default: stdout)."""
     stream = stream if stream is not None else sys.stdout
-    json.dump(envelope, stream)
+    # allow_nan=False: bare NaN/Infinity is not RFC-8259 JSON. Fail closed so a
+    # non-finite value surfaces as an error envelope (via main) rather than
+    # silently emitting output a strict parser rejects.
+    json.dump(envelope, stream, allow_nan=False)
     stream.write("\n")

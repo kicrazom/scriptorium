@@ -20,7 +20,7 @@ Input/Output: stdin/stdout JSON envelopes (see scripts/lib/json_io.py).
 import json
 import sys
 from itertools import combinations
-from math import comb
+from math import comb, isnan
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -41,35 +41,52 @@ def check_assumptions(req):
     claimed_test = req.get("claimed_test")
 
     normal_violated = False
+    normal_testable = True
     per_group = []
     for i, g in enumerate(groups):
         w, p = stats.shapiro(g)
+        if isnan(p):  # Shapiro returns NaN for n < 3 — untestable, not "not violated"
+            normal_testable = False
+            per_group.append({"group": i, "shapiro_p": None, "violated": None})
+            continue
         viol = p < ALPHA
         normal_violated = normal_violated or viol
         per_group.append({"group": i, "shapiro_p": round(p, 4), "violated": bool(viol)})
 
     lev_w, lev_p = stats.levene(*groups)
-    var_violated = lev_p < ALPHA
+    var_testable = not isnan(lev_p)
+    var_violated = bool(lev_p < ALPHA) if var_testable else False
 
+    testable = normal_testable and var_testable
     recommended = None
-    if claimed_test == "two_sample_t" and normal_violated:
+    if testable and claimed_test == "two_sample_t" and normal_violated:
         recommended = "mann_whitney"
 
     any_violation = normal_violated or var_violated
-    status = "operational_fact" if any_violation else "corroborated_inference"
-    confidence = 0.9 if any_violation else 0.8
-    claim = (
-        "parametric assumptions violated; nonparametric alternative recommended"
-        if any_violation else "parametric assumptions hold"
-    )
+    if not testable:
+        status, confidence = "working_hypothesis", 0.3
+        claim = "assumptions indeterminate: sample too small to test (Shapiro/Levene returned NaN)"
+    elif any_violation:
+        status, confidence = "operational_fact", 0.9
+        claim = "parametric assumptions violated; nonparametric alternative recommended"
+    else:
+        status, confidence = "corroborated_inference", 0.8
+        claim = "parametric assumptions hold"
     finding = epistemic.make_finding(
         claim=claim, status=status, confidence=confidence,
         source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="assumptions"),
     )
     return {
         "assumptions": {
-            "normality": {"violated": bool(normal_violated), "per_group": per_group},
-            "equal_variance": {"violated": bool(var_violated), "levene_p": round(lev_p, 4)},
+            "normality": {
+                "violated": bool(normal_violated) if normal_testable else None,
+                "testable": normal_testable, "per_group": per_group,
+            },
+            "equal_variance": {
+                "violated": bool(var_violated) if var_testable else None,
+                "testable": var_testable,
+                "levene_p": round(lev_p, 4) if var_testable else None,
+            },
         },
         "recommended_alternative": recommended,
         "finding": finding,
@@ -83,19 +100,8 @@ def recompute_ttest(req):
     res = stats.ttest_ind(a, b, equal_var=equal_var)
     t = float(res.statistic)
     p = float(res.pvalue)
-
-    mean_diff = (sum(a) / len(a)) - (sum(b) / len(b))
-    if equal_var:
-        df = len(a) + len(b) - 2
-    else:  # Welch–Satterthwaite
-        va, vb = _var(a), _var(b)
-        na, nb = len(a), len(b)
-        df = (va / na + vb / nb) ** 2 / (
-            (va / na) ** 2 / (na - 1) + (vb / nb) ** 2 / (nb - 1)
-        )
-    se = mean_diff / t if t != 0 else float("nan")
-    tcrit = stats.t.ppf(0.975, df)
-    ci = [mean_diff - tcrit * abs(se), mean_diff + tcrit * abs(se)]
+    df = float(res.df)
+    ci = res.confidence_interval(confidence_level=0.95)  # 95% CI of mean(a) - mean(b)
 
     claimed_p = req.get("claimed_p")
     p_matches = None if claimed_p is None else (abs(p - float(claimed_p)) <= 0.01)
@@ -105,15 +111,10 @@ def recompute_ttest(req):
         source=provenance.engine_trace("stat_run", run_id=_rid(req), anchor="recompute_ttest"),
     )
     return {
-        "t": round(t, 6), "df": round(float(df), 4), "p": p,
-        "ci95": [round(ci[0], 6), round(ci[1], 6)],
+        "t": round(t, 6), "df": round(df, 4), "p": p,
+        "ci95": [round(float(ci.low), 6), round(float(ci.high), 6)],
         "claimed_p": claimed_p, "p_matches_claim": p_matches, "finding": finding,
     }
-
-
-def _var(x):
-    m = sum(x) / len(x)
-    return sum((xi - m) ** 2 for xi in x) / (len(x) - 1)
 
 
 def grim(req):
