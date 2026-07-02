@@ -47,7 +47,7 @@ feature count.
 - ⏳ Each fixed bug / behavioural failure becomes a regression fixture (ongoing convention).
 
 ## v1.0.0 — Stable public release ✅ (released)
-- Uniform engine envelope contract (all 9 engines) + JSON schemas + STABILITY.md (SemVer + deprecation policy).
+- Uniform engine envelope contract (all 8 engines) + JSON schemas + STABILITY.md (SemVer + deprecation policy).
 - Coverage measured honestly (subprocess) + gated; two CI jobs (matrix + R).
 - `epistemic_grade` conformed to the envelope contract.
 
