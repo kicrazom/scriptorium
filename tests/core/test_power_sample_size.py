@@ -1,4 +1,5 @@
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -84,6 +85,15 @@ def test_engine_deterministic_for_same_input():
     b = run_engine(payload)
     # identical input → identical output, including the seed-derived provenance run id
     assert a == b
+
+
+def test_two_sample_t_surfaces_both_group_ns_when_unequal():
+    # ratio=2 => group 2 is twice group 1; both counts must be explicit, not folded into n_total.
+    out = run_engine({"test": "two_sample_t", "effect_size": 0.5, "ratio": 2.0})
+    assert out["status"] == "ok"
+    d = out["data"]
+    assert d["n_group2"] == int(math.ceil(d["n_group1"] * 2.0))
+    assert d["n_total"] == d["n_group1"] + d["n_group2"]
 
 
 def test_one_sample_t_family():
