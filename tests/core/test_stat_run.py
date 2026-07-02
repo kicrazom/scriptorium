@@ -60,6 +60,29 @@ def test_recompute_ttest_without_claim_returns_null_match():
     assert out["data"]["p_matches_claim"] is None
 
 
+def test_recompute_ttest_equal_groups_has_finite_ci():
+    # Identical groups => t == 0; the 95% CI of the mean difference is finite (symmetric
+    # about 0), not NaN. Regression: se was derived as mean_diff / t (0/0).
+    import math
+    out = run_engine({"op": "recompute_ttest", "groups": [[1, 2, 3], [1, 2, 3]]})
+    assert out["status"] == "ok"
+    lo, hi = out["data"]["ci95"]
+    assert math.isfinite(lo) and math.isfinite(hi)
+    assert lo < 0 < hi
+
+
+def test_check_assumptions_abstains_when_untestable():
+    # n=2 per group => Shapiro/Levene return NaN. The engine must NOT claim
+    # "assumptions hold"; it abstains (working_hypothesis) and leaks no bare NaN.
+    out = run_engine(
+        {"op": "check_assumptions", "groups": [[1, 2], [3, 4]], "claimed_test": "two_sample_t"}
+    )
+    assert out["status"] == "ok"
+    assert "hold" not in out["data"]["finding"]["claim"]
+    assert out["data"]["finding"]["status"] == "working_hypothesis"
+    assert out["data"]["assumptions"]["equal_variance"]["levene_p"] is None
+
+
 def test_grim_detects_impossible_mean():
     out = run_engine({"op": "grim", "mean": 3.45, "n": 10, "decimals": 2})
     assert out["status"] == "ok"

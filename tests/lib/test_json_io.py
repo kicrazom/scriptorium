@@ -1,5 +1,6 @@
 import json
 import io
+import pytest
 from scripts.lib import json_io
 
 
@@ -24,3 +25,10 @@ def test_emit_writes_json(capsys):
     json_io.emit({"status": "ok", "data": {"x": 2}})
     out = capsys.readouterr().out
     assert json.loads(out) == {"status": "ok", "data": {"x": 2}}
+
+
+def test_emit_refuses_non_finite_float():
+    # Bare NaN/Inf is not RFC-8259 JSON; emit must fail closed, never write "NaN".
+    buf = io.StringIO()
+    with pytest.raises(ValueError):
+        json_io.emit({"status": "ok", "data": {"x": float("nan")}}, buf)
