@@ -210,6 +210,24 @@ Trace the argument: problem → mechanisms → evidence → synthesis → implic
 
 - Citation style consistent and complete (numbered / author-year per the venue); reference
   list matches in-text callouts.
+- **Citation-manipulation screen (COPE).** Run this on every manuscript and **state the result
+  either way** — a clean screen is a finding and must be reported as plainly as a hit.
+  - **The bolt-on fingerprint.** In a Vancouver-numbered list, references are numbered in order
+    of first appearance. So a citation that *first appears in the Introduction* but carries one
+    of the *last* numbers in the list was appended after the list was finalised — i.e. inserted
+    late, typically at a revision round. Trace first-appearance order against the numbering and
+    report any reference that breaks it.
+  - **Off-target citations.** Does the cited source actually support the sentence it is attached
+    to? A source that cannot support its claim (wrong disease, wrong species, wrong method, wrong
+    field) is the highest-yield signal available offline, and it is checkable from the reference
+    *title* alone — no network needed.
+  - Also check: self-citation clusters (especially off-target ones inserted where a topical source
+    was required); single-publisher or single-group clusters; blocks of references cited exactly
+    once, together, in a passage they do not bear on; uncited references; duplicate entries under
+    two numbers; and citations to the target journal (a coercion signal — its *absence* is equally
+    worth stating).
+  - **Report, do not accuse.** Describe the pattern and let the editor adjudicate. Coercion may come
+    from a reviewer or an editor, not the authors — the authors may be the injured party.
 - Reproducibility: data- and code-availability statements present; enough methodological
   detail to replicate; software / model versions stated.
 - Ethics: ethics-committee / IRB approval (with a number), informed consent, and **data-
