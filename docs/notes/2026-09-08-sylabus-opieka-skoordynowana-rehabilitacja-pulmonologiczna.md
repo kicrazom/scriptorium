@@ -123,6 +123,69 @@ Seminaria (5 × 4 h + 2 h zaliczenia):
 - Wytyczne konsultantów krajowych POChP w opiece koordynowanej POZ (Czajkowska-Malinowska
   i wsp., Lekarz POZ 2025; cytowane w prezentacji dla lekarzy POZ z 26.02.2026).
 
-## Piśmiennictwo: czy idea jest już opisana?
+## Piśmiennictwo: czy idea jest już opisana? (przegląd 2026-09-08)
 
-Sekcja uzupełniana po przeglądzie (patrz commit z wynikami przeglądu).
+**Metoda.** Zapytania w Consensus (Semantic Scholar / PubMed / Scopus), Scholar Gateway
+(Wiley, pełne teksty) i wyszukiwarce WWW; terminy: interprofessional education, coordinated /
+integrated care, pulmonary rehabilitation, physiotherapy students, curriculum, SBAR/ISBAR
+handover, KPI, quality improvement, care transitions. GPT przez Codex CLI **niedostępny**
+w środowisku audytu (brak binarki i klucza), więc przegląd wykonano bez drugiego modelu.
+Status epistemiczny: `working_hypothesis` (przegląd szybki, nie systematyczny).
+
+**Wniosek.** Nie znaleziono opisanego w literaturze **przedmiotu akademickiego dla studentów
+fizjoterapii poświęconego opiece koordynowanej i jakości w rehabilitacji pulmonologicznej**,
+współprojektowanego przez pulmonologa i specjalistę zdrowia publicznego, z trzema ścieżkami
+(POChP / niewydolność oddechowa, rak płuca, transplantacja) i artefaktami typu mapa procesu,
+pakiet koordynacyjny, checklista minimum informacyjnego, pulpit KPI. Poszczególne składowe są
+opisane osobno; ich połączenie w jeden moduł kursowy wygląda na lukę.
+
+**Co istnieje (składowe):**
+
+| Składowa | Stan wiedzy | Kluczowe źródła |
+|---|---|---|
+| Rehabilitacja pulmonologiczna w kształceniu fizjoterapeutów | Scoping review 2026: 12 doniesień z 5 krajów, głównie kliniki studenckie; brak danych o projektowaniu modułów kursowych; autorzy wprost postulują „enhanced curricular design”. Ankieta AUS/NZ 2026: PR w wykładach we wszystkich programach, ale praktyki kliniczne z PR dla <10 % studentów w 97 % programów. | Pereira i wsp., *Physical Therapy Reviews* 2026, doi:10.1080/10833196.2026.2642540; TSANZSRS 2026 abstr. TP228, *Intern Med J* 56(S1), doi:10.1111/imj.70364 |
+| Kompetencje PR u polskich studentów i fizjoterapeutów | Ankieta n=110: niższa samoocena kompetencji u mniej doświadczonych; postulat wzmocnienia kształcenia praktycznego. Brak wątku koordynacji opieki. | Kopciuch i wsp., *BMC Med Educ* 2026 |
+| IPE w opiece oddechowej (studenci) | Symulacje interprofesjonalne pielęgniarstwo + fizjoterapia + terapia oddechowa poprawiają kompetencje współpracy (ICCAS, ISVS-21). Przegląd systematyczny 2026: tylko 6 badań z udziałem studentów rehabilitacji, brak RCT. | King i wsp., *J Interprof Care* 2016; Keller i wsp., *Respir Care* 2025; Dixon i wsp., *BMC Med Educ* 2026 |
+| Nauczanie przekazania pacjenta (SBAR/ISBAR) | Dobrze opisane dla pielęgniarstwa, medycyny i terapii oddechowej; przegląd Gordona: interwencje jednozawodowe, słabe raportowanie; dla fizjoterapii brak dedykowanych programów. | Burgess i wsp., *BMC Med Educ* 2020; Gordon i wsp., *Acad Med* 2018; Mead i wsp., *Respir Care* 2019 |
+| Opieka zintegrowana w POChP (szkolenie personelu) | Szkolenia zespołów POZ (lekarz + pielęgniarka + fizjoterapeuta) w cluster-RCT: poprawa jedynie domeny „koordynacja/follow-up” PACIC; program szwajcarski: wielodyscyplinarność i transfer informacji najsłabszym ogniwem. Dotyczy personelu, nie studentów. | Kruis i wsp., *BMJ* 2014; Carron i wsp., *Swiss Med Wkly* 2017; Portillo i wsp., *JAPhA* 2020 |
+| Nauczanie jakości / QI studentów | Kursy QI dla studentów medycyny i programów magisterskich nauk o zdrowiu; przegląd: najlepsze efekty przy projekcie audytowym w warunkach klinicznych; „limited evidence for interprofessional QI curricula”. | Peiris-John i wsp., *J Surg Educ* 2020; Aredo i wsp., *BMC Med Educ* 2023; Solvang i wsp., *BMC Med Educ* 2025; Dulay i wsp., *MedEdPORTAL* 2020 |
+
+**Najbliższe analogie** (do zacytowania jako punkt odniesienia): interprofesjonalny,
+projektowy kurs QI w POZ (Dulay 2020) oraz „student-infused” program PR w społeczności
+(Doucet, *Can J Respir Ther* 2021). Żadna nie łączy PR + koordynacji + jakości w module
+dla fizjoterapeutów.
+
+## Propozycja dysseminacji
+
+Cel: zamienić sylabus w cytowalny, replikowalny produkt naukowy zanim ktoś opisze to samo.
+
+1. **Rejestracja i preprint (0–2 mies.).** Zdeponować sylabus + materiały (mapa procesu,
+   checklisty, szablon pakietu koordynacyjnego, arkusz audytu) na Zenodo z DOI i licencją
+   CC BY-NC-SA; zarejestrować w OSF plan ewaluacji (pre-registration), żeby ustalić
+   pierwszeństwo idei i umożliwić cytowanie przed publikacją.
+2. **Artykuł „curriculum description / educational innovation” (2–6 mies.).** Format:
+   *BMC Medical Education* (sekcja Curriculum development) albo *Physical Therapy Reviews*
+   / *Physiotherapy Theory and Practice* (bliżej fizjoterapii) albo *ERJ Open Research* /
+   *Breathe* (ERS; bliżej pulmonologii). Struktura wg wytycznych **GREET** dla interwencji
+   edukacyjnych; konstrukt „coordinated care competencies for respiratory physiotherapists”
+   oparty na ramach IPEC / CIHC i modelu integrated people-centred health services WHO.
+3. **Badanie ewaluacyjne pre–post z grupą porównawczą (1–2 cykle dydaktyczne).**
+   Rejestracja wg CROSS/GREET; miary: ICCAS lub ISVS-21 (kompetencje interprofesjonalne),
+   QIKAT-R (wiedza QI), rubryka SBAR/ISBAR w OSCE, jakość artefaktów (mapa procesu, KPI);
+   poziomy Kirkpatricka 1–3. Grupa porównawcza: rocznik przed wdrożeniem lub inny kierunek.
+   To jest brakujący dowód w literaturze (Dixon 2026, Peiris-John 2020).
+4. **Doniesienia zjazdowe (równolegle).** ERS International Congress (sesje Education /
+   Allied Respiratory Professionals), Zjazd PTChP, konferencje PTF i AMEE. Abstrakty
+   w Polsce: *Pneumonologia i Alergologia Polska* / *Advances in Respiratory Medicine*.
+5. **Otwarte zasoby edukacyjne.** Materiały jako OER na platformie uczelni lub w
+   repozytorium projektu MedSkills Commons (jeśli grant FERS wystartuje) z metadanymi
+   Dublin Core; powiązać z rekomendacjami ERS dla kształcenia fizjoterapeutów
+   oddechowych (HERMES / ERS Physiotherapy curriculum).
+6. **Sieć replikacji.** Zaprosić 2–3 inne uczelnie WNoZ do wdrożenia tego samego modułu
+   z tym samym protokołem ewaluacji (multi-site), co podnosi wartość dowodową i pozwala
+   na przegląd wieloośrodkowy; naturalny partner: zespół Kopciuch i wsp. 2026 (Polska,
+   kompetencje PR).
+7. **Powiązanie z polityką.** Odnieść się do wytycznych konsultantów krajowych POChP w
+   opiece koordynowanej POZ (2024/2025) i ustawy o KSO 2023 jako uzasadnienia potrzeby
+   kształcenia kadr; to argument dla recenzentów i dla władz uczelni (nowy przedmiot jako
+   odpowiedź na reformę systemu).
