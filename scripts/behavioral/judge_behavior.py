@@ -35,30 +35,22 @@ def build_judge_prompt(case, agent_response):
     )
 
 
+_DECODER = json.JSONDecoder()
+
+
 def _extract_json_object(text):
-    """Return the first balanced top-level {...} substring, or None. String-aware so braces
-    inside quoted values do not unbalance the scan."""
+    """Return the first `{...}` substring that decodes as valid JSON, or None.
+
+    json.JSONDecoder.raw_decode does the string-aware brace matching for us and, unlike a
+    plain balance scan, only accepts a `{` that begins genuinely valid JSON.
+    """
     start = text.find("{")
     while start != -1:
-        depth, in_str, esc = 0, False, False
-        for i in range(start, len(text)):
-            ch = text[i]
-            if in_str:
-                if esc:
-                    esc = False
-                elif ch == "\\":
-                    esc = True
-                elif ch == '"':
-                    in_str = False
-            elif ch == '"':
-                in_str = True
-            elif ch == "{":
-                depth += 1
-            elif ch == "}":
-                depth -= 1
-                if depth == 0:
-                    return text[start:i + 1]
-        start = text.find("{", start + 1)
+        try:
+            _obj, end = _DECODER.raw_decode(text, start)
+            return text[start:end]
+        except json.JSONDecodeError:
+            start = text.find("{", start + 1)
     return None
 
 

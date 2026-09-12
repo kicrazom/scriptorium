@@ -1,5 +1,5 @@
 """The uniform engine contract (v1.0.0): EVERY L0 engine returns an `ok` envelope whose `data`
-carries a valid graded `finding`. This validates a representative output from each of the nine
+carries a valid graded `finding`. This validates a representative output from each of the eight
 engines against schemas/envelope.schema.json — proving one stable contract across the core.
 """
 import json

@@ -25,6 +25,7 @@ FIXTURE_ALIAS = {"power": "power_sample_size"}
 SPRINT2_ENGINES = [
     "stat_run", "guideline_check", "citation_parse", "injection_scan",
     "grimmer", "interim_boundaries", "epistemic_grade",
+    "evidence_selection_neutrality",
 ]
 
 
@@ -92,6 +93,12 @@ NEGATIVE_CONTROLS = {
         "overall_status": "made_up", "overall_confidence": 0.6, "n_findings": 2,  # bad enum
         "finding": {"claim": "x", "status": "working_hypothesis",
                     "confidence": 0.6, "source": "s", "source_independence": 2}}},
+    "evidence_selection_neutrality": {"status": "ok", "data": {
+        "steering": [{"pattern": "prove-the-claim", "category": "narrative_smoothing",  # bad enum
+                      "severity": "critical", "line": 1, "snippet": "..."}],
+        "verdict": "fail", "risk_score": 3,
+        "finding": {"claim": "x", "status": "working_hypothesis",
+                    "confidence": 0.75, "source": "s", "source_independence": 1}}},
 }
 
 

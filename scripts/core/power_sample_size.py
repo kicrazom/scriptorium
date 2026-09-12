@@ -139,14 +139,17 @@ def compute(req):
     alpha = float(req.get("alpha", 0.05))
     power = float(req.get("power", 0.80))
     base = {"alpha": alpha, "power": power, "alternative": "two-sided"}
+    extra = {}  # op-specific output fields merged into the result
 
     if test == "two_sample_t":
         effect_size = float(req["effect_size"])
         ratio = float(req.get("ratio", 1.0))
         n_per_group = two_sample_t(effect_size, alpha, power, ratio)
-        n_total = n_per_group + int(math.ceil(n_per_group * ratio))
+        n_group2 = int(math.ceil(n_per_group * ratio))  # group 2 = ratio × group 1
+        n_total = n_per_group + n_group2
         method = "statsmodels.stats.power.TTestIndPower"
         assumptions = {**base, "effect_size_d": effect_size, "ratio": ratio}
+        extra = {"n_group1": n_per_group, "n_group2": n_group2}
         claim = f"n={n_per_group}/group for d={effect_size}, alpha={alpha}, power={power}"
     elif test == "paired_t":
         effect_size = float(req["effect_size"])
@@ -220,7 +223,7 @@ def compute(req):
         source=provenance.engine_trace("power_sample_size", run_id=rid, anchor="result"),
         source_independence=1,
     )
-    return {"n_per_group": n_per_group, "n_total": n_total,
+    return {"n_per_group": n_per_group, "n_total": n_total, **extra,
             "method": method, "assumptions": assumptions, "finding": finding}
 
 

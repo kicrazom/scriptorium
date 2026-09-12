@@ -14,12 +14,14 @@
       "properties": {
         "n_per_group": {"type": "integer", "minimum": 1},
         "n_total": {"type": "integer", "minimum": 1},
+        "n_group1": {"type": "integer", "minimum": 1},
+        "n_group2": {"type": "integer", "minimum": 1},
         "events_required": {"type": "integer", "minimum": 1},
         "method": {"type": "string", "description": "Exact analytic routine used."},
         "assumptions": {"type": "object", "description": "alpha, power, alternative, and the effect input echoed back."},
         "finding": {"$ref": "finding.schema.json"}
       },
-      "description": "Sample-size designs carry {n_per_group, n_total}; survival carries {events_required}."
+      "description": "Sample-size designs carry {n_per_group, n_total}; two_sample_t also carries per-arm {n_group1, n_group2} (differ when ratio != 1); survival carries {events_required}."
     }
   },
   "allOf": [

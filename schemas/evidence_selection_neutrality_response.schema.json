@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kicrazom/scriptorium/schemas/evidence_selection_neutrality_response.schema.json",
+  "title": "EvidenceSelectionNeutralityResponse",
+  "description": "Envelope returned by scripts/core/evidence_selection_neutrality.py: deterministic scan of an AUTHORED INSTRUCTION (prompt, skill body, task spec, reviewer request) for directives that steer the evidence base — a foregone conclusion, cherry-picked sources, statistical steering, coerced citations, concealed AI/COI, suppressed uncertainty, or spin. Distinct from injection_scan: that engine asks whether an instruction came from an unauthorised source; this one asks whether an authorised instruction distorts what counts as evidence. Heuristic — a clean scan is silence, not a certificate of neutrality.",
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "message": {"type": "string", "description": "Present when status == error."},
+    "data": {
+      "type": "object",
+      "required": ["steering", "verdict", "risk_score", "finding"],
+      "properties": {
+        "steering": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "category", "severity", "line", "snippet"],
+            "properties": {
+              "pattern": {"type": "string"},
+              "category": {
+                "type": "string",
+                "enum": [
+                  "foregone_conclusion",
+                  "source_cherry_picking",
+                  "statistical_steering",
+                  "citation_coercion",
+                  "disclosure_evasion",
+                  "uncertainty_suppression",
+                  "spin_directive"
+                ]
+              },
+              "severity": {"type": "string", "enum": ["critical", "warning"]},
+              "line": {"type": "integer", "minimum": 1},
+              "snippet": {"type": "string"}
+            }
+          }
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["pass", "review", "fail"],
+          "description": "fail when any blocking category is hit (foregone_conclusion, source_cherry_picking, statistical_steering, citation_coercion, disclosure_evasion)."
+        },
+        "risk_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "0 none | 1-2 reviewable steering | 3 blocking steering | 4 blocking across more than one category."
+        },
+        "finding": {"$ref": "finding.schema.json"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "ok"}}}, "then": {"required": ["data"]}},
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["message"]}}
+  ]
+}
