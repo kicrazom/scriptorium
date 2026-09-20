@@ -6,6 +6,22 @@ All notable changes to scriptorium are documented here. Format loosely follows
 ## [Unreleased]
 
 ### Added
+- **`stat-reviewer` agent (VERIFY).** Adversarial statistical referee that **recomputes
+  rather than trusts**: a reported statistic it has not reproduced is recorded as a claim,
+  not a fact. Audits design and unit of analysis, model specification, assumptions that
+  matter for the inference at hand, multiplicity, data leakage, and numerical agreement
+  between text, tables and figures — then verifies end-to-end reproducibility: that
+  archived code, data version, environment and seeds actually regenerate the reported
+  numbers, and that every number traces to a script rather than manual entry. Flags
+  version drift (text quoting one run, tables from a later one) as a distinct finding.
+  Returns critical/major/minor with a concrete remedy each, plus a mandatory
+  **Not assessed** section. Tools: Read, Grep, Glob, Bash, Write.
+- **`stat-assessor` agent (APPRAISE).** Critical appraisal working from **what is written**
+  — Methods/Results text, output tables, or a script — judging whether the reported
+  conclusions are supported by the numbers presented, without requiring raw data or a
+  runnable pipeline. Runs code only to verify a single claim, never to rebuild the
+  analysis. Tools: Read, Grep, Glob, Bash.
+
 - **`youtube-research-ingestor` skill (INGEST).** Turns a YouTube URL into a local,
   source-graded research artifact — metadata, transcript (official subtitles first,
   local Whisper fallback), structured summary, an extracted-claims table, references/
@@ -16,6 +32,21 @@ All notable changes to scriptorium are documented here. Format loosely follows
   `field-note-from-url` (provenance note), and `literature-search` (primary-source
   verification). Modes: transcript | summary | claims | scientific-review |
   technical-review | teaching-notes.
+
+The two are deliberately separate: they differ not in depth but in **evidence base**.
+`stat-reviewer` verifies by regenerating numbers; `stat-assessor` judges whether the
+numbers, as reported, can carry the claims made on them. Both hand off to `statistician`
+when a full re-analysis is warranted, and to `peer-reviewer` when the material is a
+manuscript under confidential review.
+
+This completes the review quartet by evidence base and execution rights:
+
+| Agent | Works from | Runs code | Network |
+|---|---|---|---|
+| `statistician` | the user's own data | yes | yes |
+| `peer-reviewer` | manuscript under review | **no** | **no** |
+| `stat-assessor` | the write-up | one claim at a time | yes |
+| `stat-reviewer` | code + data | **recomputes** | yes |
 
 ### Changed
 - **`codex_cli` backend: provisional → argv-verified.** `codex` (codex-cli 0.139.0) is now
